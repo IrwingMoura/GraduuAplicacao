@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activities.RegistroDeEventoActivity">
+
+
+    <EditText
+        android:id="@+id/edtTitulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Título: "
+        android:inputType="text"/>
+
+    <EditText
+        android:id="@+id/edtHoraInicio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Hora de Início: "
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="465dp"
+        android:inputType="datetime"/>
+
+    <EditText
+        android:id="@+id/edtHoraFim"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Hora de Término: "
+        app:layout_constraintEnd_toEndOf="@+id/edtDescricao"
+        app:layout_constraintStart_toStartOf="@+id/edtDescricao"
+        tools:layout_editor_absoluteY="100dp"
+        android:inputType="datetime"/>
+
+    <EditText
+        android:id="@+id/edtData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Data: "
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="401dp"
+        android:inputType="date"/>
+
+    <EditText
+        android:id="@+id/edtDescricao"
+        android:layout_width="426dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:hint="Descrição: "
+        app:layout_constraintEnd_toEndOf="@+id/edtTitulo"
+        app:layout_constraintStart_toStartOf="@+id/edtTitulo"
+        app:layout_constraintTop_toBottomOf="@+id/edtTitulo"
+        android:inputType="text"/>
+
+    <EditText
+        android:id="@+id/edtApresentador"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Apresentador: "
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="340dp"
+        android:inputType="text"/>
+
+    <EditText
+        android:id="@+id/edtFrequencia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Frequência: "
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="276dp"
+        android:inputType="time"/>
+
+    <EditText
+        android:id="@+id/edtLocal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Local: "
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="212dp"
+        android:inputType="text"/>
+
+    <EditText
+        android:id="@+id/edtCategoria"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Categoria: "
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="155dp"
+        android:inputType="text"/>
+
+    <ImageView
+        android:id="@+id/imgCardView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/btnCriarEvento"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="309dp"
+            android:layout_height="56dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:text="Criar Evento"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--<Button-->
+            <!--android:id="@+id/btnVoltar"-->
+            <!--style="@style/Widget.AppCompat.Button.Colored"-->
+            <!--android:layout_width="309dp"-->
+            <!--android:layout_height="56dp"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginStart="8dp"-->
+            <!--android:layout_marginLeft="8dp"-->
+            <!--android:layout_marginTop="8dp"-->
+            <!--android:layout_marginEnd="8dp"-->
+            <!--android:layout_marginRight="8dp"-->
+            <!--android:layout_marginBottom="8dp"-->
+            <!--android:text="Voltar"-->
+            <!--app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--app:layout_constraintHorizontal_bias="0.508"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintTop_toBottomOf="@+id/btnCriarEvento"-->
+            <!--app:layout_constraintVertical_bias="0.0"/>-->
+
+
+    </android.support.constraint.ConstraintLayout>
+
+</LinearLayout>

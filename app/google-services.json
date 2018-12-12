@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "878991258414",
+    "firebase_url": "https://graduuaplicacao.firebaseio.com",
+    "project_id": "graduuaplicacao",
+    "storage_bucket": "graduuaplicacao.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:878991258414:android:d903a8fe18560ab8",
+        "android_client_info": {
+          "package_name": "graduuaplicacao.graduuaplicacao"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "878991258414-fl3rgshdrbi5bjfnp7pn2e4k2o2vhicp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "graduuaplicacao.graduuaplicacao",
+            "certificate_hash": "ccdbb302ef6fd4bfd18d4d1d67c08507d5506644"
+          }
+        },
+        {
+          "client_id": "878991258414-72udf1um8vndvo8c16dklg2rivjml9ee.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAT3ObpuCW0d4BRF-PwS4C-t0qZWYokKnc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "878991258414-72udf1um8vndvo8c16dklg2rivjml9ee.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
