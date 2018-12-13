@@ -19,7 +19,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activities.LoginActivity" />
-        <activity android:name=".Activities.PrincipalActivity" />
         <activity android:name=".Activities.RegistroDeEventoActivity" />
         <activity android:name=".Activities.EventosActivity" />
         <activity android:name=".Activities.PerfilActivity" />

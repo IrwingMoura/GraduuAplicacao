@@ -203,4 +203,15 @@ public class EventosActivity extends AppCompatActivity {
         super.onStop();
         firebase.removeEventListener(valueEventListenerEventos);
     }
+
+/*
+    public String getMatriculaUsuarioLogado(DataSnapshot dataSnapshot, String usuarioLogadoMatricula) {
+        dataSnapshot.getChildren();
+        usuarioLogadoMatricula = dataSnapshot.child(userID).getValue(Usuario.class).getMatricula();
+        if(usuarioLogadoMatricula == "5404451") {
+            btnCriarEventoPaginaInicial.setEnabled(false);
+        }
+        return usuarioLogadoMatricula;
+    }*/
+
 }

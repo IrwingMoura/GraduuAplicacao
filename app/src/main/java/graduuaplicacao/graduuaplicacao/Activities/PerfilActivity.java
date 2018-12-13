@@ -95,14 +95,6 @@ public class PerfilActivity extends AppCompatActivity {
             usuario.setDataDeNascimento(ds.child(userID).getValue(Usuario.class).getDataDeNascimento());
             usuario.setCampus(ds.child(userID).getValue(Usuario.class).getCampus());
 
-            Log.d(TAG, "showData: name:" + usuario.getNome());
-            Log.d(TAG, "showData: sobrenome:" + usuario.getSobrenome());
-            Log.d(TAG, "showData: matricula:" + usuario.getMatricula());
-            Log.d(TAG, "showData: Email:" + usuario.getEmail());
-            Log.d(TAG, "showData: dataDeNascimento:" + usuario.getDataDeNascimento());
-            Log.d(TAG, "showData: Email:" + usuario.getCampus());
-
-            Log.d(TAG, "showdata USUARIO:" + usuario);
 
             mNome.setText(usuario.getNome());
             mSobrenome.setText(usuario.getSobrenome());
