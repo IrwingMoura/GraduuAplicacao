@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import graduuaplicacao.graduuaplicacao.Adapters.EventosAdapter;
 import graduuaplicacao.graduuaplicacao.DAO.ConfiguracaoFirebase;
 import graduuaplicacao.graduuaplicacao.Model.Evento;
+import graduuaplicacao.graduuaplicacao.Model.Usuario;
 import graduuaplicacao.graduuaplicacao.R;
 
 public class EventosActivity extends AppCompatActivity {
@@ -130,49 +131,51 @@ public class EventosActivity extends AppCompatActivity {
         });
 
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                eventosExcluir = adapter.getItem(position);
+        //BOTÃO PARA EXCLUIR AO CLICAR NO CARD
 
-                //cria o gerador do alert dialog
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(EventosActivity.this);
-
-                //definir titulo
-
-                builder.setTitle("Excluir");
-
-                //defini uma mensagem
-
-                builder.setMessage("Você realmente deseja excluir o evento " + eventosExcluir.getNome() + "  ?");
-
-                //defini botao sim
-
-                builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        firebase = ConfiguracaoFirebase.getFirebase().child("eventosCriados");
-                        firebase.child(eventosExcluir.getNome()).removeValue();
-
-                        Toast.makeText(EventosActivity.this, "Exclusão efetuada!", Toast.LENGTH_LONG).show();
-                    }
-                });
-
-                builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(EventosActivity.this, "Exclusão cancelada", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                //criar o alert dialog
-                alertDialog = builder.create();
-
-                //exibe o alert dialog
-                alertDialog.show();
-            }
-        });
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                eventosExcluir = adapter.getItem(position);
+//
+//                //cria o gerador do alert dialog
+//
+//                AlertDialog.Builder builder = new AlertDialog.Builder(EventosActivity.this);
+//
+//                //definir titulo
+//
+//                builder.setTitle("Excluir");
+//
+//                //defini uma mensagem
+//
+//                builder.setMessage("Você realmente deseja excluir o evento " + eventosExcluir.getNome() + "  ?");
+//
+//                //defini botao sim
+//
+//                builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        firebase = ConfiguracaoFirebase.getFirebase().child("eventosCriados");
+//                        firebase.child(eventosExcluir.getNome()).removeValue();
+//
+//                        Toast.makeText(EventosActivity.this, "Exclusão efetuada!", Toast.LENGTH_LONG).show();
+//                    }
+//                });
+//
+//                builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        Toast.makeText(EventosActivity.this, "Exclusão cancelada", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//
+//                //criar o alert dialog
+//                alertDialog = builder.create();
+//
+//                //exibe o alert dialog
+//                alertDialog.show();
+//            }
+//        });
 
     }
 
@@ -196,6 +199,32 @@ public class EventosActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         firebase.addValueEventListener(valueEventListenerEventos);
+
+        final DatabaseReference teste = myRef.child("Usuarios");
+        teste.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot data: dataSnapshot.getChildren())   {
+                    if(data.getKey().equals(userID)){
+                        Usuario usuario= data.getValue(Usuario.class);
+                        String matricula = usuario.getMatricula().toString();
+                            if(matricula.equals("202020")) {            //DESABILITANDO O BOTAO  --- CONSIDERANDO A MATRICULA COMO NAO PERMITIDA
+//                                btnCriarEventoPaginaInicial.setEnabled(false);
+                                btnCriarEventoPaginaInicial.setVisibility(View.GONE); // TODO: 15/12/2018 TORNAR O BOTAO VISIVEL SOMENTE PARA QUEM TEM PERMISSÃO
+                            }
+
+//                        data.getKey().equals("matricula");
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     @Override
