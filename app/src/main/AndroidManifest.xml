@@ -27,6 +27,7 @@
             android:label="@string/title_activity_configuracoes" />
         <activity android:name=".Activities.EventoAbertoActivity" />
         <activity android:name=".Activities.CadastroActivity"></activity>
+        <activity android:name=".Activities.RecyclerTeste"></activity>
     </application>
 
 </manifest>
