@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "878991258414-3bjkk5sqmskl97sa5bt39vt0q0p5p7mt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "graduuaplicacao.graduuaplicacao",
+            "certificate_hash": "03961174ff249104db534a1df9cdc662cac72ded"
+          }
+        },
+        {
           "client_id": "878991258414-72udf1um8vndvo8c16dklg2rivjml9ee.apps.googleusercontent.com",
           "client_type": 3
         }
