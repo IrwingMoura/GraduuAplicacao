@@ -3,7 +3,6 @@ package graduuaplicacao.graduuaplicacao.Activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,12 +13,18 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import graduuaplicacao.graduuaplicacao.Util.Formatador;
+import graduuaplicacao.graduuaplicacao.Util.Validador;
 import graduuaplicacao.graduuaplicacao.DAO.ConfiguracaoFirebase;
 import graduuaplicacao.graduuaplicacao.Model.Evento;
 import graduuaplicacao.graduuaplicacao.Model.Usuario;
 import graduuaplicacao.graduuaplicacao.R;
 
-public class RegistroDeEventoActivity extends AppCompatActivity {
+public class RegistroDeEventoActivity extends AppCompatActivity{
 
     private EditText titulo;
     private EditText horaInicio;
@@ -60,6 +65,7 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
 
         criarEvento = (Button) findViewById(R.id.btnCriarEvento);
 
+        formatarInputs();
 
         criarEvento.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,12 +90,25 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
                 eventos.setCategoria(categoria.getText().toString());
                 eventos.setIdUsuarioLogado(uid);
 
+                Validador validador = new Validador();
+                boolean opt = validador.validarData(eventos.getData());
+
+                if (opt == false) {
+                    Toast.makeText(RegistroDeEventoActivity.this, "Digite uma data válida!", Toast.LENGTH_LONG).show();
+                }else{
+
                 salvarEventos(eventos);
 
                 listarEventos();
+                }
             }
         });
 
+    }
+        private void formatarInputs(){
+        horaInicio.addTextChangedListener(Formatador.mask(horaInicio, Formatador.FORMAT_HOUR));
+        horaFim.addTextChangedListener(Formatador.mask(horaFim, Formatador.FORMAT_HOUR));
+        data.addTextChangedListener(Formatador.mask(data,Formatador.FORMAT_DATE));
     }
 
 
@@ -114,5 +133,17 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+
+    public static void formatarData(String str, Date data) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            data = dateFormat.parse(str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        System.out.println(data);
+    }
+
 
 }

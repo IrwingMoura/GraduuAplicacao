@@ -67,7 +67,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/hardware/ic_keyboard_arrow_up_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_more_vert_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -77,8 +77,10 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_keyboard_arrow_up_black_24dp" />
-                            <entry key="sourceFile" value="C:\Users\Yan" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="color" value="ffffff" />
+                            <entry key="outputName" value="ic_like2" />
+                            <entry key="sourceFile" value="C:\Users\Yan\Desktop\Irwing\TCC\Imagens\Icones\like2.svg" />
                           </map>
                         </option>
                       </PersistentState>

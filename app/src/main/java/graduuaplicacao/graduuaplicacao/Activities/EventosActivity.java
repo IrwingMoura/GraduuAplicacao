@@ -7,11 +7,17 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,7 +28,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import graduuaplicacao.graduuaplicacao.Adapters.EventosAdapter;
 import graduuaplicacao.graduuaplicacao.DAO.ConfiguracaoFirebase;
@@ -39,9 +48,11 @@ public class EventosActivity extends AppCompatActivity {
     private ArrayList<Evento> eventos;
     private DatabaseReference firebase;
     private ValueEventListener valueEventListenerEventos;
-    private Button btnCriarEventoPaginaInicial;
-    private Button btnVerPerfil;
-    private Button btnConfiguracoes;
+    private ImageButton btnCriarEventoPaginaInicial;
+    private TextView btnVerPerfil;
+    private TextView nomeUsuarioLogado;
+    private ImageButton btnConfiguracoes;
+    private ImageView imagemPerfil;
     private AlertDialog alertDialog;
     private Evento eventosExcluir;
 
@@ -105,7 +116,9 @@ public class EventosActivity extends AppCompatActivity {
             }
         };
 
-        btnCriarEventoPaginaInicial = (Button) findViewById(R.id.btnCriarEventoPaginaInicial);
+        imagemPerfil = (ImageView) findViewById(R.id.imagemPerfil);
+
+        btnCriarEventoPaginaInicial = (ImageButton) findViewById(R.id.btnCriarEventoPaginaInicial);
         btnCriarEventoPaginaInicial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,7 +127,7 @@ public class EventosActivity extends AppCompatActivity {
         });
 
 
-        btnVerPerfil = (Button) findViewById(R.id.btnVerPerfil);
+        btnVerPerfil = (TextView) findViewById(R.id.btnVerPerfil);
         btnVerPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,13 +135,17 @@ public class EventosActivity extends AppCompatActivity {
             }
         });
 
-        btnConfiguracoes = (Button) findViewById(R.id.btnConfiguracoes);
+        btnConfiguracoes = (ImageButton) findViewById(R.id.btnConfiguracoes);
         btnConfiguracoes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 abrirTelaConfiguracoes();
             }
         });
+
+        nomeUsuarioLogado = (TextView) findViewById(R.id.nomeUsuarioLogado);
+
+
 
 
         //BOTÃO PARA EXCLUIR AO CLICAR NO CARD
@@ -207,6 +224,7 @@ public class EventosActivity extends AppCompatActivity {
                 for (DataSnapshot data: dataSnapshot.getChildren())   {
                     if(data.getKey().equals(userID)){
                         Usuario usuario= data.getValue(Usuario.class);
+                        nomeUsuarioLogado.setText(usuario.getNome() + " " + usuario.getSobrenome());
                         String matricula = usuario.getMatricula().toString();
                             if(matricula.equals("202020")) {            //DESABILITANDO O BOTAO  --- CONSIDERANDO A MATRICULA COMO NAO PERMITIDA
 //                                btnCriarEventoPaginaInicial.setEnabled(false);
@@ -233,14 +251,14 @@ public class EventosActivity extends AppCompatActivity {
         firebase.removeEventListener(valueEventListenerEventos);
     }
 
-/*
-    public String getMatriculaUsuarioLogado(DataSnapshot dataSnapshot, String usuarioLogadoMatricula) {
-        dataSnapshot.getChildren();
-        usuarioLogadoMatricula = dataSnapshot.child(userID).getValue(Usuario.class).getMatricula();
-        if(usuarioLogadoMatricula == "5404451") {
-            btnCriarEventoPaginaInicial.setEnabled(false);
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            this.moveTaskToBack(true);
+            return true;
         }
-        return usuarioLogadoMatricula;
-    }*/
+        return super.onKeyDown(keyCode, event);
+    }
 
 }
