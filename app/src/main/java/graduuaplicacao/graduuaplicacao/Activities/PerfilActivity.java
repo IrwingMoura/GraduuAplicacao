@@ -1,9 +1,11 @@
 package graduuaplicacao.graduuaplicacao.Activities;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,6 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -30,6 +33,7 @@ public class PerfilActivity extends AppCompatActivity {
     private TextView mDataDeNascimento;
     private TextView mCampus;
     private TextView mEmail;
+    private ImageView mImagePerfil;
 
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
@@ -51,6 +55,8 @@ public class PerfilActivity extends AppCompatActivity {
         mDataDeNascimento = (TextView) findViewById(R.id.txtDataDeNascimentoPerfil);
         mCampus = (TextView) findViewById(R.id.txtCampusPerfil);
         mEmail = (TextView) findViewById(R.id.txtEmailPerfil);
+        mImagePerfil = (ImageView) findViewById(R.id.imagemPerfilTelaPerfil);
+
 
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -94,6 +100,7 @@ public class PerfilActivity extends AppCompatActivity {
             usuario.setEmail(ds.child(userID).getValue(Usuario.class).getEmail());
             usuario.setDataDeNascimento(ds.child(userID).getValue(Usuario.class).getDataDeNascimento());
             usuario.setCampus(ds.child(userID).getValue(Usuario.class).getCampus());
+            usuario.setImagemPerfil(ds.child(userID).getValue(Usuario.class).getImagemPerfil());
 
 
             mNome.setText(usuario.getNome());
@@ -102,6 +109,9 @@ public class PerfilActivity extends AppCompatActivity {
             mEmail.setText(usuario.getEmail());
             mDataDeNascimento.setText(usuario.getDataDeNascimento());
             mCampus.setText(usuario.getCampus());
+
+
+            Picasso.get().load(usuario.getImagemPerfil()).into(mImagePerfil);
 
             break;
         }
