@@ -42,8 +42,6 @@ public class PerfilActivity extends AppCompatActivity {
     private String userID;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,8 +108,9 @@ public class PerfilActivity extends AppCompatActivity {
             mDataDeNascimento.setText(usuario.getDataDeNascimento());
             mCampus.setText(usuario.getCampus());
 
-
-            Picasso.get().load(usuario.getImagemPerfil()).into(mImagePerfil);
+            Picasso.get()
+                    .load(usuario.getImagemPerfil())
+                    .into(mImagePerfil);
 
             break;
         }

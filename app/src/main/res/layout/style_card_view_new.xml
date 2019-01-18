@@ -9,7 +9,7 @@
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
     app:cardBackgroundColor="@color/cards"
-    app:cardCornerRadius="5dp"
+    app:cardCornerRadius="10dp"
     android:layout_marginBottom="10dp"
     app:cardUseCompatPadding="true">
 
@@ -18,31 +18,47 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <Button
             android:id="@+id/btnShare"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            app:layout_constraintBottom_toBottomOf="@+id/btnLike"
-            app:layout_constraintEnd_toStartOf="@+id/btnLike"
-            app:srcCompat="@drawable/ic_share"
-            tools:ignore="MissingConstraints" />
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/likeIcon"
+            app:layout_constraintTop_toTopOf="@+id/likeIcon"
+            android:background="@drawable/ic_share"
+            android:focusable="false"/>
 
-        <ImageView
-            android:id="@+id/btnLike"
+        <CheckBox
+            android:id="@+id/likeIcon"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginRight="24dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/like_icon"
+            android:button="@null"
+            android:checked="false"
+            android:clickable="true"
+            android:focusable="false"
+            android:stateListAnimator="@animator/scale"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_like" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
+        <!--<com.like.LikeButton-->
+            <!--android:id="@+id/like_button"-->
+            <!--android:layout_width="24dp"-->
+            <!--android:layout_height="24dp"-->
+            <!--android:layout_marginTop="24dp"-->
+            <!--android:layout_marginEnd="16dp"-->
+            <!--android:layout_marginRight="16dp"-->
+            <!--app:icon_size="24dp"-->
+            <!--app:icon_type="heart"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--app:layout_constraintTop_toTopOf="parent"/>-->
 
-        <ImageView
-            android:id="@+id/imagemEvento"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imagemPerfilCard"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentLeft="true"
@@ -60,11 +76,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_toRightOf="@id/imagemEvento"
+            android:layout_toRightOf="@id/imagemPerfilCard"
             android:text="TITULO"
             android:textSize="14sp"
-            app:layout_constraintStart_toEndOf="@+id/imagemEvento"
-            app:layout_constraintTop_toTopOf="@+id/imagemEvento"
+            app:layout_constraintStart_toEndOf="@+id/imagemPerfilCard"
+            app:layout_constraintTop_toTopOf="@+id/imagemPerfilCard"
             tools:ignore="MissingConstraints" />
 
         <TextView
@@ -88,7 +104,7 @@
             android:layout_marginBottom="23dp"
             android:text="DATA"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imagemEvento"
+            app:layout_constraintStart_toEndOf="@+id/imagemPerfilCard"
             app:layout_constraintTop_toBottomOf="@+id/txtViewNome" />
 
     </android.support.constraint.ConstraintLayout>

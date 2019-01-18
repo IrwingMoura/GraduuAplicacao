@@ -111,5 +111,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtMatriculaPerfil" />
 
+    <TextView
+        android:id="@+id/urlImagemPerfil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 
 </LinearLayout>

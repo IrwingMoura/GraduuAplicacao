@@ -33,10 +33,10 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="backgroundLayerName" value="ic_launcher_background2" />
-                                      <entry key="foregroundImage" value="C:\Users\Yan\Desktop\Irwing\TCC\Imagens\logo2.jpg" />
-                                      <entry key="foregroundLayerName" value="ic_launcher_foreground2" />
-                                      <entry key="outputName" value="ic_logo2" />
+                                      <entry key="backgroundLayerName" value="ic_livros_background" />
+                                      <entry key="foregroundImage" value="C:\Users\Yan\Desktop\livros.jpg" />
+                                      <entry key="foregroundLayerName" value="ic_livros" />
+                                      <entry key="outputName" value="ic_livro" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -67,7 +67,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_more_vert_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_exit_to_app_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -79,8 +79,8 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_like2" />
-                            <entry key="sourceFile" value="C:\Users\Yan\Desktop\Irwing\TCC\Imagens\Icones\like2.svg" />
+                            <entry key="outputName" value="ic_likered2" />
+                            <entry key="sourceFile" value="C:\Users\Yan\Desktop\Irwing\TCC\Imagens\Icones\likeRed.svg" />
                           </map>
                         </option>
                       </PersistentState>

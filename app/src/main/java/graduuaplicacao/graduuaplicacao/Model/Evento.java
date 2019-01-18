@@ -18,6 +18,9 @@ public class Evento {
 
     private String idUsuarioLogado;
 
+    private boolean isChecked;
+
+
     public Evento() {
     }
 
@@ -108,5 +111,13 @@ public class Evento {
 
     public void setCategoria(String categoria) {
         this.categoria = categoria;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
     }
 }

@@ -5,6 +5,7 @@
     <color name="colorAccent">#27beaa</color>
 
     <color name="white">#ffffff</color>
-    <color name="cards">#c2c9c2</color>
+    <color name="cards">#1a8175</color>
+    <color name="stringEventos">#333334</color>
 
 </resources>
