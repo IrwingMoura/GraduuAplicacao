@@ -28,28 +28,35 @@ public class EventoAbertoActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
 
-        String nomeKey = bundle.getString("NOME");
-        String apresentadorKey = bundle.getString("APRESENTADOR");
-        String categoriaKey = bundle.getString("CATEGORIA");
-        String dataKey = bundle.getString("DATA");
-        String descricaoKey = bundle.getString("DESCRICAO");
-        String frequenciaKey = bundle.getString("FREQUENCIA");
-        String horaInicioKey = bundle.getString("HORAINICIO");
-        String horaFimKey = bundle.getString("HORAFIM");
-        String localKey = bundle.getString("LOCAL");
+        if(bundle != null) {
+
+            String nomeKey = bundle.getString("NOME");
+            String apresentadorKey = bundle.getString("APRESENTADOR");
+            String categoriaKey = bundle.getString("CATEGORIA");
+            String dataKey = bundle.getString("DATA");
+            String descricaoKey = bundle.getString("DESCRICAO");
+            String frequenciaKey = bundle.getString("FREQUENCIA");
+            String horaInicioKey = bundle.getString("HORAINICIO");
+            String horaFimKey = bundle.getString("HORAFIM");
+            String localKey = bundle.getString("LOCAL");
 
 
-        nome.setText("Nome: " + nomeKey);
-        apresentador.setText("Apresentador: " + apresentadorKey);
-        categoria.setText("Categoria: " + categoriaKey);
-        data.setText("Data: " + dataKey);
-        descricao.setText("Descrição: " + descricaoKey);
-        frequencia.setText("Frequênicia: " + frequenciaKey);
-        horaInicio.setText("Hora de Início: " + horaInicioKey);
-        horaFim.setText("Hora de Término: " + horaFimKey);
-        local.setText("Local:        " + localKey);
+            nome.setText("Nome: " + nomeKey);
+            apresentador.setText("Apresentador: " + apresentadorKey);
+            categoria.setText("Categoria: " + categoriaKey);
+            data.setText("Data: " + dataKey);
+            descricao.setText("Descrição: " + descricaoKey);
+            frequencia.setText("Frequênicia: " + frequenciaKey);
+            horaInicio.setText("Hora de Início: " + horaInicioKey);
+            horaFim.setText("Hora de Término: " + horaFimKey);
+            local.setText("Local: " + localKey);
+        }
 
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

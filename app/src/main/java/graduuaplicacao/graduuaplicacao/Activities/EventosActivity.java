@@ -6,26 +6,20 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.PopupMenu;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,16 +39,15 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import graduuaplicacao.graduuaplicacao.Adapters.EventosAdapter;
+import graduuaplicacao.graduuaplicacao.Adapters.NossoAdapter;
 import graduuaplicacao.graduuaplicacao.DAO.ConfiguracaoFirebase;
 import graduuaplicacao.graduuaplicacao.Model.Evento;
 import graduuaplicacao.graduuaplicacao.Model.Usuario;
 import graduuaplicacao.graduuaplicacao.R;
 
-public class EventosActivity extends AppCompatActivity {
+public class EventosActivity extends AppCompatActivity implements NossoAdapter.ClickListener {
 
     String TAG = "EventosActivity";
 
@@ -69,7 +62,6 @@ public class EventosActivity extends AppCompatActivity {
     private ImageButton btnConfiguracoes;
     private CircleImageView imagemPerfil;
     private AlertDialog alertDialog;
-    private Evento eventosExcluir;
 
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
@@ -77,11 +69,15 @@ public class EventosActivity extends AppCompatActivity {
     private DatabaseReference myRef;
     private String userID;
 
+    //RECYCLERVIEW
+
+
 
     private Uri filePath;
     FirebaseStorage firebaseStorage;
     StorageReference storageReference;
     private final  int PICK_IMAGE_REQUEST = 71;
+
 
 
     @Override
@@ -112,10 +108,31 @@ public class EventosActivity extends AppCompatActivity {
 
         eventos = new ArrayList<>();
 
-        listView = (ListView) findViewById(R.id.listViewEventos);
-        adapter = new EventosAdapter(this, eventos);
+        //LISTVIEW ADAPTER
 
-        listView.setAdapter(adapter);
+//        listView = (ListView) findViewById(R.id.listViewEventos);
+//        adapter = new EventosAdapter(this, eventos);
+//
+//        listView.setAdapter(adapter);
+
+
+        ///RECYCLERVIEW ADAPTER
+
+        final NossoAdapter nossoAdapter = new NossoAdapter(eventos,this);
+
+        nossoAdapter.setClickListener(this);
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.listViewEventos);
+        recyclerView.setAdapter(nossoAdapter);
+
+        RecyclerView.LayoutManager layout = new LinearLayoutManager(this,
+                LinearLayoutManager.VERTICAL, false);
+
+        recyclerView.setLayoutManager(layout);
+
+
+
+
 
         firebase = ConfiguracaoFirebase.getFirebase().child("eventosCriados");
 
@@ -129,7 +146,7 @@ public class EventosActivity extends AppCompatActivity {
                     eventos.add(eventosNovos);
                 }
 
-                adapter.notifyDataSetChanged();
+                nossoAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -152,8 +169,6 @@ public class EventosActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 abrirTelaDeFormularioDeCriacao();
-                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                vibrator.vibrate(50);
             }
         });
 
@@ -240,42 +255,43 @@ public class EventosActivity extends AppCompatActivity {
 //            }
 //        });
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                String nomeEventoClicado = adapter.getItem(position).getNome();
-//                Toast.makeText(EventosActivity.this, eventos.get(position).getIdUsuarioLogado(), Toast.LENGTH_SHORT).show();
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+////                String nomeEventoClicado = adapter.getItem(position).getNome();
+////                Toast.makeText(EventosActivity.this, eventos.get(position).getIdUsuarioLogado(), Toast.LENGTH_SHORT).show();
+//
+//                String nome = eventos.get(position).getNome();
+//                String apresentador = eventos.get(position).getApresentador();
+//                String categoria = eventos.get(position).getCategoria();
+//                String data = eventos.get(position).getData();
+//                String descricao = eventos.get(position).getDescricao();
+//                String frequencia = eventos.get(position).getFrequencia();
+//                String horaInicio = eventos.get(position).getHoraInicio();
+//                String horaFim= eventos.get(position).getHoraFim();
+//                String local = eventos.get(position).getLocal();
+////                String foto = String.valueOf(eventos.get(position).getFoto());
+//
+//
+//
+//                Bundle bundle = new Bundle();
+//                bundle.putString("NOME", nome);
+//                bundle.putString("APRESENTADOR", apresentador);
+//                bundle.putString("CATEGORIA", categoria);
+//                bundle.putString("DATA", data);
+//                bundle.putString("DESCRICAO", descricao);
+//                bundle.putString("FREQUENCIA", frequencia);
+//                bundle.putString("HORAINICIO", horaInicio);
+//                bundle.putString("HORAFIM", horaFim);
+//                bundle.putString("LOCAL", local);
+//
+//
+//                Intent intent = new Intent(EventosActivity.this, EventoAbertoActivity.class);
+//                intent.putExtras(bundle);
+//                startActivity(intent);
+//            }
+//        });
 
-                String nome = eventos.get(position).getNome();
-                String apresentador = eventos.get(position).getApresentador();
-                String categoria = eventos.get(position).getCategoria();
-                String data = eventos.get(position).getData();
-                String descricao = eventos.get(position).getDescricao();
-                String frequencia = eventos.get(position).getFrequencia();
-                String horaInicio = eventos.get(position).getHoraInicio();
-                String horaFim= eventos.get(position).getHoraFim();
-                String local = eventos.get(position).getLocal();
-//                String foto = String.valueOf(eventos.get(position).getFoto());
-
-
-
-                Bundle bundle = new Bundle();
-                bundle.putString("NOME", nome);
-                bundle.putString("APRESENTADOR", apresentador);
-                bundle.putString("CATEGORIA", categoria);
-                bundle.putString("DATA", data);
-                bundle.putString("DESCRICAO", descricao);
-                bundle.putString("FREQUENCIA", frequencia);
-                bundle.putString("HORAINICIO", horaInicio);
-                bundle.putString("HORAFIM", horaFim);
-                bundle.putString("LOCAL", local);
-
-
-                Intent intent = new Intent(EventosActivity.this, EventoAbertoActivity.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        });
     }
 
     private void confirmacaoDeLogout() {
@@ -457,5 +473,33 @@ public class EventosActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void itemClicked(View view, int position) {
+        String nome = eventos.get(position).getNome();
+        String apresentador = eventos.get(position).getApresentador();
+        String categoria = eventos.get(position).getCategoria();
+        String data = eventos.get(position).getData();
+        String descricao = eventos.get(position).getDescricao();
+        String frequencia = eventos.get(position).getFrequencia();
+        String horaInicio = eventos.get(position).getHoraInicio();
+        String horaFim= eventos.get(position).getHoraFim();
+        String local = eventos.get(position).getLocal();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("NOME", nome);
+        bundle.putString("APRESENTADOR", apresentador);
+        bundle.putString("CATEGORIA", categoria);
+        bundle.putString("DATA", data);
+        bundle.putString("DESCRICAO", descricao);
+        bundle.putString("FREQUENCIA", frequencia);
+        bundle.putString("HORAINICIO", horaInicio);
+        bundle.putString("HORAFIM", horaFim);
+        bundle.putString("LOCAL", local);
+
+        Intent intent = new Intent(EventosActivity.this, EventoAbertoActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 }
