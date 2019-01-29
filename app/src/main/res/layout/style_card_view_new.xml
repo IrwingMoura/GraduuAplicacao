@@ -10,8 +10,7 @@
     android:layout_marginEnd="8dp"
     app:cardBackgroundColor="@color/cards"
     app:cardCornerRadius="10dp"
-    android:layout_marginBottom="10dp"
-    app:cardUseCompatPadding="true">
+    android:layout_marginBottom="10dp">
 
     <android.support.constraint.ConstraintLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -22,20 +21,20 @@
             android:id="@+id/btnShare"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/likeIcon"
-            app:layout_constraintTop_toTopOf="@+id/likeIcon"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
             android:background="@drawable/ic_share"
-            android:focusable="false"/>
+            android:focusable="false"
+            app:layout_constraintEnd_toStartOf="@+id/likeIcon"
+            app:layout_constraintTop_toTopOf="@+id/likeIcon" />
 
         <CheckBox
             android:id="@+id/likeIcon"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
             android:background="@drawable/like_icon"
             android:button="@null"
             android:checked="false"
@@ -43,7 +42,7 @@
             android:focusable="false"
             android:stateListAnimator="@animator/scale"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!--<com.like.LikeButton-->
             <!--android:id="@+id/like_button"-->
@@ -74,22 +73,27 @@
             android:id="@+id/txtViewNome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
             android:layout_toRightOf="@id/imagemPerfilCard"
+            android:fontFamily="@font/roboto_bold"
             android:text="TITULO"
-            android:textSize="14sp"
+            android:textColor="#fff"
+            android:textSize="20sp"
             app:layout_constraintStart_toEndOf="@+id/imagemPerfilCard"
             app:layout_constraintTop_toTopOf="@+id/imagemPerfilCard"
             tools:ignore="MissingConstraints" />
 
         <TextView
-            android:text="HORA"
             android:id="@+id/txtViewHoraInicio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="HORA"
+            android:textColor="@color/corHoraData"
+            android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@+id/txtViewData"
             app:layout_constraintTop_toTopOf="@+id/txtViewData"
             tools:ignore="MissingConstraints" />
@@ -98,11 +102,14 @@
             android:id="@+id/txtViewData"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="23dp"
+            android:fontFamily="@font/roboto_bold"
             android:text="DATA"
+            android:textColor="@color/corHoraData"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imagemPerfilCard"
             app:layout_constraintTop_toBottomOf="@+id/txtViewNome" />

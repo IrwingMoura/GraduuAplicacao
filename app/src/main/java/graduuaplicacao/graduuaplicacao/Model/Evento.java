@@ -20,13 +20,48 @@ public class Evento {
 
     private boolean isChecked;
 
+    private String deepLink;
+    private long numShares;
+
+
+    public Evento(String nome, String horaInicio, String horaFim, String data, String descricao, String apresentador, String frequencia, String local, ImageView foto, String categoria, String idUsuarioLogado, boolean isChecked, String deepLink, long numShares) {
+        this.nome = nome;
+        this.horaInicio = horaInicio;
+        this.horaFim = horaFim;
+        this.data = data;
+        this.descricao = descricao;
+        this.apresentador = apresentador;
+        this.frequencia = frequencia;
+        this.local = local;
+        this.foto = foto;
+        this.categoria = categoria;
+        this.idUsuarioLogado = idUsuarioLogado;
+        this.isChecked = isChecked;
+        this.deepLink = deepLink;
+        this.numShares = numShares;
+    }
 
     public Evento() {
     }
 
-
     public String getIdUsuarioLogado() {
         return idUsuarioLogado;
+    }
+
+    public String getDeepLink() {
+        return deepLink;
+    }
+
+    public void setDeepLink(String deepLink) {
+        this.deepLink = deepLink;
+    }
+
+    public long getNumShares() {
+        return numShares;
+    }
+
+    public void setNumShares(long numShares) {
+        this.numShares = numShares;
     }
 
     public void setIdUsuarioLogado(String idUsuarioLogado) {

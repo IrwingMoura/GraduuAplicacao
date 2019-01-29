@@ -8,4 +8,8 @@
     <color name="cards">#1a8175</color>
     <color name="stringEventos">#333334</color>
 
+    <color name="corHoraData">#C8FFFFFF</color>
+    <color name="corFundoAmarelo">#e5e5e5</color>
+
+
 </resources>

@@ -4,12 +4,16 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -46,6 +50,7 @@ import graduuaplicacao.graduuaplicacao.DAO.ConfiguracaoFirebase;
 import graduuaplicacao.graduuaplicacao.Model.Evento;
 import graduuaplicacao.graduuaplicacao.Model.Usuario;
 import graduuaplicacao.graduuaplicacao.R;
+import graduuaplicacao.graduuaplicacao.Util.SpeedyLinearLayoutManager;
 
 public class EventosActivity extends AppCompatActivity implements NossoAdapter.ClickListener {
 
@@ -62,6 +67,7 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
     private ImageButton btnConfiguracoes;
     private CircleImageView imagemPerfil;
     private AlertDialog alertDialog;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
@@ -108,6 +114,21 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
 
         eventos = new ArrayList<>();
 
+        swipeRefreshLayout =(SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                }, 1000);
+            }
+        });
+
+        swipeRefreshLayout.setColorSchemeColors(Color.rgb(39,190,170));
+
         //LISTVIEW ADAPTER
 
 //        listView = (ListView) findViewById(R.id.listViewEventos);
@@ -125,8 +146,16 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.listViewEventos);
         recyclerView.setAdapter(nossoAdapter);
 
-        RecyclerView.LayoutManager layout = new LinearLayoutManager(this,
-                LinearLayoutManager.VERTICAL, false);
+
+        RecyclerView.LayoutManager layout = new SpeedyLinearLayoutManager(this,
+                SpeedyLinearLayoutManager.VERTICAL, false);
+
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        //MOSTRANDO A LISTA DO EVENTO MAIS RECENTE CRIADO PARA O MAIS ANTIGO
+        ((LinearLayoutManager) layout).setReverseLayout(true);
+        ((LinearLayoutManager) layout).setStackFromEnd(true);
+
 
         recyclerView.setLayoutManager(layout);
 
@@ -486,6 +515,7 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
         String horaInicio = eventos.get(position).getHoraInicio();
         String horaFim= eventos.get(position).getHoraFim();
         String local = eventos.get(position).getLocal();
+        String deepLink = eventos.get(position).getDeepLink();
 
         Bundle bundle = new Bundle();
         bundle.putString("NOME", nome);
@@ -497,6 +527,7 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
         bundle.putString("HORAINICIO", horaInicio);
         bundle.putString("HORAFIM", horaFim);
         bundle.putString("LOCAL", local);
+        bundle.putString("DEEPLINK", deepLink);
 
         Intent intent = new Intent(EventosActivity.this, EventoAbertoActivity.class);
         intent.putExtras(bundle);

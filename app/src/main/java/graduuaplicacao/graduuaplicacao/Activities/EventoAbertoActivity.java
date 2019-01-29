@@ -1,14 +1,26 @@
 package graduuaplicacao.graduuaplicacao.Activities;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.appinvite.FirebaseAppInvite;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 
 import graduuaplicacao.graduuaplicacao.R;
 
 public class EventoAbertoActivity extends AppCompatActivity {
 
-    TextView nome, apresentador, categoria, data, descricao, frequencia, horaInicio, horaFim, local;
+    TextView nome, apresentador, categoria, data, descricao, frequencia, horaInicio, horaFim, local, txtResult;
+    FirebaseAnalytics analytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,11 +36,12 @@ public class EventoAbertoActivity extends AppCompatActivity {
         horaInicio = (TextView) findViewById(R.id.horaInicioEventoAberto);
         horaFim = (TextView) findViewById(R.id.horaFimEventoAberto);
         local = (TextView) findViewById(R.id.localEventoAberto);
+        txtResult = (TextView) findViewById(R.id.txtResult);
 
 
         Bundle bundle = getIntent().getExtras();
 
-        if(bundle != null) {
+        if (bundle != null) {
 
             String nomeKey = bundle.getString("NOME");
             String apresentadorKey = bundle.getString("APRESENTADOR");
@@ -50,13 +63,66 @@ public class EventoAbertoActivity extends AppCompatActivity {
             horaInicio.setText("Hora de Início: " + horaInicioKey);
             horaFim.setText("Hora de Término: " + horaFimKey);
             local.setText("Local: " + localKey);
+
+
+//            String linkDominio = "https://graduu.page.link/?";
+//
+//            Uri data = this.getIntent().getData();
+//            if (data != null && data.isHierarchical()) {
+//                String uri = this.getIntent().getDataString();
+//                Log.i("MyApp", "Deep link clicked " + uri);
+//            }
+//
+//            DynamicLink dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
+//                    .setLink(Uri.parse(linkDominio + "/evento"))
+//                    .setDomainUriPrefix("https://graduu.page.link")
+//                    // Open links with this app on Android
+//                    .setAndroidParameters(new DynamicLink.AndroidParameters.Builder().build())
+//                    // Open links with com.example.ios on iOS
+//                    .setIosParameters(new DynamicLink.IosParameters.Builder("com.example.ios").build())
+//                    .buildDynamicLink();
+//
+//            Uri dynamicLinkUri = dynamicLink.getUri();
+//            System.out.println(dynamicLinkUri);
+
         }
 
+        FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent()).addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
+            @Override
+            public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
+                if (pendingDynamicLinkData != null) {
+                    analytics = FirebaseAnalytics.getInstance(EventoAbertoActivity.this);
+
+                    Uri deepLink = pendingDynamicLinkData.getLink();
+                    txtResult.append("\nonSuccess Called " + deepLink.toString());
+
+                    FirebaseAppInvite invite = FirebaseAppInvite.getInvitation(pendingDynamicLinkData);
+                    if (invite != null) {
+                        String invitationId = invite.getInvitationId();
+                        if (!TextUtils.isEmpty(invitationId))
+                            txtResult.append("\ninvitation Id " + invitationId);
+                    }
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                txtResult.append("\nonFailure");
+            }
+        });
+
+//
+//        // ATTENTION: This was auto-generated to handle app links.
+//        Intent appLinkIntent = getIntent();
+//        String appLinkAction = appLinkIntent.getAction();
+//        Uri appLinkData = appLinkIntent.getData();
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finish();
+        Intent intent = new Intent(this, EventosActivity.class);
+        startActivity(intent);
     }
+
 }

@@ -90,6 +90,9 @@ public class RegistroDeEventoActivity extends AppCompatActivity{
                 eventos.setCategoria(categoria.getText().toString());
                 eventos.setIdUsuarioLogado(uid);
 
+                eventos.setDeepLink(ConfiguracaoFirebase.generateDeepLink(titulo.getText().toString()));
+                eventos.setNumShares(0);
+
                 Validador validador = new Validador();
                 boolean opt = validador.validarData(eventos.getData());
 

@@ -22,4 +22,16 @@ public class ConfiguracaoFirebase {
         }
         return autenticacao;
     }
+
+
+
+    public static String generateDeepLink (String uid) {
+        return "https://graduu.com/" + uid +
+                "&apn=graduuaplicacao.graduuaplicacao";
+    }
+
+    public static DatabaseReference getSharedRef(String eventoId) {
+         return FirebaseDatabase.getInstance().getReference("eventosCriados");
+    }
+
 }

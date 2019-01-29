@@ -35,9 +35,24 @@
         <activity
             android:name=".Activities.ConfiguracoesActivity"
             android:label="@string/title_activity_configuracoes" />
-        <activity android:name=".Activities.EventoAbertoActivity" />
         <activity android:name=".Activities.CadastroActivity"></activity>
         <activity android:name=".Activities.RecyclerTeste"></activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+        <activity android:name=".Activities.EventoAbertoActivity">
+            <intent-filter>
+                <data android:host="graduu.com"/>
+                <data android:scheme="https" />
+                <data android:pathPattern=".*"/>'
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>
