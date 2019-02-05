@@ -72,18 +72,6 @@ public class EventoAbertoActivity extends AppCompatActivity {
 //                String uri = this.getIntent().getDataString();
 //                Log.i("MyApp", "Deep link clicked " + uri);
 //            }
-//
-//            DynamicLink dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
-//                    .setLink(Uri.parse(linkDominio + "/evento"))
-//                    .setDomainUriPrefix("https://graduu.page.link")
-//                    // Open links with this app on Android
-//                    .setAndroidParameters(new DynamicLink.AndroidParameters.Builder().build())
-//                    // Open links with com.example.ios on iOS
-//                    .setIosParameters(new DynamicLink.IosParameters.Builder("com.example.ios").build())
-//                    .buildDynamicLink();
-//
-//            Uri dynamicLinkUri = dynamicLink.getUri();
-//            System.out.println(dynamicLinkUri);
 
         }
 
@@ -111,11 +99,6 @@ public class EventoAbertoActivity extends AppCompatActivity {
             }
         });
 
-//
-//        // ATTENTION: This was auto-generated to handle app links.
-//        Intent appLinkIntent = getIntent();
-//        String appLinkAction = appLinkIntent.getAction();
-//        Uri appLinkData = appLinkIntent.getData();
     }
 
     @Override

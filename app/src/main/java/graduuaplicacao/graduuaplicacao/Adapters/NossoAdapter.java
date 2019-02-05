@@ -44,7 +44,7 @@ public class NossoAdapter extends RecyclerView.Adapter{
     private List<Evento> eventos;
     private Context context;
     private ClickListener clickListener;
-    private FirebaseAnalytics firebaseAnalytics;
+    private FirebaseAnalytics analytics;
 
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
@@ -164,7 +164,7 @@ public class NossoAdapter extends RecyclerView.Adapter{
     private String buildDynamicLink(String evento, String descricao) {
         String path = FirebaseDynamicLinks.getInstance().createDynamicLink()
                 .setDynamicLinkDomain("graduu.page.link")
-                .setLink(Uri.parse("https://graduu.page.link/evento"))
+                .setLink(Uri.parse("https://graduu.page.link/eventoAberto"))
                 .setAndroidParameters(new DynamicLink.AndroidParameters.Builder().build())
                 .setSocialMetaTagParameters(new DynamicLink.SocialMetaTagParameters.Builder().setTitle(evento).setDescription(descricao).build())
                 .setGoogleAnalyticsParameters(new DynamicLink.GoogleAnalyticsParameters.Builder().setSource("Android App").build())

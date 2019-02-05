@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -29,6 +30,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.appinvite.FirebaseAppInvite;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -36,6 +39,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -83,6 +88,7 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
     FirebaseStorage firebaseStorage;
     StorageReference storageReference;
     private final  int PICK_IMAGE_REQUEST = 71;
+    private FirebaseAnalytics analytics;
 
 
 
@@ -153,14 +159,37 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         //MOSTRANDO A LISTA DO EVENTO MAIS RECENTE CRIADO PARA O MAIS ANTIGO
-        ((LinearLayoutManager) layout).setReverseLayout(true);
-        ((LinearLayoutManager) layout).setStackFromEnd(true);
+//        ((LinearLayoutManager) layout).setReverseLayout(true);
+//        ((LinearLayoutManager) layout).setStackFromEnd(true);
 
 
         recyclerView.setLayoutManager(layout);
 
+//        FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent());
 
+        FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent()).addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
+            @Override
+            public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
+                if (pendingDynamicLinkData != null) {
+                    analytics = FirebaseAnalytics.getInstance(EventosActivity.this);
 
+                    Uri deepLink = pendingDynamicLinkData.getLink();
+                    System.out.println(deepLink);
+
+                    FirebaseAppInvite invite = FirebaseAppInvite.getInvitation(pendingDynamicLinkData);
+                    if (invite != null) {
+                        String invitationId = invite.getInvitationId();
+                        if (!TextUtils.isEmpty(invitationId))
+                            System.out.println(invitationId);
+                    }
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                System.out.println("Failure");
+            }
+        });
 
 
         firebase = ConfiguracaoFirebase.getFirebase().child("eventosCriados");

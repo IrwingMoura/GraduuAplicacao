@@ -22,10 +22,22 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter android:autoVerify="true"
+                android:launchMode="singleTask">
+                <data android:host="graduu.com"/>
+                <data android:scheme="https" />
+                <data android:pathPattern=".*"/>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
         </activity>
 
         <activity android:name=".Activities.LoginActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait">
+
+        </activity>
 
         <activity android:name=".Activities.RegistroDeEventoActivity" />
         <activity android:name=".Activities.EventosActivity" />
@@ -35,18 +47,19 @@
         <activity
             android:name=".Activities.ConfiguracoesActivity"
             android:label="@string/title_activity_configuracoes" />
-        <activity android:name=".Activities.CadastroActivity"></activity>
-        <activity android:name=".Activities.RecyclerTeste"></activity>
+        <activity android:name=".Activities.CadastroActivity"/>
+        <activity android:name=".Activities.RecyclerTeste"/>
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
         <activity android:name=".Activities.EventoAbertoActivity">
-            <intent-filter>
+            <intent-filter android:autoVerify="true"
+                android:launchMode="singleTask">
                 <data android:host="graduu.com"/>
                 <data android:scheme="https" />
-                <data android:pathPattern=".*"/>'
+                <data android:pathPattern=".*"/>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
