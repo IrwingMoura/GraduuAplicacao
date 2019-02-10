@@ -50,6 +50,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import graduuaplicacao.graduuaplicacao.Adapters.HorizontalCardsAdapter;
 import graduuaplicacao.graduuaplicacao.Adapters.NossoAdapter;
 import graduuaplicacao.graduuaplicacao.DAO.ConfiguracaoFirebase;
 import graduuaplicacao.graduuaplicacao.Model.Evento;
@@ -65,6 +66,7 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
     private ArrayAdapter<Evento> adapter;
     private ArrayList<Evento> eventos;
     private DatabaseReference firebase;
+    private DatabaseReference myRef;
     private ValueEventListener valueEventListenerEventos;
     private ImageButton btnCriarEventoPaginaInicial;
     private TextView btnVerPerfil;
@@ -77,8 +79,12 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private DatabaseReference myRef;
+    private ValueEventListener databaseReference;
     private String userID;
+
+    ArrayList<String> nomeHz = new ArrayList<>();
+    ArrayList<String> dataHz = new ArrayList<>();
+    ArrayList<String> horaHz = new ArrayList<>();
 
     //RECYCLERVIEW
 
@@ -135,35 +141,12 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
 
         swipeRefreshLayout.setColorSchemeColors(Color.rgb(39,190,170));
 
-        //LISTVIEW ADAPTER
 
-//        listView = (ListView) findViewById(R.id.listViewEventos);
-//        adapter = new EventosAdapter(this, eventos);
-//
-//        listView.setAdapter(adapter);
+        final NossoAdapter nossoAdapter = initAdapterCardVertical();
+
+        initAdapterCardHorizontal();
 
 
-        ///RECYCLERVIEW ADAPTER
-
-        final NossoAdapter nossoAdapter = new NossoAdapter(eventos,this);
-
-        nossoAdapter.setClickListener(this);
-
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.listViewEventos);
-        recyclerView.setAdapter(nossoAdapter);
-
-
-        RecyclerView.LayoutManager layout = new SpeedyLinearLayoutManager(this,
-                SpeedyLinearLayoutManager.VERTICAL, false);
-
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        //MOSTRANDO A LISTA DO EVENTO MAIS RECENTE CRIADO PARA O MAIS ANTIGO
-//        ((LinearLayoutManager) layout).setReverseLayout(true);
-//        ((LinearLayoutManager) layout).setStackFromEnd(true);
-
-
-        recyclerView.setLayoutManager(layout);
 
 //        FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent());
 
@@ -193,6 +176,18 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
 
 
         firebase = ConfiguracaoFirebase.getFirebase().child("eventosCriados");
+        firebase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                dataSnapshot.child("Usuarios").hasChild("eventosCriados");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
 
         valueEventListenerEventos = new ValueEventListener() {
             @Override
@@ -266,90 +261,58 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
 
         nomeUsuarioLogado = (TextView) findViewById(R.id.nomeUsuarioLogado);
 
+    }
 
-        //BOTÃO PARA EXCLUIR AO CLICAR NO CARD
+    private void initAdapterCardHorizontal() {
+        myRef.child("Likes").child(userID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                showData(dataSnapshot);
+            }
 
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                eventosExcluir = adapter.getItem(position);
-//
-//                //cria o gerador do alert dialog
-//
-//                AlertDialog.Builder builder = new AlertDialog.Builder(EventosActivity.this);
-//
-//                //definir titulo
-//
-//                builder.setTitle("Excluir");
-//
-//                //defini uma mensagem
-//
-//                builder.setMessage("Você realmente deseja excluir o evento " + eventosExcluir.getNome() + "  ?");
-//
-//                //defini botao sim
-//
-//                builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        firebase = ConfiguracaoFirebase.getFirebase().child("eventosCriados");
-//                        firebase.child(eventosExcluir.getNome()).removeValue();
-//
-//                        Toast.makeText(EventosActivity.this, "Exclusão efetuada!", Toast.LENGTH_LONG).show();
-//                    }
-//                });
-//
-//                builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        Toast.makeText(EventosActivity.this, "Exclusão cancelada", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//
-//                //criar o alert dialog
-//                alertDialog = builder.create();
-//
-//                //exibe o alert dialog
-//                alertDialog.show();
-//            }
-//        });
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-////                String nomeEventoClicado = adapter.getItem(position).getNome();
-////                Toast.makeText(EventosActivity.this, eventos.get(position).getIdUsuarioLogado(), Toast.LENGTH_SHORT).show();
-//
-//                String nome = eventos.get(position).getNome();
-//                String apresentador = eventos.get(position).getApresentador();
-//                String categoria = eventos.get(position).getCategoria();
-//                String data = eventos.get(position).getData();
-//                String descricao = eventos.get(position).getDescricao();
-//                String frequencia = eventos.get(position).getFrequencia();
-//                String horaInicio = eventos.get(position).getHoraInicio();
-//                String horaFim= eventos.get(position).getHoraFim();
-//                String local = eventos.get(position).getLocal();
-////                String foto = String.valueOf(eventos.get(position).getFoto());
-//
-//
-//
-//                Bundle bundle = new Bundle();
-//                bundle.putString("NOME", nome);
-//                bundle.putString("APRESENTADOR", apresentador);
-//                bundle.putString("CATEGORIA", categoria);
-//                bundle.putString("DATA", data);
-//                bundle.putString("DESCRICAO", descricao);
-//                bundle.putString("FREQUENCIA", frequencia);
-//                bundle.putString("HORAINICIO", horaInicio);
-//                bundle.putString("HORAFIM", horaFim);
-//                bundle.putString("LOCAL", local);
-//
-//
-//                Intent intent = new Intent(EventosActivity.this, EventoAbertoActivity.class);
-//                intent.putExtras(bundle);
-//                startActivity(intent);
-//            }
-//        });
+            }
+        });
 
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView rcView = findViewById(R.id.listCardHorizontal);
+        rcView.setLayoutManager(layoutManager);
+        HorizontalCardsAdapter adapter = new HorizontalCardsAdapter(this, nomeHz, dataHz, horaHz);
+        rcView.setAdapter(adapter);
+    }
+
+    private void showData(DataSnapshot dataSnapshot) {
+        for(DataSnapshot ds: dataSnapshot.getChildren()) {
+            Evento evento = new Evento();
+            evento.setNome(ds.getValue(Evento.class).getNome());
+            evento.setData(ds.getValue(Evento.class).getData());
+            evento.setHoraInicio(ds.getValue(Evento.class).getHoraInicio());
+
+            nomeHz.add(evento.getNome());
+            dataHz.add(evento.getData());
+            horaHz.add(evento.getHoraInicio());
+
+        }
+    }
+
+    @NonNull
+    private NossoAdapter initAdapterCardVertical() {
+        final NossoAdapter nossoAdapter = new NossoAdapter(eventos,this);
+
+        nossoAdapter.setClickListener(this);
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.listViewEventos);
+        recyclerView.setAdapter(nossoAdapter);
+
+
+        RecyclerView.LayoutManager layout = new SpeedyLinearLayoutManager(this,
+                SpeedyLinearLayoutManager.VERTICAL, false);
+
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setLayoutManager(layout);
+        return nossoAdapter;
     }
 
     private void confirmacaoDeLogout() {
@@ -393,10 +356,6 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
         Intent intent = new Intent(EventosActivity.this, PerfilActivity.class);
         startActivity(intent);
     }
-
-//    private void abrirTelaConfiguracoes() {
-//        onCreateOptionsMenu((Menu) btnConfiguracoes);
-//    }
 
     @Override
     protected void onStart() {
@@ -446,28 +405,6 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
         }
         return super.onKeyDown(keyCode, event);
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.menu_configuracoes, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//
-//        switch (item.getItemId()){
-//            case R.id.logout :
-//                mAuth.signOut();
-//                Intent intent = new Intent(EventosActivity.this, LoginActivity.class);
-//                startActivity(intent);
-//                return true;
-//                default: super.onOptionsItemSelected(item);
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
-
 
     private void uploadImagem() {
         if (filePath != null) {

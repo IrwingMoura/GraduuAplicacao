@@ -10,6 +10,9 @@
 
     <color name="corHoraData">#C8FFFFFF</color>
     <color name="corFundoAmarelo">#e5e5e5</color>
+    <color name="cardHorizontal">#ffffff</color>
+    <color name="tituloCardHorizontal">#cc000000</color>
+    <color name="fontCardHorizontal">#50000000</color>
 
 
 </resources>

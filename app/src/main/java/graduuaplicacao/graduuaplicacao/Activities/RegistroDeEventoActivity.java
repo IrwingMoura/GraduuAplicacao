@@ -54,7 +54,7 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
 
     private Usuario usuario;
     private Evento eventos;
-    private DatabaseReference firebase;
+    private DatabaseReference firebase, firebase2;
 
     private Button criarEvento;
 
@@ -292,8 +292,11 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
 
     private boolean salvarEventos(Evento eventos) {
         try {
-            firebase = ConfiguracaoFirebase.getFirebase().child("eventosCriados");
+            firebase = ConfiguracaoFirebase.getFirebase().child("Usuarios").child(uid).child("eventosCriados ");
+            firebase2 = ConfiguracaoFirebase.getFirebase().child("eventosCriados");
+//            firebase = ConfiguracaoFirebase.getFirebase().child("eventosCriados");
             firebase.child(eventos.getNome()).setValue(eventos);
+            firebase2.child(eventos.getNome()).setValue(eventos);
             Toast.makeText(RegistroDeEventoActivity.this, "Evento criado com sucesso!", Toast.LENGTH_LONG).show();
 
             return true ;

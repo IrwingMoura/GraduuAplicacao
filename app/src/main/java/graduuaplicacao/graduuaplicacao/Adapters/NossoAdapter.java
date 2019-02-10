@@ -21,8 +21,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.dynamiclinks.DynamicLink;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.storage.FirebaseStorage;
@@ -45,8 +48,14 @@ public class NossoAdapter extends RecyclerView.Adapter{
     private Context context;
     private ClickListener clickListener;
     private FirebaseAnalytics analytics;
+    private DatabaseReference likesRef;
+    private boolean checker = false;
 
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+    FirebaseUser user = mAuth.getCurrentUser();
+
+    String userID = user.getUid();
 
     StorageReference storageReference = FirebaseStorage.getInstance().getReference();
 
@@ -72,6 +81,8 @@ public class NossoAdapter extends RecyclerView.Adapter{
             txtViewData = (TextView) view.findViewById(R.id.txtViewData);
             btnLike = (CheckBox) view.findViewById(R.id.likeIcon);
             btnShare = (Button) view.findViewById(R.id.btnShare);
+
+            likesRef = FirebaseDatabase.getInstance().getReference().child("Likes");
 
 
             view.setOnClickListener(new View.OnClickListener() {
@@ -114,7 +125,38 @@ public class NossoAdapter extends RecyclerView.Adapter{
         holder.btnLike.setTag(position);
         holder.btnLike.setChecked(eventos.get(position).isChecked());
 
-        onClickBotaoLike(holder);
+//        onClickBotaoLike(holder);
+
+
+
+        holder.btnLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checker = true;
+                likesRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String nomeEvento = eventos.get(position).getNome();
+                    if(checker)
+
+                        if (dataSnapshot.child(userID).hasChild(nomeEvento)) {
+
+                            likesRef.child(userID).child(nomeEvento).removeValue();
+                            checker = false;
+                        } else {
+                            likesRef.child(userID).child(nomeEvento).setValue(evento);
+                            checker = false;
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        });
 
         holder.btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,15 +185,42 @@ public class NossoAdapter extends RecyclerView.Adapter{
 
     }
 
-    private void onClickBotaoLike(final NossoViewHolder holder) {
-        holder.btnLike.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                int getPosition = (Integer) buttonView.getTag();
-                holder.btnLike.setChecked(buttonView.isChecked() ? true : false);
-                eventos.get(getPosition).setChecked(buttonView.isChecked() ? true : false);
-            }
-        });
-    }
+//    private void onClickBotaoLike(final NossoViewHolder holder) {
+//        holder.btnLike.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
+//                int getPosition = (Integer) buttonView.getTag();
+//                holder.btnLike.setChecked(buttonView.isChecked());
+//                eventos.get(getPosition).setChecked(buttonView.isChecked());
+//                checker = true;
+//                likesRef.addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                        if(checker) {
+//                            if(dataSnapshot.child("eventosCriados").hasChild(userID)) {
+//
+//                                likesRef.child("eventosCriados").child(userID).removeValue();
+//                                checker = false;
+//
+//                            }
+//                        }else {
+//
+//                            likesRef.child("eventosCriados").child(userID).setValue(true);
+//                            checker = false;
+//
+//                        }
+//
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                    }
+//                });
+//
+//            }
+//        });
+//    }
 
     private void onInviteClicked(int position) {
         Intent intent = new AppInviteInvitation.IntentBuilder("aaaa")

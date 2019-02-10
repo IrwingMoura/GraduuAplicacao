@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import graduuaplicacao.graduuaplicacao.DAO.ConfiguracaoFirebase;
 import graduuaplicacao.graduuaplicacao.Model.Usuario;
 import graduuaplicacao.graduuaplicacao.R;
 
@@ -58,9 +59,10 @@ public class PerfilActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        myRef = mFirebaseDatabase.getReference();
         final FirebaseUser user = mAuth.getCurrentUser();
         userID = user.getUid();
+        myRef = mFirebaseDatabase.getReference().child("Usuarios");
+//        myRef = ConfiguracaoFirebase.getFirebase().child("Usuarios");
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -75,7 +77,7 @@ public class PerfilActivity extends AppCompatActivity {
             }
         };
 
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.child(userID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 showData(dataSnapshot);
@@ -90,15 +92,15 @@ public class PerfilActivity extends AppCompatActivity {
     }
 
     private void showData(DataSnapshot dataSnapshot) {
-        for (DataSnapshot ds: dataSnapshot.getChildren()){
+
             Usuario usuario = new Usuario();
-            usuario.setNome(ds.child(userID).getValue(Usuario.class).getNome());
-            usuario.setSobrenome(ds.child(userID).getValue(Usuario.class).getSobrenome());
-            usuario.setMatricula(ds.child(userID).getValue(Usuario.class).getMatricula());
-            usuario.setEmail(ds.child(userID).getValue(Usuario.class).getEmail());
-            usuario.setDataDeNascimento(ds.child(userID).getValue(Usuario.class).getDataDeNascimento());
-            usuario.setCampus(ds.child(userID).getValue(Usuario.class).getCampus());
-            usuario.setImagemPerfil(ds.child(userID).getValue(Usuario.class).getImagemPerfil());
+            usuario.setNome(dataSnapshot.child("nome").getValue().toString());
+            usuario.setSobrenome(dataSnapshot.child("sobrenome").getValue().toString());
+            usuario.setMatricula(dataSnapshot.child("matricula").getValue().toString());
+            usuario.setEmail(dataSnapshot.child("email").getValue().toString());
+            usuario.setDataDeNascimento(dataSnapshot.child("dataDeNascimento").getValue().toString());
+            usuario.setCampus(dataSnapshot.child("campus").getValue().toString());
+//            usuario.setImagemPerfil(dataSnapshot.child("imagemPerfil").getValue().toString());
 
 
             mNome.setText(usuario.getNome());
@@ -108,12 +110,10 @@ public class PerfilActivity extends AppCompatActivity {
             mDataDeNascimento.setText(usuario.getDataDeNascimento());
             mCampus.setText(usuario.getCampus());
 
-            Picasso.get()
-                    .load(usuario.getImagemPerfil())
-                    .into(mImagePerfil);
+//            Picasso.get()
+//                    .load(usuario.getImagemPerfil())
+//                    .into(mImagePerfil);
 
-            break;
-        }
     }
 
     @Override
