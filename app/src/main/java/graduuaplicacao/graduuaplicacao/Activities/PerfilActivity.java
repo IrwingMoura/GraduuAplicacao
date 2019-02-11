@@ -20,7 +20,6 @@ import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
-import graduuaplicacao.graduuaplicacao.DAO.ConfiguracaoFirebase;
 import graduuaplicacao.graduuaplicacao.Model.Usuario;
 import graduuaplicacao.graduuaplicacao.R;
 
@@ -59,6 +58,7 @@ public class PerfilActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
+        myRef = mFirebaseDatabase.getReference();
         final FirebaseUser user = mAuth.getCurrentUser();
         userID = user.getUid();
         myRef = mFirebaseDatabase.getReference().child("Usuarios");
@@ -95,7 +95,7 @@ public class PerfilActivity extends AppCompatActivity {
 
             Usuario usuario = new Usuario();
             usuario.setNome(dataSnapshot.child("nome").getValue().toString());
-            usuario.setSobrenome(dataSnapshot.child("sobrenome").getValue().toString());
+//            usuario.setSobrenome(dataSnapshot.child("sobrenome").getValue().toString());
             usuario.setMatricula(dataSnapshot.child("matricula").getValue().toString());
             usuario.setEmail(dataSnapshot.child("email").getValue().toString());
             usuario.setDataDeNascimento(dataSnapshot.child("dataDeNascimento").getValue().toString());
@@ -104,7 +104,6 @@ public class PerfilActivity extends AppCompatActivity {
 
 
             mNome.setText(usuario.getNome());
-            mSobrenome.setText(usuario.getSobrenome());
             mMatricula.setText(usuario.getMatricula());
             mEmail.setText(usuario.getEmail());
             mDataDeNascimento.setText(usuario.getDataDeNascimento());

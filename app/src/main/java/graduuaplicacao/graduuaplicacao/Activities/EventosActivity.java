@@ -369,7 +369,7 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
                     if (data.getKey().equals(userID)) {
                         Usuario usuario = data.getValue(Usuario.class);
-                        nomeUsuarioLogado.setText(usuario.getNome() + " " + usuario.getSobrenome());
+                        nomeUsuarioLogado.setText(usuario.getNome());
                         String matricula = usuario.getMatricula().toString();
                         if (matricula.equals("202020")) {            //DESABILITANDO O BOTAO  --- CONSIDERANDO A MATRICULA COMO NAO PERMITIDA
 //                                btnCriarEventoPaginaInicial.setEnabled(false);

@@ -5,7 +5,6 @@ public class Usuario {
     private String email;
     private String senha;
     private String nome;
-    private String sobrenome;
     private String matricula;
     private String campus;
     private String dataDeNascimento;
@@ -14,11 +13,10 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(String email, String senha, String nome, String sobrenome, String matricula, String campus, String dataDeNascimento, String imagemPerfil) {
+    public Usuario(String email, String senha, String nome, String matricula, String campus, String dataDeNascimento, String imagemPerfil) {
         this.email = email;
         this.senha = senha;
         this.nome = nome;
-        this.sobrenome = sobrenome;
         this.matricula = matricula;
         this.campus = campus;
         this.dataDeNascimento = dataDeNascimento;
@@ -47,14 +45,6 @@ public class Usuario {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getSobrenome() {
-        return sobrenome;
-    }
-
-    public void setSobrenome(String sobrenome) {
-        this.sobrenome = sobrenome;
     }
 
     public String getMatricula() {

@@ -3,6 +3,7 @@ package graduuaplicacao.graduuaplicacao.Activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -33,8 +34,8 @@ import graduuaplicacao.graduuaplicacao.R;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText edtEmail;
-    private EditText edtSenha;
+    private TextInputEditText edtEmail;
+    private TextInputEditText edtSenha;
     private TextView txtCriarCadastro;
     private Button btnLogin;
     private Usuario usuario;
@@ -47,8 +48,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        edtEmail = (EditText) findViewById(R.id.edtEmail);
-        edtSenha = (EditText) findViewById(R.id.edtSenha);
+        edtEmail = (TextInputEditText) findViewById(R.id.edtEmailEditText);
+        edtSenha = (TextInputEditText) findViewById(R.id.edtSenhaEditText);
         txtCriarCadastro = (TextView) findViewById(R.id.txtCriarCadastro);
         btnLogin = (Button) findViewById(R.id.btnLogin);
 

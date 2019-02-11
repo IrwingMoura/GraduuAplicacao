@@ -53,9 +53,9 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
 
     EditText editTextemail;
     EditText editTextsenha;
-    EditText editTextNome;
+    EditText editTextNomeCompleto;
     EditText editTextMatricula;
-    EditText editTextSobrenome;
+//    EditText editTextSobrenome;
     EditText editTextCampus;
     EditText editTextDataDeNascimento;
     FirebaseAuth mAuth;
@@ -88,11 +88,11 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
 
         editTextemail = (EditText)  findViewById(R.id.edtEmailCadastro);
         editTextsenha = (EditText) findViewById(R.id.edtSenhaCadastro);
-        editTextNome = (EditText) findViewById(R.id.edtNomeCadastro);
+        editTextNomeCompleto = (EditText) findViewById(R.id.edtNomeCadastro);
         editTextMatricula = (EditText) findViewById(R.id.edtMatriculaCadastro);
         editTextCampus = (EditText) findViewById(R.id.edtCampus);
         editTextDataDeNascimento = (EditText) findViewById(R.id.edtDataDeNascimento);
-        editTextSobrenome = (EditText) findViewById(R.id.edtSobrenomeCadastro);
+//        editTextSobrenome = (EditText) findViewById(R.id.edtSobrenomeCadastro);
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
         botaoCadastrar = (Button) findViewById(R.id.botaoCadastar);
 
@@ -125,8 +125,8 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
 
         final String email = editTextemail.getText().toString().trim();
         final String senha = editTextsenha.getText().toString().trim();
-        final String nome = editTextNome.getText().toString().trim();
-        final String sobrenome = editTextSobrenome.getText().toString().trim();
+        final String nome = editTextNomeCompleto.getText().toString().trim();
+//        final String sobrenome = editTextSobrenome.getText().toString().trim();
         final String matricula = editTextMatricula.getText().toString().trim();
         final String campus = editTextCampus.getText().toString().trim();
         final String dataDeNascimento = editTextDataDeNascimento.getText().toString().trim();
@@ -164,8 +164,8 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
             }
 
             if (nome.isEmpty()) {
-                editTextNome.setError("Nome necessario");
-                editTextNome.requestFocus();
+                editTextNomeCompleto.setError("Nome necessario");
+                editTextNomeCompleto.requestFocus();
                 return;
             }
 
@@ -188,7 +188,6 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
                                         email,
                                         senha,
                                         nome,
-                                        sobrenome,
                                         matricula,
                                         campus,
                                         dataDeNascimento,
