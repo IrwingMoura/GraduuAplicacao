@@ -1,91 +1,243 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
-
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-     <EditText
-         android:id="@+id/edtNomeCadastro"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:hint="Nome:"
-         android:inputType="text"/>
-
-    <EditText
-        android:id="@+id/edtSobrenomeCadastro"
-        android:layout_width="match_parent"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:hint="Sobrenome:"
-        android:inputType="text"/>
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:hint="Matrícula"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
 
-    <EditText
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/edtMatriculaCadastro"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:singleLine="true"
+            tools:layout_editor_absoluteY="8dp" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayout4"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="Dat. Nascimento"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/edtDataDeNascimento"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="240dp" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <Spinner
         android:id="@+id/edtCampus"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Campus:"
-        android:inputType="text"/>
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_height="57dp"
+        android:layout_width="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginRight="2dp"
+        app:layout_constraintEnd_toStartOf="@+id/textInputLayout4"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayout"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+    </Spinner>
 
-    <EditText
-        android:id="@+id/edtDataDeNascimento"
-        android:layout_width="match_parent"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayoutNome"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:hint="Data de Nascimento:"
-        android:inputType="date"/>
+        android:layout_marginTop="8dp"
+        android:hint="Nome Completo"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayout4"
+        app:layout_constraintStart_toStartOf="@+id/edtCampus"
+        app:layout_constraintTop_toBottomOf="@+id/edtCampus">
 
-     <EditText
-        android:id="@+id/edtMatriculaCadastro"
-        android:layout_width="match_parent"
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/edtNomeCompleto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:singleLine="true"
+            tools:layout_editor_absoluteY="8dp" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayoutEmail"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:hint="Matricula:"
-        android:inputType="number"
-        android:maxLength="7"/>
+        android:layout_marginTop="8dp"
+        android:hint="E-mail"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayoutNome"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayoutNome"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutNome">
 
-     <EditText
-        android:id="@+id/edtEmailCadastro"
-        android:layout_width="match_parent"
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/edtEmailCadastro"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:singleLine="true"
+            tools:layout_editor_absoluteY="8dp" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayoutSenha"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:hint="Email:"
-        android:inputType="textEmailAddress"/>
+        android:layout_marginTop="8dp"
+        android:hint="Senha"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayoutEmail"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayoutEmail"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutEmail">
 
-     <EditText
-        android:id="@+id/edtSenhaCadastro"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Senha:"
-        android:inputType="textPassword"/>
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/edtSenhaCadastro"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:singleLine="true"
+            tools:layout_editor_absoluteY="8dp" />
 
-
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressbar"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:visibility="gone"/>
+    </android.support.design.widget.TextInputLayout>
 
     <Button
-        android:id="@+id/botaoCadastar"
-        android:layout_width="wrap_content"
+        android:id="@+id/botaoCadastrar"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="190dp"
         android:layout_height="wrap_content"
-        android:text="Cadastrar" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/botao"
+        android:text="Criar conta"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayoutSenha"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayoutSenha"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutSenha"
+        app:layout_constraintVertical_bias="0.32" />
 
     <TextView
-        android:id="@+id/edtJaPossuiLogin"
-        android:layout_marginTop="20sp"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ja possui cadastro, clique aqui e faça login"/>
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Cadastro"
+        android:textColor="@color/corBotaoCadastro"
+        android:textSize="50sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</LinearLayout>
+
+    <!--<EditText-->
+        <!--android:id="@+id/edtNomeCadastro"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:hint="Nome:"-->
+        <!--android:inputType="text"-->
+        <!--tools:layout_editor_absoluteX="32dp"-->
+        <!--tools:layout_editor_absoluteY="397dp" />-->
+
+    <!--<EditText-->
+        <!--android:id="@+id/edtSobrenomeCadastro"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:hint="Sobrenome:"-->
+        <!--android:inputType="text"-->
+        <!--tools:layout_editor_absoluteX="47dp"-->
+        <!--tools:layout_editor_absoluteY="167dp" />-->
+
+    <!--<EditText-->
+        <!--android:id="@+id/edtCampus"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:hint="Campus:"-->
+        <!--android:inputType="text"-->
+        <!--tools:layout_editor_absoluteX="1dp"-->
+        <!--tools:layout_editor_absoluteY="233dp" />-->
+
+    <!--<EditText-->
+        <!--android:id="@+id/edtDataDeNascimento"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:hint="Data de Nascimento:"-->
+        <!--android:inputType="date"-->
+        <!--tools:layout_editor_absoluteX="16dp"-->
+        <!--tools:layout_editor_absoluteY="452dp" />-->
+
+    <!--<EditText-->
+        <!--android:id="@+id/edtMatriculaCadastro"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:hint="Matricula:"-->
+        <!--android:inputType="number"-->
+        <!--android:maxLength="7"-->
+        <!--tools:layout_editor_absoluteX="16dp"-->
+        <!--tools:layout_editor_absoluteY="100dp" />-->
+
+    <!--<EditText-->
+        <!--android:id="@+id/edtEmailCadastro"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:hint="Email:"-->
+        <!--android:inputType="textEmailAddress"-->
+        <!--tools:layout_editor_absoluteX="0dp"-->
+        <!--tools:layout_editor_absoluteY="279dp" />-->
+
+    <!--<EditText-->
+        <!--android:id="@+id/edtSenhaCadastro"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:hint="Senha:"-->
+        <!--android:inputType="textPassword"-->
+        <!--tools:layout_editor_absoluteX="0dp"-->
+        <!--tools:layout_editor_absoluteY="325dp" />-->
+
+
+    <!--<ProgressBar-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/progressbar"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:visibility="gone"/>-->
+
+    <!--<Button-->
+        <!--android:id="@+id/botaoCadastar"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Cadastrar"-->
+        <!--tools:layout_editor_absoluteX="116dp"-->
+        <!--tools:layout_editor_absoluteY="515dp" />-->
+
+
+
 </android.support.constraint.ConstraintLayout>

@@ -16,10 +16,13 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -56,11 +59,13 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
     EditText editTextNomeCompleto;
     EditText editTextMatricula;
 //    EditText editTextSobrenome;
-    EditText editTextCampus;
+    Spinner editTextCampus;
     EditText editTextDataDeNascimento;
     FirebaseAuth mAuth;
     ProgressBar progressBar;
     Button botaoCadastrar;
+
+    String campusSpinner;
 
     private final  int PICK_IMAGE_REQUEST = 71;
     private final static int mLength = 512;
@@ -88,22 +93,41 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
 
         editTextemail = (EditText)  findViewById(R.id.edtEmailCadastro);
         editTextsenha = (EditText) findViewById(R.id.edtSenhaCadastro);
-        editTextNomeCompleto = (EditText) findViewById(R.id.edtNomeCadastro);
+        editTextNomeCompleto = (EditText) findViewById(R.id.edtNomeCompleto);
         editTextMatricula = (EditText) findViewById(R.id.edtMatriculaCadastro);
-        editTextCampus = (EditText) findViewById(R.id.edtCampus);
+        editTextCampus = (Spinner) findViewById(R.id.edtCampus);
         editTextDataDeNascimento = (EditText) findViewById(R.id.edtDataDeNascimento);
 //        editTextSobrenome = (EditText) findViewById(R.id.edtSobrenomeCadastro);
-        progressBar = (ProgressBar) findViewById(R.id.progressbar);
-        botaoCadastrar = (Button) findViewById(R.id.botaoCadastar);
+//        progressBar = (ProgressBar) findViewById(R.id.progressbar);
+        botaoCadastrar = (Button) findViewById(R.id.botaoCadastrar);
 
 
+
+        ArrayAdapter<CharSequence> adapterSpinner = ArrayAdapter.createFromResource(this,R.array.campus, android.R.layout.simple_spinner_item);
+        adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        editTextCampus.setAdapter(adapterSpinner);
+        editTextCampus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                campusSpinner = parent.getItemAtPosition(position).toString();
+
+//                if(localSpinner.equals("Local")) {
+//
+//                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         mAuth = FirebaseAuth.getInstance();
         mStorageReference = FirebaseStorage.getInstance().getReference();
 
 
-        findViewById(R.id.edtJaPossuiLogin).setOnClickListener(this);
-        findViewById(R.id.botaoCadastar).setOnClickListener(this);
+//        findViewById(R.id.edtJaPossuiLogin).setOnClickListener(this);
+        findViewById(R.id.botaoCadastrar).setOnClickListener(this);
 
         formatarInputs();
     }
@@ -128,7 +152,7 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
         final String nome = editTextNomeCompleto.getText().toString().trim();
 //        final String sobrenome = editTextSobrenome.getText().toString().trim();
         final String matricula = editTextMatricula.getText().toString().trim();
-        final String campus = editTextCampus.getText().toString().trim();
+        final String campusSpinner = editTextCampus.getSelectedItem().toString().trim();
         final String dataDeNascimento = editTextDataDeNascimento.getText().toString().trim();
 //
         Validador validador = new Validador();
@@ -189,7 +213,7 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
                                         senha,
                                         nome,
                                         matricula,
-                                        campus,
+                                        campusSpinner,
                                         dataDeNascimento,
                                         ""  //TODO: SETAR IMAGEM QUE SERÁ PEGA DO FIREBASE STORAGE (VER NO VIDEO DO HINDU AOS 7:57min) // VER ALGUM MODO DE PEGAR A URL DA IMAGEM NO FIREBASE STORAGE
                                 );
@@ -229,13 +253,13 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.botaoCadastar:
+            case R.id.botaoCadastrar:
                 registerUser();
                 break;
 
-            case R.id.edtJaPossuiLogin:
-                startActivity(new Intent(this, LoginActivity.class));
-                break;
+//            case R.id.edtJaPossuiLogin:
+//                startActivity(new Intent(this, LoginActivity.class));
+//                break;
         }
     }
 
