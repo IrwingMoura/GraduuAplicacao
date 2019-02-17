@@ -12,8 +12,9 @@ public class Evento {
     private String apresentador;
     private String frequencia;
     private String local;
-    private ImageView foto;
     private String categoria;
+    private Boolean curtiu;
+    private String urlFotoUsuarioCard;
 
 
     private String idUsuarioLogado;
@@ -24,7 +25,7 @@ public class Evento {
     private long numShares;
 
 
-    public Evento(String nome, String horaInicio, String horaFim, String data, String descricao, String apresentador, String frequencia, String local, ImageView foto, String categoria, String idUsuarioLogado, boolean isChecked, String deepLink, long numShares) {
+    public Evento(String nome, String horaInicio, String horaFim, String data, String descricao, String apresentador, String frequencia, String local, String categoria, String idUsuarioLogado, boolean isChecked, String deepLink, long numShares, Boolean curti, String urlFotoUsuarioCard) {
         this.nome = nome;
         this.horaInicio = horaInicio;
         this.horaFim = horaFim;
@@ -33,12 +34,14 @@ public class Evento {
         this.apresentador = apresentador;
         this.frequencia = frequencia;
         this.local = local;
-        this.foto = foto;
         this.categoria = categoria;
         this.idUsuarioLogado = idUsuarioLogado;
         this.isChecked = isChecked;
         this.deepLink = deepLink;
         this.numShares = numShares;
+        this.curtiu = curtiu;
+        this.urlFotoUsuarioCard = urlFotoUsuarioCard;
+
     }
 
     public Evento() {
@@ -132,14 +135,6 @@ public class Evento {
         this.local = local;
     }
 
-    public ImageView getFoto() {
-        return foto;
-    }
-
-    public void setFoto(ImageView foto) {
-        this.foto = foto;
-    }
-
     public String getCategoria() {
         return categoria;
     }
@@ -154,5 +149,21 @@ public class Evento {
 
     public void setChecked(boolean checked) {
         isChecked = checked;
+    }
+
+    public Boolean getCurtiu() {
+        return curtiu;
+    }
+
+    public void setCurtiu(Boolean curtiu) {
+        this.curtiu = curtiu;
+    }
+
+    public String getUrlFotoUsuarioCard() {
+        return urlFotoUsuarioCard;
+    }
+
+    public void setUrlFotoUsuarioCard(String urlFotoUsuarioCard) {
+        this.urlFotoUsuarioCard = urlFotoUsuarioCard;
     }
 }

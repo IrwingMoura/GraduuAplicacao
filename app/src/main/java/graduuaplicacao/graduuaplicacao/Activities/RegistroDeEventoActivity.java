@@ -3,6 +3,8 @@ package graduuaplicacao.graduuaplicacao.Activities;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,9 +23,14 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -70,8 +77,10 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
 
     FirebaseUser firebaseUser;
     String uid;
+    private String urlImagem;
 
     String localSpinner;
+    StorageReference storageReference = FirebaseStorage.getInstance().getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +104,9 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
 
         titulo.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        uid = firebaseUser.getUid();
+
         ArrayAdapter<CharSequence> adapterSpinner = ArrayAdapter.createFromResource(this,R.array.locais, android.R.layout.simple_spinner_item);
         adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerLocais.setAdapter(adapterSpinner);
@@ -113,8 +125,6 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
 
             }
         });
-
-
 
 
         dataiptText.setInputType(InputType.TYPE_NULL);
@@ -137,11 +147,8 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
                 eventos = new Evento();
                 usuario = new Usuario();
 
-                firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                uid = firebaseUser.getUid();
 
 
-//
 //                eventos.setIdDoCriador(usuario.getId());
                 eventos.setNome(titulo.getText().toString());
                 eventos.setHoraInicio(horaInicio.getText().toString());
@@ -153,7 +160,7 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
                 eventos.setLocal(localSpinner);
                 eventos.setCategoria(setor.getText().toString());
                 eventos.setIdUsuarioLogado(uid);
-
+                eventos.setUrlFotoUsuarioCard(urlImagem);
                 eventos.setDeepLink(ConfiguracaoFirebase.generateDeepLink(titulo.getText().toString()));
                 eventos.setNumShares(0);
 
@@ -222,6 +229,18 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
                 horaInicio.setText(hora + ":" + minuto + "h");
             }
         };
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        StorageReference imagemRef = storageReference.child("Users").child(uid).child("imagem");
+        imagemRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                urlImagem = String.valueOf(uri);
+            }
+        });
     }
 
     private void onClickHoraFim() {

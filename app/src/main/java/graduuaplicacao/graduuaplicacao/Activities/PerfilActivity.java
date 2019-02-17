@@ -1,6 +1,7 @@
 package graduuaplicacao.graduuaplicacao.Activities;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -16,6 +19,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
@@ -41,19 +47,21 @@ public class PerfilActivity extends AppCompatActivity {
     private DatabaseReference myRef;
     private String userID;
 
+    StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
 
-        mNome = (TextView) findViewById(R.id.txtNomePerfil);
-        mSobrenome = (TextView) findViewById(R.id.txtSobrenomePerfil);
-        mMatricula = (TextView) findViewById(R.id.txtMatriculaPerfil);
-        mDataDeNascimento = (TextView) findViewById(R.id.txtDataDeNascimentoPerfil);
-        mCampus = (TextView) findViewById(R.id.txtCampusPerfil);
-        mEmail = (TextView) findViewById(R.id.txtEmailPerfil);
-        mImagePerfil = (ImageView) findViewById(R.id.imagemPerfilTelaPerfil);
+        mNome = findViewById(R.id.txtNomePerfil);
+        mSobrenome = findViewById(R.id.txtSobrenomePerfil);
+        mMatricula = findViewById(R.id.txtMatriculaPerfil);
+        mDataDeNascimento = findViewById(R.id.txtDataDeNascimentoPerfil);
+        mCampus = findViewById(R.id.txtCampusPerfil);
+        mEmail = findViewById(R.id.txtEmailPerfil);
+        mImagePerfil = findViewById(R.id.imagemPerfilTelaPerfil);
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -76,6 +84,16 @@ public class PerfilActivity extends AppCompatActivity {
                 }
             }
         };
+
+
+        StorageReference imagemRef = storageReference.child("Users").child(userID).child("imagem");
+        imagemRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                System.out.println(uri);
+                Glide.with(PerfilActivity.this).load(uri).into(mImagePerfil);
+            }
+        });
 
         myRef.child(userID).addValueEventListener(new ValueEventListener() {
             @Override

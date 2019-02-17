@@ -28,6 +28,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -64,6 +65,7 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
 
     private ListView listView;
     private ArrayAdapter<Evento> adapter;
+    private HorizontalCardsAdapter adapterHorizontal;
     private ArrayList<Evento> eventos;
     private DatabaseReference firebase;
     private DatabaseReference myRef;
@@ -267,20 +269,23 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
         myRef.child("Likes").child(userID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                nomeHz.clear();
+                dataHz.clear();
+                horaHz.clear();
                 showData(dataSnapshot);
+                adapterHorizontal.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         RecyclerView rcView = findViewById(R.id.listCardHorizontal);
         rcView.setLayoutManager(layoutManager);
-        HorizontalCardsAdapter adapter = new HorizontalCardsAdapter(this, nomeHz, dataHz, horaHz);
-        rcView.setAdapter(adapter);
+        adapterHorizontal = new HorizontalCardsAdapter(this, nomeHz, dataHz, horaHz);
+        rcView.setAdapter(adapterHorizontal);
     }
 
     private void showData(DataSnapshot dataSnapshot) {
@@ -380,6 +385,10 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
 
                     }
                 }
+
+
+
+
             }
 
             @Override
@@ -387,6 +396,17 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
 
             }
         });
+
+        StorageReference imagemRef = storageReference.child("Users").child(userID).child("imagem");
+        imagemRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                System.out.println(uri);
+                Glide.with(EventosActivity.this).load(uri).into(imagemPerfil);
+            }
+        });
+
+
 
     }
 
