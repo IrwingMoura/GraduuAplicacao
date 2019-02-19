@@ -243,9 +243,9 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
 
                 PopupMenu popupMenu = new PopupMenu(EventosActivity.this, btnConfiguracoes);
                 popupMenu.getMenuInflater().inflate(R.menu.menu_configuracoes, popupMenu.getMenu());
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
+                        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.logout:
                                 confirmacaoDeLogout();
@@ -484,6 +484,7 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),filePath);
                 imagemPerfil.setImageBitmap(bitmap);
                 uploadImagem();
+
             }catch(IOException e){
                 e.printStackTrace();
             }

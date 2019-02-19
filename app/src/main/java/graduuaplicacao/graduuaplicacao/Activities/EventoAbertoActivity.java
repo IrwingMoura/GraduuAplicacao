@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -20,6 +22,7 @@ import graduuaplicacao.graduuaplicacao.R;
 public class EventoAbertoActivity extends AppCompatActivity {
 
     TextView nome, apresentador, categoria, data, descricao, frequencia, horaInicio, horaFim, local, txtResult;
+    ImageView imagem;
     FirebaseAnalytics analytics;
 
     @Override
@@ -32,12 +35,12 @@ public class EventoAbertoActivity extends AppCompatActivity {
         categoria = (TextView) findViewById(R.id.categoriaEventoAberto);
         data = (TextView) findViewById(R.id.dataEventoAberto);
         descricao = (TextView) findViewById(R.id.descricaoEventoAberto);
-        frequencia = (TextView) findViewById(R.id.frequenciaEventoAberto);
-        horaInicio = (TextView) findViewById(R.id.horaInicioEventoAberto);
-        horaFim = (TextView) findViewById(R.id.horaFimEventoAberto);
+//        frequencia = (TextView) findViewById(R.id.frequenciaEventoAberto);
+//        horaInicio = (TextView) findViewById(R.id.horaInicioEventoAberto);
+//        horaFim = (TextView) findViewById(R.id.horaFimEventoAberto);
         local = (TextView) findViewById(R.id.localEventoAberto);
-        txtResult = (TextView) findViewById(R.id.txtResult);
-
+//        txtResult = (TextView) findViewById(R.id.txtResult);
+        imagem = (ImageView) findViewById(R.id.imagemEventoAberto);
 
         Bundle bundle = getIntent().getExtras();
 
@@ -48,21 +51,23 @@ public class EventoAbertoActivity extends AppCompatActivity {
             String categoriaKey = bundle.getString("CATEGORIA");
             String dataKey = bundle.getString("DATA");
             String descricaoKey = bundle.getString("DESCRICAO");
-            String frequenciaKey = bundle.getString("FREQUENCIA");
-            String horaInicioKey = bundle.getString("HORAINICIO");
-            String horaFimKey = bundle.getString("HORAFIM");
+//            String frequenciaKey = bundle.getString("FREQUENCIA");
+//            String horaInicioKey = bundle.getString("HORAINICIO");
+//            String horaFimKey = bundle.getString("HORAFIM");
             String localKey = bundle.getString("LOCAL");
 
 
-            nome.setText("Nome: " + nomeKey);
-            apresentador.setText("Apresentador: " + apresentadorKey);
-            categoria.setText("Categoria: " + categoriaKey);
-            data.setText("Data: " + dataKey);
-            descricao.setText("Descrição: " + descricaoKey);
-            frequencia.setText("Frequênicia: " + frequenciaKey);
-            horaInicio.setText("Hora de Início: " + horaInicioKey);
-            horaFim.setText("Hora de Término: " + horaFimKey);
-            local.setText("Local: " + localKey);
+            nome.setText(nomeKey);
+            apresentador.setText("por " + apresentadorKey);
+            categoria.setText(categoriaKey);
+            data.setText(dataKey);
+            descricao.setText(descricaoKey);
+            local.setText(localKey);
+
+//            Glide.with(EventoAbertoActivity.this).load(R.drawable.bot).into(imagem);
+//            frequencia.setText(frequenciaKey);
+//            horaInicio.setText(horaInicioKey);
+//            horaFim.setText(horaFimKey);
 
 
 //            String linkDominio = "https://graduu.page.link/?";
