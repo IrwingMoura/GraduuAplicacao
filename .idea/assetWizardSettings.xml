@@ -34,8 +34,8 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundLayerName" value="ic_livros_background" />
-                                      <entry key="foregroundImage" value="C:\Users\Yan\Desktop\livros.jpg" />
-                                      <entry key="foregroundLayerName" value="ic_livros" />
+                                      <entry key="foregroundImage" value="C:\Users\mateus.viana\Pictures\FundoPerfil.svg" />
+                                      <entry key="foregroundLayerName" value="ic_fundo_perfil" />
                                       <entry key="outputName" value="ic_livro" />
                                     </map>
                                   </option>

@@ -56,7 +56,7 @@ public class PerfilActivity extends AppCompatActivity {
         setContentView(R.layout.activity_perfil);
 
         mNome = findViewById(R.id.txtNomePerfil);
-        mSobrenome = findViewById(R.id.txtSobrenomePerfil);
+//        mSobrenome = findViewById(R.id.txtSobrenomePerfil);
         mMatricula = findViewById(R.id.txtMatriculaPerfil);
         mDataDeNascimento = findViewById(R.id.txtDataDeNascimentoPerfil);
         mCampus = findViewById(R.id.txtCampusPerfil);
