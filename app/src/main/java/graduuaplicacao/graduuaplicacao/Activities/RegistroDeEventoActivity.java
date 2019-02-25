@@ -57,7 +57,7 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private TimePickerDialog.OnTimeSetListener mTimeSetListener;
     private TimePickerDialog.OnTimeSetListener mTimeSetListener2;
-    private Spinner spinnerLocais;
+    private Spinner spinnerLocais, spinnerSetores;
 
     private Usuario usuario;
     private Evento eventos;
@@ -79,7 +79,7 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
     String uid;
     private String urlImagem;
 
-    String localSpinner;
+    String localSpinner, setoresSpinner;
     StorageReference storageReference = FirebaseStorage.getInstance().getReference();
 
     @Override
@@ -98,9 +98,10 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
         apresentador = (TextInputEditText) findViewById(R.id.edtApresentador);
 //        frequencia = (EditText) findViewById(R.id.edtFrequencia);
 //        local = (TextInputEditText) findViewById(R.id.edtLocal);
-        setor = (TextInputEditText) findViewById(R.id.edtCategoria);
+//        setor = (TextInputEditText) findViewById(R.id.edtCategoria);
         fotoCard = (ImageView) findViewById(R.id.imgCardView);
         spinnerLocais = (Spinner) findViewById(R.id.spinnerLocais);
+        spinnerSetores = (Spinner) findViewById(R.id.spinnerSetores);
 
         titulo.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 
@@ -114,6 +115,25 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 localSpinner = parent.getItemAtPosition(position).toString();
+
+//                if(localSpinner.equals("Local")) {
+//
+//                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        ArrayAdapter<CharSequence> adapterSpinner2 = ArrayAdapter.createFromResource(this,R.array.setores, android.R.layout.simple_spinner_item);
+        adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerSetores.setAdapter(adapterSpinner2);
+        spinnerSetores.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                setoresSpinner = parent.getItemAtPosition(position).toString();
 
 //                if(localSpinner.equals("Local")) {
 //
@@ -158,7 +178,7 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
                 eventos.setApresentador(apresentador.getText().toString());
 //                eventos.setFrequencia(frequencia.getText().toString());
                 eventos.setLocal(localSpinner);
-                eventos.setCategoria(setor.getText().toString());
+                eventos.setCategoria(setoresSpinner);
                 eventos.setIdUsuarioLogado(uid);
                 eventos.setUrlFotoUsuarioCard(urlImagem);
                 eventos.setDeepLink(ConfiguracaoFirebase.generateDeepLink(titulo.getText().toString()));
@@ -183,8 +203,8 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
                     dataiptText.setError("Insira uma data");
                 }else if(TextUtils.isEmpty(horaInicio.getText())) {
                     horaInicio.setError("Insira o horário de inicio do evento");
-                }else if(TextUtils.isEmpty(setor.getText())) {
-                    setor.setError("Insira o setor do evento");
+                }else if(eventos.getCategoria().equals("Escolha um setor")) {
+                    Toast.makeText(RegistroDeEventoActivity.this, "Escolha um setor", Toast.LENGTH_SHORT).show();
                 }else if(TextUtils.isEmpty(apresentador.getText())) {
                     apresentador.setError("Insira o nome do apresentador do evento");
                 }else if(TextUtils.isEmpty(descricao.getText())) {

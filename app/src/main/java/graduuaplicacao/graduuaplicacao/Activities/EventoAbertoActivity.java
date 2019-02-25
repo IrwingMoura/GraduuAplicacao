@@ -17,6 +17,7 @@ import com.google.firebase.appinvite.FirebaseAppInvite;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 
+import graduuaplicacao.graduuaplicacao.GlideModule.GlideApp;
 import graduuaplicacao.graduuaplicacao.R;
 
 public class EventoAbertoActivity extends AppCompatActivity {
@@ -78,7 +79,23 @@ public class EventoAbertoActivity extends AppCompatActivity {
 //                Log.i("MyApp", "Deep link clicked " + uri);
 //            }
 
+            if(categoriaKey.equals("Escola de Ciências da Sáude")) {
+
+                GlideApp.with(this).load("https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80").centerCrop().into(imagem);
+
+            } else if (categoriaKey.equals("Escola de Educação, Ciência, Letras, Artes e Humanidades")) {
+
+                GlideApp.with(this).load("https://images.unsplash.com/photo-1472173148041-00294f0814a2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80").centerCrop().into(imagem);
+            } else if (categoriaKey.equals("Escola de Ciência e Tecnologia")) {
+
+                GlideApp.with(this).load("https://images.unsplash.com/photo-1504164996022-09080787b6b3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80").centerCrop().into(imagem);
+            } else if (categoriaKey.equals("Escola de Ciências Sociais e Aplicadas")) {
+
+                GlideApp.with(this).load("https://images.unsplash.com/photo-1496389361897-383a9afa9afd?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1397&q=80").centerCrop().into(imagem);
+            }
         }
+
+
 
         FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent()).addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
             @Override

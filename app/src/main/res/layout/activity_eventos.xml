@@ -28,7 +28,6 @@
             app:contentScrim="@color/colorAccent"
             app:expandedTitleMarginStart="48dp"
             app:expandedTitleMarginEnd="64dp"
-
             >
 
             <android.support.constraint.ConstraintLayout

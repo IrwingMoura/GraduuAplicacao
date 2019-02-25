@@ -14,6 +14,7 @@ import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.appinvite.AppInviteInvitation;
@@ -73,6 +74,7 @@ public class NossoAdapter extends RecyclerView.Adapter{
         final CheckBox btnLike;
         final Button btnShare;
         final CircleImageView imagemPerfilCard;
+        final ImageView fundoImagemCardView;
 
         public NossoViewHolder(View view) {
             super(view);
@@ -82,6 +84,7 @@ public class NossoAdapter extends RecyclerView.Adapter{
             txtViewData = (TextView) view.findViewById(R.id.txtViewData);
             btnLike = (CheckBox) view.findViewById(R.id.likeIcon);
             btnShare = (Button) view.findViewById(R.id.btnShare);
+            fundoImagemCardView = (ImageView) view.findViewById(R.id.fundoImagemCardView);
 
             likesRef = FirebaseDatabase.getInstance().getReference().child("Likes");
             eventosCriados = FirebaseDatabase.getInstance().getReference().child("eventosCriados");
@@ -190,6 +193,25 @@ public class NossoAdapter extends RecyclerView.Adapter{
             GlideApp.with(context).load(url).centerCrop().into(holder.imagemPerfilCard);
         }
 
+            String imagemECT, imagemECS, imagemECELAH, imagemECSA;
+
+        imagemECELAH = "https://images.unsplash.com/photo-1472173148041-00294f0814a2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80";
+        imagemECT = "https://images.unsplash.com/photo-1504164996022-09080787b6b3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80";
+        imagemECSA = "https://images.unsplash.com/photo-1496389361897-383a9afa9afd?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1397&q=80";
+        imagemECS = "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80";
+
+
+        GlideApp.with(context).load("https://images.unsplash.com/photo-1548674466-546e78763edf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80").into(holder.fundoImagemCardView);
+
+        if(evento.getCategoria().equals("Escola de Ciências da Sáude")) {
+            GlideApp.with(context).load(imagemECS).into(holder.fundoImagemCardView);
+        }else if(evento.getCategoria().equals("Escola de Educação, Ciência, Letras, Artes e Humanidades")) {
+            GlideApp.with(context).load(imagemECELAH).into(holder.fundoImagemCardView);
+        }else if(evento.getCategoria().equals("Escola de Ciência e Tecnologia")) {
+            GlideApp.with(context).load(imagemECT).into(holder.fundoImagemCardView);
+        }else if(evento.getCategoria().equals("Escola de Ciências Sociais e Aplicadas")) {
+            GlideApp.with(context).load(imagemECSA).into(holder.fundoImagemCardView);
+        }
 
 
     }

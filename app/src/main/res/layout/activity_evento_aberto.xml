@@ -1,145 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".Activities.EventoAbertoActivity">
 
-    <ImageView
-        android:id="@+id/imagemEventoAberto"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="146dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/nomeEventoAberto"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
-        android:layout_marginLeft="44dp"
-        android:layout_marginTop="28dp"
-        android:fontFamily="@font/roboto_medium"
-        android:text="Titulo do Evento"
-        android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imagemEventoAberto" />
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:fitsSystemWindows="true"
+        >
 
-    <TextView
-        android:id="@+id/apresentadorEventoAberto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/roboto_medium"
-        android:text="por Apresentador"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/nomeEventoAberto"
-        app:layout_constraintTop_toBottomOf="@+id/nomeEventoAberto" />
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            app:layout_scrollFlags="scroll|snap"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleTextAppearance="@android:color/transparent"
+            android:fitsSystemWindows="true"
+            >
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/dataEventoAberto"
-        app:srcCompat="@drawable/ic_calendar" />
+            <ImageView
+                android:id="@+id/imagemEventoAberto"
+                app:layout_collapseMode="parallax"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerCrop"
+                android:layout_width="match_parent"
+                android:layout_height="350dp" />
 
-    <TextView
-        android:id="@+id/dataEventoAberto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="28dp"
-        android:fontFamily="@font/roboto_medium"
-        android:text="Data do Evento"
-        android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
-        app:layout_constraintTop_toBottomOf="@+id/apresentadorEventoAberto" />
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                android:title="TESTANDO"
+                app:layout_collapseMode="parallax"
+                />
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/localEventoAberto"
-        app:srcCompat="@drawable/ic_place_black_24dp" />
+        </android.support.design.widget.CollapsingToolbarLayout>
 
-    <TextView
-        android:id="@+id/localEventoAberto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/roboto_medium"
-        android:text="Local"
-        android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/imageView5"
-        app:layout_constraintTop_toBottomOf="@+id/dataEventoAberto" />
 
-    <TextView
-        android:id="@+id/descricaoEventoAberto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/roboto_medium"
-        android:text="Sobre"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/categoriaEventoAberto"
-        app:layout_constraintTop_toBottomOf="@+id/categoriaEventoAberto" />
 
-    <Button
-        android:id="@+id/button2"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="356dp"
-        android:layout_height="57dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Gerar Qr Code"
-        android:textAppearance="@android:style/TextAppearance.Material.Widget.Button.Colored"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="NewApi" />
+    </android.support.design.widget.AppBarLayout>
 
-    <ImageView
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        app:srcCompat="@drawable/ic_setor"
-        app:layout_constraintEnd_toStartOf="@+id/categoriaEventoAberto"
-        app:layout_constraintTop_toTopOf="@+id/categoriaEventoAberto" />
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
 
-    <ImageView
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/descricaoEventoAberto"
-        app:layout_constraintTop_toTopOf="@+id/descricaoEventoAberto"
-        app:srcCompat="@drawable/ic_sobre" />
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardElevation="5dp"
+            app:cardUseCompatPadding="true"
 
-    <TextView
-        android:id="@+id/categoriaEventoAberto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/roboto_medium"
-        android:text="Setor"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/localEventoAberto"
-        app:layout_constraintTop_toBottomOf="@+id/localEventoAberto" />
-</android.support.constraint.ConstraintLayout>
+            >
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:id="@+id/nomeEventoAberto"
+                    android:padding="12dp"
+                    android:textSize="20sp"
+                    android:layout_marginTop="12dp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/apresentadorEventoAberto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Apresentador"
+                    android:padding="12dp"/>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:padding="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:contentDescription="@string/app_name"
+                        app:srcCompat="@drawable/ic_calendar"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/dataEventoAberto"
+                        android:layout_gravity="center_vertical"
+                        android:padding="12dp"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:text="Data"
+                        android:layout_width="0dp"
+                        android:layout_weight="9"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:padding="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:contentDescription="@string/app_name"
+                        app:srcCompat="@drawable/ic_place_black_24dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/localEventoAberto"
+                        android:layout_gravity="center_vertical"
+                        android:padding="12dp"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:text="Local"
+                        android:layout_width="0dp"
+                        android:layout_weight="9"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:padding="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:contentDescription="@string/app_name"
+                        app:srcCompat="@drawable/ic_setor"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/categoriaEventoAberto"
+                        android:layout_gravity="center_vertical"
+                        android:padding="12dp"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:text="Setor"
+                        android:layout_width="0dp"
+                        android:layout_weight="9"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:padding="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:contentDescription="@string/app_name"
+                        app:srcCompat="@drawable/ic_sobre"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/descricaoEventoAberto"
+                        android:layout_gravity="center_vertical"
+                        android:padding="12dp"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:text="Sobre"
+                        android:layout_width="0dp"
+                        android:layout_weight="9"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <!--<TextView
+                    android:padding="12dp"
+                    android:textSize="13sp"
+                    android:lineSpacingMultiplier="1.5"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/in_news"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />-->
+            </LinearLayout>
+
+
+
+        </android.support.v7.widget.CardView>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

@@ -73,6 +73,14 @@
         <item>Duque de Caxias</item>
     </string-array>
 
+    <string-array name="setores">
+        <item>Escolha um setor</item>
+        <item>Escola de Ciências da Sáude</item>
+        <item>Escola de Educação, Ciência, Letras, Artes e Humanidades</item>
+        <item>Escola de Ciência e Tecnologia</item>
+        <item>Escola de Ciências Sociais e Aplicadas</item>
+    </string-array>
+
 
 
     <string-array name="multi_select_list_preference_default_value" />

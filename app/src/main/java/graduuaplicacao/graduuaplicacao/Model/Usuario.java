@@ -9,17 +9,19 @@ public class Usuario {
     private String campus;
     private String dataDeNascimento;
     private String imagemPerfil;
+    private String curso;
 
     public Usuario() {
     }
 
-    public Usuario(String email, String senha, String nome, String matricula, String campus, String dataDeNascimento, String imagemPerfil) {
+    public Usuario(String email, String senha, String nome, String matricula, String campus, String dataDeNascimento, String imagemPerfil, String curso) {
         this.email = email;
         this.senha = senha;
         this.nome = nome;
         this.matricula = matricula;
         this.campus = campus;
         this.dataDeNascimento = dataDeNascimento;
+        this.curso = curso;
     }
 
 
@@ -77,5 +79,13 @@ public class Usuario {
 
     public void setImagemPerfil(String imagemPerfil) {
         this.imagemPerfil = imagemPerfil;
+    }
+
+    public String getCurso() {
+        return curso;
+    }
+
+    public void setCurso(String curso) {
+        this.curso = curso;
     }
 }

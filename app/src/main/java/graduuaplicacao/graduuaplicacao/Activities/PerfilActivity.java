@@ -26,6 +26,7 @@ import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import graduuaplicacao.graduuaplicacao.GlideModule.GlideApp;
 import graduuaplicacao.graduuaplicacao.Model.Usuario;
 import graduuaplicacao.graduuaplicacao.R;
 
@@ -40,6 +41,7 @@ public class PerfilActivity extends AppCompatActivity {
     private TextView mCampus;
     private TextView mEmail;
     private ImageView mImagePerfil;
+    private TextView mCurso;
 
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
@@ -53,9 +55,10 @@ public class PerfilActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_perfil);
+        setContentView(R.layout.activity_perfil2);
 
         mNome = findViewById(R.id.txtNomePerfil);
+        mCurso = findViewById(R.id.curso);
 //        mSobrenome = findViewById(R.id.txtSobrenomePerfil);
         mMatricula = findViewById(R.id.txtMatriculaPerfil);
         mDataDeNascimento = findViewById(R.id.txtDataDeNascimentoPerfil);
@@ -91,7 +94,7 @@ public class PerfilActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Uri uri) {
                 System.out.println(uri);
-                Glide.with(PerfilActivity.this).load(uri).into(mImagePerfil);
+                GlideApp.with(PerfilActivity.this).load(uri).centerCrop().into(mImagePerfil);
             }
         });
 
@@ -119,6 +122,7 @@ public class PerfilActivity extends AppCompatActivity {
             usuario.setDataDeNascimento(dataSnapshot.child("dataDeNascimento").getValue().toString());
             usuario.setCampus(dataSnapshot.child("campus").getValue().toString());
 //            usuario.setImagemPerfil(dataSnapshot.child("imagemPerfil").getValue().toString());
+            usuario.setCurso(dataSnapshot.child("curso").getValue().toString());
 
 
             mNome.setText(usuario.getNome());
@@ -126,6 +130,7 @@ public class PerfilActivity extends AppCompatActivity {
             mEmail.setText(usuario.getEmail());
             mDataDeNascimento.setText(usuario.getDataDeNascimento());
             mCampus.setText(usuario.getCampus());
+            mCurso.setText(usuario.getCurso());
 
 //            Picasso.get()
 //                    .load(usuario.getImagemPerfil())

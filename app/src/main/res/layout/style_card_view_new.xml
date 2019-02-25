@@ -28,6 +28,12 @@
             app:layout_constraintEnd_toStartOf="@+id/likeIcon"
             app:layout_constraintTop_toTopOf="@+id/likeIcon" />
 
+        <ImageView
+            android:id="@+id/fundoImagemCardView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>
+
         <CheckBox
             android:id="@+id/likeIcon"
             android:layout_width="24dp"

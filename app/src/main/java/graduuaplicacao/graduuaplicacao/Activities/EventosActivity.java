@@ -376,7 +376,7 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
                         Usuario usuario = data.getValue(Usuario.class);
                         nomeUsuarioLogado.setText(usuario.getNome());
                         String matricula = usuario.getMatricula().toString();
-                        if (matricula.equals("202020")) {            //DESABILITANDO O BOTAO  --- CONSIDERANDO A MATRICULA COMO NAO PERMITIDA
+                        if (matricula.equals("5404451")) {            //DESABILITANDO O BOTAO  --- CONSIDERANDO A MATRICULA COMO NAO PERMITIDA
 //                                btnCriarEventoPaginaInicial.setEnabled(false);
                             btnCriarEventoPaginaInicial.setVisibility(View.GONE); // TODO: 15/12/2018 TORNAR O BOTAO VISIVEL SOMENTE PARA QUEM TEM PERMISSÃO
                         }

@@ -8,21 +8,49 @@
     tools:context=".Activities.PerfilActivity">
 
 
+    <View
+        android:id="@+id/view4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:background="#E5E5E5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtMatriculaPerfil" />
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:background="#E5E5E5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtEmailPerfil" />
+
     <ImageView
         android:id="@+id/imageView6"
         android:layout_width="0dp"
-        android:layout_height="254dp"
+        android:layout_height="0dp"
         android:alpha="1.0"
         android:background="@color/corBotaoCadastro"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imagemPerfilTelaPerfil"
-        android:layout_width="136dp"
-        android:layout_height="123dp"
+        android:layout_width="200dp"
+        android:layout_height="162dp"
         android:layout_marginBottom="50dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView6"
         app:layout_constraintEnd_toEndOf="@+id/imageView6"
@@ -32,14 +60,29 @@
 
     <TextView
         android:id="@+id/txtNomePerfil"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="331dp"
+        android:layout_height="47dp"
         android:layout_marginTop="8dp"
+        android:fontFamily="@font/roboto_bold"
+        android:gravity="center"
         android:text=""
-        android:textSize="24sp"
+        android:textColor="@color/white"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="@+id/imagemPerfilTelaPerfil"
         app:layout_constraintStart_toStartOf="@+id/imagemPerfilTelaPerfil"
         app:layout_constraintTop_toBottomOf="@+id/imagemPerfilTelaPerfil" />
+
+    <TextView
+        android:id="@+id/curso"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_medium"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/txtNomePerfil"
+        app:layout_constraintStart_toStartOf="@+id/txtNomePerfil"
+        app:layout_constraintTop_toBottomOf="@+id/txtNomePerfil" />
 
     <TextView
         android:id="@+id/txtMatriculaPerfil"
@@ -55,6 +98,32 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:background="#E5E5E5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtCampusPerfil" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:background="#E5E5E5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtDataDeNascimentoPerfil" />
 
     <TextView
         android:id="@+id/txtEmailPerfil"
@@ -96,13 +165,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.35" />
+        app:layout_constraintGuide_percent="0.5" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="18dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="220dp"
         android:layout_marginRight="220dp"
         android:fontFamily="@font/roboto_bold"
@@ -128,7 +197,7 @@
         app:layout_constraintEnd_toEndOf="@+id/txtEmailPerfil"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/txtEmailPerfil"
-        app:layout_constraintTop_toBottomOf="@+id/txtMatriculaPerfil" />
+        app:layout_constraintTop_toBottomOf="@+id/view4" />
 
     <TextView
         android:id="@+id/textView6"
@@ -144,7 +213,7 @@
         app:layout_constraintEnd_toEndOf="@+id/txtDataDeNascimentoPerfil"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/txtDataDeNascimentoPerfil"
-        app:layout_constraintTop_toBottomOf="@+id/txtEmailPerfil" />
+        app:layout_constraintTop_toBottomOf="@+id/view3" />
 
     <TextView
         android:id="@+id/textView7"
@@ -160,7 +229,7 @@
         app:layout_constraintEnd_toEndOf="@+id/txtCampusPerfil"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/txtCampusPerfil"
-        app:layout_constraintTop_toBottomOf="@+id/txtDataDeNascimentoPerfil" />
+        app:layout_constraintTop_toBottomOf="@+id/view" />
 
 
 </android.support.constraint.ConstraintLayout>

@@ -93,34 +93,34 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
 
         editTextemail = (EditText)  findViewById(R.id.edtEmailCadastro);
         editTextsenha = (EditText) findViewById(R.id.edtSenhaCadastro);
-        editTextNomeCompleto = (EditText) findViewById(R.id.edtNomeCompleto);
+//        editTextNomeCompleto = (EditText) findViewById(R.id.edtNomeCompleto);
         editTextMatricula = (EditText) findViewById(R.id.edtMatriculaCadastro);
-        editTextCampus = (Spinner) findViewById(R.id.edtCampus);
-        editTextDataDeNascimento = (EditText) findViewById(R.id.edtDataDeNascimento);
+//        editTextCampus = (Spinner) findViewById(R.id.edtCampus);
+//        editTextDataDeNascimento = (EditText) findViewById(R.id.edtDataDeNascimento);
 //        editTextSobrenome = (EditText) findViewById(R.id.edtSobrenomeCadastro);
-//        progressBar = (ProgressBar) findViewById(R.id.progressbar);
+        progressBar = (ProgressBar) findViewById(R.id.progressbar);
         botaoCadastrar = (Button) findViewById(R.id.botaoCadastrar);
 
 
 
-        ArrayAdapter<CharSequence> adapterSpinner = ArrayAdapter.createFromResource(this,R.array.campus, android.R.layout.simple_spinner_item);
-        adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        editTextCampus.setAdapter(adapterSpinner);
-        editTextCampus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                campusSpinner = parent.getItemAtPosition(position).toString();
-
-//                if(localSpinner.equals("Local")) {
+//        ArrayAdapter<CharSequence> adapterSpinner = ArrayAdapter.createFromResource(this,R.array.campus, android.R.layout.simple_spinner_item);
+//        adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        editTextCampus.setAdapter(adapterSpinner);
+//        editTextCampus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                campusSpinner = parent.getItemAtPosition(position).toString();
 //
-//                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+////                if(localSpinner.equals("Local")) {
+////
+////                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
 
         mAuth = FirebaseAuth.getInstance();
         mStorageReference = FirebaseStorage.getInstance().getReference();
@@ -129,7 +129,7 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
 //        findViewById(R.id.edtJaPossuiLogin).setOnClickListener(this);
         findViewById(R.id.botaoCadastrar).setOnClickListener(this);
 
-        formatarInputs();
+//        formatarInputs();
     }
 
     private void formatarInputs(){
@@ -149,18 +149,14 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
 
         final String email = editTextemail.getText().toString().trim();
         final String senha = editTextsenha.getText().toString().trim();
-        final String nome = editTextNomeCompleto.getText().toString().trim();
-//        final String sobrenome = editTextSobrenome.getText().toString().trim();
+//        final String nome = editTextNomeCompleto.getText().toString().trim();
         final String matricula = editTextMatricula.getText().toString().trim();
-        final String campusSpinner = editTextCampus.getSelectedItem().toString().trim();
-        final String dataDeNascimento = editTextDataDeNascimento.getText().toString().trim();
+//        final String campusSpinner = editTextCampus.getSelectedItem().toString().trim();
+//        final String dataDeNascimento = editTextDataDeNascimento.getText().toString().trim();
 //
-        Validador validador = new Validador();
-        boolean opt = validador.validarData(dataDeNascimento);
+//        Validador validador = new Validador();
+//        boolean opt = validador.validarData(dataDeNascimento);
 
-        if (opt == false) {
-            Toast.makeText(CadastroActivity.this, "Digite uma data válida!", Toast.LENGTH_LONG).show();
-        }else {
 
             if (email.isEmpty()) {
                 editTextemail.setError("Email necessario");
@@ -187,11 +183,11 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
                 return;
             }
 
-            if (nome.isEmpty()) {
-                editTextNomeCompleto.setError("Nome necessario");
-                editTextNomeCompleto.requestFocus();
-                return;
-            }
+//            if (nome.isEmpty()) {
+//                editTextNomeCompleto.setError("Nome necessario");
+//                editTextNomeCompleto.requestFocus();
+//                return;
+//            }
 
             if (matricula.isEmpty()) {
                 editTextMatricula.setError("Matricula necessaria");
@@ -211,11 +207,12 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
                                 Usuario usuario = new Usuario(
                                         email,
                                         senha,
-                                        nome,
+                                        "Teste",
                                         matricula,
-                                        campusSpinner,
-                                        dataDeNascimento,
-                                        ""  //TODO: SETAR IMAGEM QUE SERÁ PEGA DO FIREBASE STORAGE (VER NO VIDEO DO HINDU AOS 7:57min) // VER ALGUM MODO DE PEGAR A URL DA IMAGEM NO FIREBASE STORAGE
+                                        "Duque de Caxias",
+                                        "dd/MM/yyyy",
+                                        "",
+                                        "Curso"
                                 );
 
                                 FirebaseDatabase.getInstance().getReference("Usuarios")
@@ -246,7 +243,7 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
                             }
                         }
                     });
-        }
+
     }
 
 
@@ -256,10 +253,6 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
             case R.id.botaoCadastrar:
                 registerUser();
                 break;
-
-//            case R.id.edtJaPossuiLogin:
-//                startActivity(new Intent(this, LoginActivity.class));
-//                break;
         }
     }
 
