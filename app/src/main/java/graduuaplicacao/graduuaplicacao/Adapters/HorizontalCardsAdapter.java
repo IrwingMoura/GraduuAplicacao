@@ -42,7 +42,7 @@ public class HorizontalCardsAdapter extends RecyclerView.Adapter<HorizontalCards
         public ViewHolder(View itemView) {
             super(itemView);
 
-            imagemPerfil = itemView.findViewById(R.id.imgPerfilCardLike);
+            /*imagemPerfil = itemView.findViewById(R.id.imgPerfilCardLike);*/
             like = itemView.findViewById(R.id.likeCardLike);
             titulo = itemView.findViewById(R.id.txtTituloCardLike);
             data = itemView.findViewById(R.id.txtDataCardLike);

@@ -50,7 +50,7 @@ public class NossoAdapter extends RecyclerView.Adapter{
     private Context context;
     private ClickListener clickListener;
     private FirebaseAnalytics analytics;
-    private DatabaseReference likesRef, eventosCriados;
+    private DatabaseReference likesRef, likesCheckRef;
     private boolean checker = false;
 
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -87,8 +87,6 @@ public class NossoAdapter extends RecyclerView.Adapter{
             fundoImagemCardView = (ImageView) view.findViewById(R.id.fundoImagemCardView);
 
             likesRef = FirebaseDatabase.getInstance().getReference().child("Likes");
-            eventosCriados = FirebaseDatabase.getInstance().getReference().child("eventosCriados");
-
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -165,6 +163,23 @@ public class NossoAdapter extends RecyclerView.Adapter{
             }
         });
 
+        likesCheckRef = FirebaseDatabase.getInstance().getReference().child("Likes").child(userID);
+
+        likesCheckRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.hasChild(evento.getNome())) {
+                    holder.btnLike.setChecked(true);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
 
         holder.btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -192,6 +207,8 @@ public class NossoAdapter extends RecyclerView.Adapter{
         } else {
             GlideApp.with(context).load(url).centerCrop().into(holder.imagemPerfilCard);
         }
+
+
 
             String imagemECT, imagemECS, imagemECELAH, imagemECSA;
 

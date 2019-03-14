@@ -43,7 +43,6 @@
             android:layout_marginRight="24dp"
             android:background="@drawable/like_icon"
             android:button="@null"
-            android:checked="false"
             android:clickable="true"
             android:focusable="false"
             android:stateListAnimator="@animator/scale"

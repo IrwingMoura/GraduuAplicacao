@@ -7,5 +7,11 @@
         <item name="colorPrimaryDark">#1a9e8c</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    
+    <style name="CustomToolbarStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:background">@color/colorAccent</item>
+
+
+    </style>
 
 </resources>

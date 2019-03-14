@@ -64,8 +64,8 @@
     <string-array name="locais">
         <item>Escolha um local</item>
         <item>Auditório</item>
-        <item>Sala Cinema I</item>
-        <item>Sala Cinema II</item>
+        <item>Cinema I</item>
+        <item>Cinema II</item>
     </string-array>
 
     <string-array name="campus">
