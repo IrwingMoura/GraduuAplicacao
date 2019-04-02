@@ -15,6 +15,7 @@ public class Evento {
     private String categoria;
     private Boolean curtiu;
     private String urlFotoUsuarioCard;
+    private Integer codCategoria;
 
 
     private String idUsuarioLogado;
@@ -25,7 +26,7 @@ public class Evento {
     private long numShares;
 
 
-    public Evento(String nome, String horaInicio, String horaFim, String data, String descricao, String apresentador, String frequencia, String local, String categoria, String idUsuarioLogado, boolean isChecked, String deepLink, long numShares, Boolean curti, String urlFotoUsuarioCard) {
+    public Evento(String nome, String horaInicio, String horaFim, String data, String descricao, String apresentador, String frequencia, String local, String categoria, String idUsuarioLogado, boolean isChecked, String deepLink, long numShares, Boolean curti, String urlFotoUsuarioCard, Integer codCategoria) {
         this.nome = nome;
         this.horaInicio = horaInicio;
         this.horaFim = horaFim;
@@ -41,6 +42,7 @@ public class Evento {
         this.numShares = numShares;
         this.curtiu = curtiu;
         this.urlFotoUsuarioCard = urlFotoUsuarioCard;
+        this.codCategoria = codCategoria;
 
     }
 
@@ -166,4 +168,13 @@ public class Evento {
     public void setUrlFotoUsuarioCard(String urlFotoUsuarioCard) {
         this.urlFotoUsuarioCard = urlFotoUsuarioCard;
     }
+
+    public Integer getCodCategoria() {
+        return codCategoria;
+    }
+
+    public void setCodCategoria(Integer codCategoria) {
+        this.codCategoria = codCategoria;
+    }
+
 }

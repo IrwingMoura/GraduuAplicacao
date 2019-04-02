@@ -2,6 +2,7 @@ package graduuaplicacao.graduuaplicacao.Activities;
 
 import android.app.Application;
 import android.content.Intent;
+import android.os.Handler;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -12,10 +13,21 @@ public class Home extends Application {
         super.onCreate();
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-        if(firebaseUser != null) {
-            startActivity(new Intent(Home.this, EventosActivity.class));
-        }
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(firebaseUser != null) {
+                    Intent intentAbrirTelaEventos = new Intent(Home.this, EventosActivity.class);
+                    startActivity(intentAbrirTelaEventos);
+                }else {
+
+                }
+            }
+        }, 5000);
+
+
     }
 }

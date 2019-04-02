@@ -42,7 +42,7 @@ import graduuaplicacao.graduuaplicacao.GlideModule.GlideApp;
 import graduuaplicacao.graduuaplicacao.Model.Evento;
 import graduuaplicacao.graduuaplicacao.R;
 
-public class NossoAdapter extends RecyclerView.Adapter{
+public class VerticalCardsAdapter extends RecyclerView.Adapter{
 
     private final String TAG = getClass().getName();
 
@@ -61,7 +61,7 @@ public class NossoAdapter extends RecyclerView.Adapter{
 
     StorageReference storageReference = FirebaseStorage.getInstance().getReference();
 
-    public NossoAdapter(List<Evento> eventos, Context context) {
+    public VerticalCardsAdapter(List<Evento> eventos, Context context) {
         this.eventos = eventos;
         this.context = context;
     }
@@ -76,6 +76,7 @@ public class NossoAdapter extends RecyclerView.Adapter{
         final CircleImageView imagemPerfilCard;
         final ImageView fundoImagemCardView;
 
+
         public NossoViewHolder(View view) {
             super(view);
             imagemPerfilCard = (CircleImageView) view.findViewById(R.id.imagemPerfilCard);
@@ -85,6 +86,7 @@ public class NossoAdapter extends RecyclerView.Adapter{
             btnLike = (CheckBox) view.findViewById(R.id.likeIcon);
             btnShare = (Button) view.findViewById(R.id.btnShare);
             fundoImagemCardView = (ImageView) view.findViewById(R.id.fundoImagemCardView);
+
 
             likesRef = FirebaseDatabase.getInstance().getReference().child("Likes");
 
@@ -233,42 +235,7 @@ public class NossoAdapter extends RecyclerView.Adapter{
 
     }
 
-//    private void onClickBotaoLike(final NossoViewHolder holder) {
-//        holder.btnLike.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
-//                int getPosition = (Integer) buttonView.getTag();
-//                holder.btnLike.setChecked(buttonView.isChecked());
-//                eventos.get(getPosition).setChecked(buttonView.isChecked());
-//                checker = true;
-//                likesRef.addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                        if(checker) {
-//                            if(dataSnapshot.child("eventosCriados").hasChild(userID)) {
-//
-//                                likesRef.child("eventosCriados").child(userID).removeValue();
-//                                checker = false;
-//
-//                            }
-//                        }else {
-//
-//                            likesRef.child("eventosCriados").child(userID).setValue(true);
-//                            checker = false;
-//
-//                        }
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                    }
-//                });
-//
-//            }
-//        });
-//    }
+
 
     private void onInviteClicked(int position) {
         Intent intent = new AppInviteInvitation.IntentBuilder("aaaa")

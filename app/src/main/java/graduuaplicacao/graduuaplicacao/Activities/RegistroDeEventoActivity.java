@@ -2,6 +2,7 @@ package graduuaplicacao.graduuaplicacao.Activities;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -41,6 +43,7 @@ import graduuaplicacao.graduuaplicacao.DAO.ConfiguracaoFirebase;
 import graduuaplicacao.graduuaplicacao.Model.Evento;
 import graduuaplicacao.graduuaplicacao.Model.Usuario;
 import graduuaplicacao.graduuaplicacao.R;
+
 
 public class RegistroDeEventoActivity extends AppCompatActivity {
 
@@ -78,9 +81,12 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
     FirebaseUser firebaseUser;
     String uid;
     private String urlImagem;
+    private Integer codCategoria;
 
     String localSpinner, setoresSpinner;
     StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+
+    /*APIService mService;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +95,9 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_registro_de_evento2);
 
+
+        /*Common.currentToken = FirebaseInstanceId.getInstance().getToken();
+        mService = Common.getFCMCLient();*/
 
         titulo = (TextInputEditText) findViewById(R.id.edtTitulo);
         horaInicio = (TextInputEditText) findViewById(R.id.edtHoraInicio);
@@ -127,6 +136,8 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
             }
         });
 
+
+
         ArrayAdapter<CharSequence> adapterSpinner2 = ArrayAdapter.createFromResource(this,R.array.setores, android.R.layout.simple_spinner_item);
         adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerSetores.setAdapter(adapterSpinner2);
@@ -135,9 +146,15 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 setoresSpinner = parent.getItemAtPosition(position).toString();
 
-//                if(localSpinner.equals("Local")) {
-//
-//                }
+                if(setoresSpinner.equals("Escola de Ciências da Sáude")) {
+                    codCategoria = 1;
+                }else if(setoresSpinner.equals("Escola de Educação, Ciência, Letras, Artes e Humanidades")) {
+                    codCategoria = 2;
+                }else if(setoresSpinner.equals("Escola de Ciência e Tecnologia")) {
+                    codCategoria = 3;
+                }else if(setoresSpinner.equals("Escola de Ciências Sociais e Aplicadas")) {
+                    codCategoria = 4;
+                }
             }
 
             @Override
@@ -183,6 +200,7 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
                 eventos.setUrlFotoUsuarioCard(urlImagem);
                 eventos.setDeepLink(ConfiguracaoFirebase.generateDeepLink(titulo.getText().toString()));
                 eventos.setNumShares(0);
+                eventos.setCodCategoria(codCategoria);
 
 //                Validador validador = new Validador();
 //                boolean opt = validador.validarData(eventos.getData());
@@ -215,6 +233,27 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
 
                     salvarEventos(eventos);
                     listarEventos();
+
+                    /*Notification notification = new Notification("TITULO", "CORPO");
+                    Sender sender = new Sender(Common.currentToken,notification);
+
+
+                    mService.sendNotification(sender)
+                            .enqueue(new Callback<MyResponse>() {
+                                @Override
+                                public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
+                                    if(response.body().succcess == 1){
+                                        Toast.makeText(RegistroDeEventoActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        Toast.makeText(RegistroDeEventoActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<MyResponse> call, Throwable t) {
+                                    Log.e("ERROR", t.getMessage());
+                                }
+                            });*/
                     }
                 }
         });
@@ -331,10 +370,10 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
 
     private boolean salvarEventos(Evento eventos) {
         try {
-            firebase = ConfiguracaoFirebase.getFirebase().child("Usuarios").child(uid).child("eventosCriados ");
+            firebase = ConfiguracaoFirebase.getFirebase().child("eventosPorCategoria");
             firebase2 = ConfiguracaoFirebase.getFirebase().child("eventosCriados");
 //            firebase = ConfiguracaoFirebase.getFirebase().child("eventosCriados");
-            firebase.child(eventos.getNome()).setValue(eventos);
+            firebase.child(eventos.getCodCategoria().toString()).child(eventos.getNome()).setValue(eventos);
             firebase2.child(eventos.getNome()).setValue(eventos);
             Toast.makeText(RegistroDeEventoActivity.this, "Evento criado com sucesso!", Toast.LENGTH_LONG).show();
 

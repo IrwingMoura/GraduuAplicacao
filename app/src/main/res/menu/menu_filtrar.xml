@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/menuFiltrar"
+        android:title="Menu"
+        android:icon="@drawable/ic_mais_config">
+
+        <item
+            android:id="@+id/porSetor"
+            android:title="Setores"
+            app:showAsAction="never" >
+
+            <menu>
+
+                <item
+                    android:id="@+id/categoria1"
+                    android:title="ECS"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/categoria2"
+                    android:title="ECELAH"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/categoria3"
+                    android:title="ECT"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/categoria4"
+                    android:title="ECSA"
+                    app:showAsAction="never" />
+
+            </menu>
+
+        </item>
+
+        <item
+            android:id="@+id/porData"
+            android:title="Mais Recentes"
+            app:showAsAction="never" />
+    </item>
+</menu>

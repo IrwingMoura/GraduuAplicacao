@@ -51,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
                     Intent intentAbrirTelaLogin = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intentAbrirTelaLogin);
                     finish();
+                }else {
+                    Intent intentAbrirTelaLogin = new Intent(MainActivity.this, EventosActivity.class);
+                    startActivity(intentAbrirTelaLogin);
+                    finish();
                 }
             }
         }, 5000);

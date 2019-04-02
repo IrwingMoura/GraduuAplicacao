@@ -158,44 +158,9 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
 //        boolean opt = validador.validarData(dataDeNascimento);
 
 
-            if (email.isEmpty()) {
-                editTextemail.setError("Email necessario");
-                editTextemail.requestFocus();
-                return;
-            }
+        if (verificacoes(email, senha, matricula)) return;
 
-            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                editTextemail.setError("Digite um email válido");
-                editTextemail.requestFocus();
-                return;
-
-            }
-
-            if (senha.length() < 6) {
-                editTextsenha.setError("Sua senha deve possuir pelo menos 6 caracteres");
-                editTextsenha.requestFocus();
-                return;
-            }
-
-            if (senha.isEmpty()) {
-                editTextsenha.setError("Senha necessaria");
-                editTextsenha.requestFocus();
-                return;
-            }
-
-//            if (nome.isEmpty()) {
-//                editTextNomeCompleto.setError("Nome necessario");
-//                editTextNomeCompleto.requestFocus();
-//                return;
-//            }
-
-            if (matricula.isEmpty()) {
-                editTextMatricula.setError("Matricula necessaria");
-                editTextMatricula.requestFocus();
-                return;
-            }
-
-            progressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
 
             mAuth.createUserWithEmailAndPassword(email, senha).
                     addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -244,6 +209,46 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
                         }
                     });
 
+    }
+
+    private boolean verificacoes(String email, String senha, String matricula) {
+        if (email.isEmpty()) {
+            editTextemail.setError("Email necessario");
+            editTextemail.requestFocus();
+            return true;
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            editTextemail.setError("Digite um email válido");
+            editTextemail.requestFocus();
+            return true;
+
+        }
+
+        if (senha.length() < 6) {
+            editTextsenha.setError("Sua senha deve possuir pelo menos 6 caracteres");
+            editTextsenha.requestFocus();
+            return true;
+        }
+
+        if (senha.isEmpty()) {
+            editTextsenha.setError("Senha necessaria");
+            editTextsenha.requestFocus();
+            return true;
+        }
+
+//            if (nome.isEmpty()) {
+//                editTextNomeCompleto.setError("Nome necessario");
+//                editTextNomeCompleto.requestFocus();
+//                return;
+//            }
+
+        if (matricula.isEmpty()) {
+            editTextMatricula.setError("Matricula necessaria");
+            editTextMatricula.requestFocus();
+            return true;
+        }
+        return false;
     }
 
 

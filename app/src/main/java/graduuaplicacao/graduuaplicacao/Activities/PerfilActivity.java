@@ -1,6 +1,7 @@
 package graduuaplicacao.graduuaplicacao.Activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -154,5 +155,12 @@ public class PerfilActivity extends AppCompatActivity {
 
     private void toastMessage(String message) {
         Toast.makeText(this, message,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, EventosActivity.class);
+        startActivity(intent);
     }
 }

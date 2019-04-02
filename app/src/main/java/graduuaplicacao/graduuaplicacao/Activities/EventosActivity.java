@@ -3,6 +3,7 @@ package graduuaplicacao.graduuaplicacao.Activities;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
@@ -22,6 +23,7 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.PopupMenu;
@@ -49,18 +51,25 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import graduuaplicacao.graduuaplicacao.Adapters.HorizontalCardsAdapter;
-import graduuaplicacao.graduuaplicacao.Adapters.NossoAdapter;
+import graduuaplicacao.graduuaplicacao.Adapters.VerticalCardsAdapter;
 import graduuaplicacao.graduuaplicacao.DAO.ConfiguracaoFirebase;
 import graduuaplicacao.graduuaplicacao.Model.Evento;
 import graduuaplicacao.graduuaplicacao.Model.Usuario;
 import graduuaplicacao.graduuaplicacao.R;
 import graduuaplicacao.graduuaplicacao.Util.SpeedyLinearLayoutManager;
 
-public class EventosActivity extends AppCompatActivity implements NossoAdapter.ClickListener {
+public class EventosActivity extends AppCompatActivity implements VerticalCardsAdapter.ClickListener {
 
     String TAG = "EventosActivity";
 
@@ -68,16 +77,18 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
     private ArrayAdapter<Evento> adapter;
     private HorizontalCardsAdapter adapterHorizontal;
     private ArrayList<Evento> eventos;
-    private DatabaseReference firebase;
+    private DatabaseReference firebase, refEventosCategoria;
     private DatabaseReference myRef;
     private ValueEventListener valueEventListenerEventos;
     private ImageButton btnCriarEventoPaginaInicial;
     private TextView btnVerPerfil;
     private TextView nomeUsuarioLogado;
+    private View btnFiltrar;
     private ImageButton btnConfiguracoes;
     private CircleImageView imagemPerfil;
     private AlertDialog alertDialog;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private TextView eventosFavoritos;
 
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
@@ -90,14 +101,13 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
     ArrayList<String> horaHz = new ArrayList<>();
 
     //RECYCLERVIEW
-
-
-
     private Uri filePath;
     FirebaseStorage firebaseStorage;
     StorageReference storageReference;
     private final  int PICK_IMAGE_REQUEST = 71;
     private FirebaseAnalytics analytics;
+
+    SharedPreferences pref;
 
 
 
@@ -108,76 +118,21 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
 //        android.support.v7.widget.Toolbar mToolbar = findViewById(R.id.appbar);
 //        setSupportActionBar(mToolbar);
 
-        mAuth = FirebaseAuth.getInstance();
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        myRef = mFirebaseDatabase.getReference();
-        final FirebaseUser user = mAuth.getCurrentUser();
-        userID = user.getUid();
 
-        firebaseStorage = FirebaseStorage.getInstance();
-        storageReference = firebaseStorage.getReference();
+        eventosFavoritos = findViewById(R.id.eventosFavoritos);
 
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if (user != null) {
-                    Log.d(TAG, "onAuthStateChanged:signed_in" + user.getUid());
-//                    toastMessage("Successfully signed in with: " +user.getEmail());
-                } else {
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                }
-            }
-        };
+        pref = this.getSharedPreferences("My_Data", MODE_PRIVATE);
 
+        initVariaveisFirebase();
         eventos = new ArrayList<>();
+        atualizarAoArrastarParaBaixo();
+        final VerticalCardsAdapter nossoAdapter = initAdapterCardVertical();
 
-        swipeRefreshLayout =(SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                }, 1000);
-            }
-        });
-
-        swipeRefreshLayout.setColorSchemeColors(Color.rgb(39,190,170));
-
-
-        final NossoAdapter nossoAdapter = initAdapterCardVertical();
 
         initAdapterCardHorizontal();
 
-
-
 //        FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent());
-
-        FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent()).addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
-            @Override
-            public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
-                if (pendingDynamicLinkData != null) {
-                    analytics = FirebaseAnalytics.getInstance(EventosActivity.this);
-
-                    Uri deepLink = pendingDynamicLinkData.getLink();
-                    System.out.println(deepLink);
-
-                    FirebaseAppInvite invite = FirebaseAppInvite.getInvitation(pendingDynamicLinkData);
-                    if (invite != null) {
-                        String invitationId = invite.getInvitationId();
-                        if (!TextUtils.isEmpty(invitationId))
-                            System.out.println(invitationId);
-                    }
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                System.out.println("Failure");
-            }
-        });
+        dynamicLinkFirebase();
 
 
         firebase = ConfiguracaoFirebase.getFirebase().child("eventosCriados");
@@ -192,7 +147,6 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
 
             }
         });
-
 
         valueEventListenerEventos = new ValueEventListener() {
             @Override
@@ -252,9 +206,6 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
                         switch (item.getItemId()) {
                             case R.id.logout:
                                 confirmacaoDeLogout();
-
-                            case R.id.configuracaoes:
-                                return false;
                         }
                         return true;
                     }
@@ -266,16 +217,214 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
 
         nomeUsuarioLogado = (TextView) findViewById(R.id.nomeUsuarioLogado);
 
+
+
+        btnFiltrar = (View) findViewById(R.id.btnFiltrar);
+        btnFiltrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(EventosActivity.this, btnFiltrar);
+                popupMenu.getMenuInflater().inflate(R.menu.menu_filtrar, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.categoria1:
+                                refEventosCategoria = ConfiguracaoFirebase.getFirebase().child("eventosPorCategoria").child("1");
+                                refEventosCategoria.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        eventos.clear();
+                                        for(DataSnapshot dados: dataSnapshot.getChildren()) {
+                                            Evento novo = dados.getValue(Evento.class);
+                                            eventos.add(novo);
+                                            nossoAdapter.notifyDataSetChanged();
+                                            initAdapterCardVertical();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+                                break;
+                            case R.id.categoria2:
+                                refEventosCategoria = ConfiguracaoFirebase.getFirebase().child("eventosPorCategoria").child("2");
+                                refEventosCategoria.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        eventos.clear();
+                                        for(DataSnapshot dados: dataSnapshot.getChildren()) {
+                                            Evento novo = dados.getValue(Evento.class);
+                                            eventos.add(novo);
+                                            nossoAdapter.notifyDataSetChanged();
+                                            initAdapterCardVertical();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+                                break;
+
+
+                            case R.id.categoria3:
+                                refEventosCategoria = ConfiguracaoFirebase.getFirebase().child("eventosPorCategoria").child("3");
+                                refEventosCategoria.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        eventos.clear();
+                                        for(DataSnapshot dados: dataSnapshot.getChildren()) {
+                                            Evento novo = dados.getValue(Evento.class);
+                                            eventos.add(novo);
+                                            nossoAdapter.notifyDataSetChanged();
+                                            initAdapterCardVertical();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+                                break;
+
+
+                            case R.id.categoria4:
+                                refEventosCategoria = ConfiguracaoFirebase.getFirebase().child("eventosPorCategoria").child("4");
+                                refEventosCategoria.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        eventos.clear();
+                                        for(DataSnapshot dados: dataSnapshot.getChildren()) {
+                                            Evento novo = dados.getValue(Evento.class);
+                                            eventos.add(novo);
+                                            nossoAdapter.notifyDataSetChanged();
+                                            initAdapterCardVertical();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+                                break;
+
+
+                            case R.id.porData:
+                                Collections.sort(eventos, new Comparator<Evento>() {
+                                    DateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+                                    @Override
+                                    public int compare(Evento o1, Evento o2) {
+                                        try {
+                                            return f.parse(o1.getData()).compareTo(f.parse(o2.getData()));
+                                        } catch (ParseException e) {
+                                            throw new IllegalArgumentException(e);
+                                        }
+                                    }
+                                });
+                                initAdapterCardVertical();
+                                break;
+
+                        }
+                        return true;
+                    }
+                });
+
+                popupMenu.show();
+            }
+        });
+
+
+    }
+
+    private void dynamicLinkFirebase() {
+        FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent()).addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
+            @Override
+            public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
+                if (pendingDynamicLinkData != null) {
+                    analytics = FirebaseAnalytics.getInstance(EventosActivity.this);
+
+                    Uri deepLink = pendingDynamicLinkData.getLink();
+                    System.out.println(deepLink);
+
+                    FirebaseAppInvite invite = FirebaseAppInvite.getInvitation(pendingDynamicLinkData);
+                    if (invite != null) {
+                        String invitationId = invite.getInvitationId();
+                        if (!TextUtils.isEmpty(invitationId))
+                            System.out.println(invitationId);
+                    }
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                System.out.println("Failure");
+            }
+        });
+    }
+
+    private void atualizarAoArrastarParaBaixo() {
+        swipeRefreshLayout =(SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        initAdapterCardVertical();
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                }, 1000);
+            }
+        });
+
+        swipeRefreshLayout.setColorSchemeColors(Color.rgb(39,190,170));
+    }
+
+    private void initVariaveisFirebase() {
+        mAuth = FirebaseAuth.getInstance();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        myRef = mFirebaseDatabase.getReference();
+        final FirebaseUser user = mAuth.getCurrentUser();
+        userID = user.getUid();
+
+        firebaseStorage = FirebaseStorage.getInstance();
+        storageReference = firebaseStorage.getReference();
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if (user != null) {
+                    Log.d(TAG, "onAuthStateChanged:signed_in" + user.getUid());
+//                    toastMessage("Successfully signed in with: " +user.getEmail());
+                } else {
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                }
+            }
+        };
     }
 
     private void initAdapterCardHorizontal() {
         myRef.child("Likes").child(userID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.getValue() == null) {
+                    eventosFavoritos.setVisibility(View.VISIBLE);
+                }else{
+                    eventosFavoritos.setVisibility(View.GONE);
+                }
+
                 nomeHz.clear();
                 dataHz.clear();
                 horaHz.clear();
                 showData(dataSnapshot);
+
                 adapterHorizontal.notifyDataSetChanged();
             }
 
@@ -293,21 +442,23 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
 
     private void showData(DataSnapshot dataSnapshot) {
         for(DataSnapshot ds: dataSnapshot.getChildren()) {
-            Evento evento = new Evento();
-            evento.setNome(ds.getValue(Evento.class).getNome());
-            evento.setData(ds.getValue(Evento.class).getData());
-            evento.setHoraInicio(ds.getValue(Evento.class).getHoraInicio());
 
-            nomeHz.add(evento.getNome());
-            dataHz.add(evento.getData());
-            horaHz.add(evento.getHoraInicio());
+                Evento evento = new Evento();
+                evento.setNome(ds.getValue(Evento.class).getNome());
+                evento.setData(ds.getValue(Evento.class).getData());
+                evento.setHoraInicio(ds.getValue(Evento.class).getHoraInicio());
+
+
+                nomeHz.add(evento.getNome());
+                dataHz.add(evento.getData());
+                horaHz.add(evento.getHoraInicio());
 
         }
     }
 
     @NonNull
-    private NossoAdapter initAdapterCardVertical() {
-        final NossoAdapter nossoAdapter = new NossoAdapter(eventos,this);
+    private VerticalCardsAdapter initAdapterCardVertical() {
+        final VerticalCardsAdapter nossoAdapter = new VerticalCardsAdapter(eventos,this);
 
         nossoAdapter.setClickListener(this);
 
@@ -321,13 +472,15 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(layout);
         return nossoAdapter;
+
+
     }
 
     private void confirmacaoDeLogout() {
         AlertDialog.Builder builder = new AlertDialog.Builder(EventosActivity.this);
         builder.setTitle("Logout");
 
-        builder.setMessage("Você realmente deseja deslogar? ");
+        builder.setMessage("Você realmente deseja sair? ");
 
         builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             @Override
@@ -506,6 +659,7 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
         String horaFim= eventos.get(position).getHoraFim();
         String local = eventos.get(position).getLocal();
         String deepLink = eventos.get(position).getDeepLink();
+        String idUsuarioLogado = eventos.get(position).getIdUsuarioLogado();
 
         Bundle bundle = new Bundle();
         bundle.putString("NOME", nome);
@@ -518,6 +672,7 @@ public class EventosActivity extends AppCompatActivity implements NossoAdapter.C
         bundle.putString("HORAFIM", horaFim);
         bundle.putString("LOCAL", local);
         bundle.putString("DEEPLINK", deepLink);
+        bundle.putString("IDUSUARIOLOGADO", idUsuarioLogado);
 
         Intent intent = new Intent(EventosActivity.this, EventoAbertoActivity.class);
         intent.putExtras(bundle);
