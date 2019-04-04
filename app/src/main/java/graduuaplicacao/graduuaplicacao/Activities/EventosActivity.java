@@ -64,6 +64,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import graduuaplicacao.graduuaplicacao.Adapters.HorizontalCardsAdapter;
 import graduuaplicacao.graduuaplicacao.Adapters.VerticalCardsAdapter;
 import graduuaplicacao.graduuaplicacao.DAO.ConfiguracaoFirebase;
+import graduuaplicacao.graduuaplicacao.GlideModule.GlideApp;
 import graduuaplicacao.graduuaplicacao.Model.Evento;
 import graduuaplicacao.graduuaplicacao.Model.Usuario;
 import graduuaplicacao.graduuaplicacao.R;
@@ -118,6 +119,14 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
 //        android.support.v7.widget.Toolbar mToolbar = findViewById(R.id.appbar);
 //        setSupportActionBar(mToolbar);
 
+        imagemPerfil = (CircleImageView) findViewById(R.id.imagemPerfil);
+        imagemPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(EventosActivity.this, PerfilActivity.class));
+            }
+        });
+
 
         eventosFavoritos = findViewById(R.id.eventosFavoritos);
 
@@ -167,11 +176,12 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
             }
         };
 
-        imagemPerfil = (CircleImageView) findViewById(R.id.imagemPerfil);
-        imagemPerfil.setOnClickListener(new View.OnClickListener() {
+        StorageReference imagemRef = storageReference.child("Users").child(userID).child("imagem");
+        imagemRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
-            public void onClick(View v) {
-                escolherImagem();
+            public void onSuccess(Uri uri) {
+                System.out.println(uri);
+                GlideApp.with(EventosActivity.this).load(uri).centerCrop().into(imagemPerfil);
             }
         });
 
@@ -186,12 +196,6 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
 
 
         btnVerPerfil = (TextView) findViewById(R.id.btnVerPerfil);
-        btnVerPerfil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                abrirTelaDePerfil();
-            }
-        });
 
         btnConfiguracoes = (ImageButton) findViewById(R.id.btnConfiguracoes);
         btnConfiguracoes.setOnClickListener(new View.OnClickListener() {
@@ -216,6 +220,12 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
         });
 
         nomeUsuarioLogado = (TextView) findViewById(R.id.nomeUsuarioLogado);
+        nomeUsuarioLogado.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(EventosActivity.this, PerfilActivity.class));
+            }
+        });
 
 
 
@@ -513,11 +523,6 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
         startActivity(intent);
     }
 
-    private void abrirTelaDePerfil() {
-        Intent intent = new Intent(EventosActivity.this, PerfilActivity.class);
-        startActivity(intent);
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -582,70 +587,7 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
         return super.onKeyDown(keyCode, event);
     }
 
-    private void uploadImagem() {
-        if (filePath != null) {
-            final ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Uploading...");
-            progressDialog.show();
 
-            final StorageReference ref = storageReference.child("Users/").child(userID).child("imagem");  // PASSAR ESCOLHA DE IMAGEM PARA A TELA DE PERFIL, DEVIDO AO CURRENT LOGIN, SUBSTITUIR randomUUID PARA getCurrentUser
-            ref.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    progressDialog.dismiss();
-                    Toast.makeText(EventosActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
-
-                }
-            })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            progressDialog.dismiss();
-                            Toast.makeText(EventosActivity.this, "Failed"+e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount());
-                            progressDialog.setMessage("Uploaded"+(int)progress+"%");
-                        }
-                    });
-
-
-            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-
-                }
-            });
-            Log.d(TAG, String.valueOf(ref));
-        }
-    }
-
-    private void escolherImagem() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent.createChooser(intent, "SELECT PICTURE"), PICK_IMAGE_REQUEST);
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            filePath = data.getData();
-            try{
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),filePath);
-                imagemPerfil.setImageBitmap(bitmap);
-                uploadImagem();
-
-            }catch(IOException e){
-                e.printStackTrace();
-            }
-        }
-    }
 
     @Override
     public void itemClicked(View view, int position) {

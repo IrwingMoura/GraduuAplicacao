@@ -1,17 +1,22 @@
 package graduuaplicacao.graduuaplicacao.Activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -21,12 +26,19 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 import graduuaplicacao.graduuaplicacao.GlideModule.GlideApp;
 import graduuaplicacao.graduuaplicacao.Model.Usuario;
 import graduuaplicacao.graduuaplicacao.R;
@@ -43,6 +55,9 @@ public class PerfilActivity extends AppCompatActivity {
     private TextView mEmail;
     private ImageView mImagePerfil;
     private TextView mCurso;
+
+    private final int PICK_IMAGE_REQUEST = 71;
+    private Uri filePath;
 
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseAuth mAuth;
@@ -90,6 +105,14 @@ public class PerfilActivity extends AppCompatActivity {
         };
 
 
+        mImagePerfil = (CircleImageView) findViewById(R.id.imagemPerfilTelaPerfil);
+        mImagePerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                escolherImagem();
+            }
+        });
+
         StorageReference imagemRef = storageReference.child("Users").child(userID).child("imagem");
         imagemRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
@@ -126,10 +149,22 @@ public class PerfilActivity extends AppCompatActivity {
             usuario.setCurso(dataSnapshot.child("curso").getValue().toString());
 
 
+        SimpleDateFormat df1 = new SimpleDateFormat("dd-MM-yyyy");
+
+        Date dataa = new Date();
+        try {
+            dataa = df1.parse(usuario.getDataDeNascimento());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        String dataNascimentoStr = df.format(dataa);
+
             mNome.setText(usuario.getNome());
             mMatricula.setText(usuario.getMatricula());
             mEmail.setText(usuario.getEmail());
-            mDataDeNascimento.setText(usuario.getDataDeNascimento());
+            mDataDeNascimento.setText(dataNascimentoStr);
             mCampus.setText(usuario.getCampus());
             mCurso.setText(usuario.getCurso());
 
@@ -162,5 +197,70 @@ public class PerfilActivity extends AppCompatActivity {
         super.onBackPressed();
         Intent intent = new Intent(this, EventosActivity.class);
         startActivity(intent);
+    }
+
+    private void escolherImagem() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent.createChooser(intent, "SELECT PICTURE"), PICK_IMAGE_REQUEST);
+
+    }
+
+    private void uploadImagem() {
+        if (filePath != null) {
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();
+
+            final StorageReference ref = storageReference.child("Users/").child(userID).child("imagem");  // PASSAR ESCOLHA DE IMAGEM PARA A TELA DE PERFIL, DEVIDO AO CURRENT LOGIN, SUBSTITUIR randomUUID PARA getCurrentUser
+            ref.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    progressDialog.dismiss();
+                    Toast.makeText(PerfilActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
+
+                }
+            })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Toast.makeText(PerfilActivity.this, "Failed"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount());
+                            progressDialog.setMessage("Uploaded"+(int)progress+"%");
+                        }
+                    });
+
+
+            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+
+                }
+            });
+            Log.d(TAG, String.valueOf(ref));
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            filePath = data.getData();
+            try{
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),filePath);
+                mImagePerfil.setImageBitmap(bitmap);
+                uploadImagem();
+
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+        }
     }
 }

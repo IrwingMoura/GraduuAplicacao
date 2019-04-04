@@ -4,9 +4,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -38,10 +40,16 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import org.intellij.lang.annotations.Language;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import graduuaplicacao.graduuaplicacao.DAO.ConfiguracaoFirebase;
@@ -60,6 +68,7 @@ public class EventoAbertoActivity extends AppCompatActivity {
     Usuario usuario = new Usuario();
     Date date = new Date();
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,10 +143,22 @@ public class EventoAbertoActivity extends AppCompatActivity {
                 btnLerQrCode.setVisibility(View.VISIBLE);
             }
 
-            SimpleDateFormat df = new SimpleDateFormat("dd/M/yyyy");
-            String datastr = df.format(date);
+            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+            String dataAtual = df.format(date);
 
-            if(!dataKey.equals(datastr)) {
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+
+            Date dataEvento = new Date();
+            try {
+                dataEvento = formato.parse(dataKey);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            String dataEventoFormatada = df.format(dataEvento);
+
+            // TODO: ACERTAR HORA
+            if(!dataAtual.equals(dataEventoFormatada)) {
                 btnLerQrCode.setVisibility(View.GONE);
             }
 
