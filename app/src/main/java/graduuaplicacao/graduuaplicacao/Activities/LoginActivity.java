@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private TextInputEditText edtEmail;
     private TextInputEditText edtSenha;
-    private TextView txtCriarCadastro;
+    private TextView txtCriarCadastro, txtEsqueciSenha;
     private Button btnLogin;
     private Usuario usuario;
 
@@ -52,6 +52,15 @@ public class LoginActivity extends AppCompatActivity {
         edtSenha = (TextInputEditText) findViewById(R.id.edtSenhaEditText);
         txtCriarCadastro = (TextView) findViewById(R.id.txtCriarCadastro);
         btnLogin = (Button) findViewById(R.id.btnLogin);
+        txtEsqueciSenha = (TextView) findViewById(R.id.txtEsqueciSenha);
+
+
+        txtEsqueciSenha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, EsqueciSenhaActivity.class));
+            }
+        });
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override

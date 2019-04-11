@@ -42,21 +42,28 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import org.intellij.lang.annotations.Language;
 
+import java.io.File;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import graduuaplicacao.graduuaplicacao.DAO.ConfiguracaoFirebase;
 import graduuaplicacao.graduuaplicacao.GlideModule.GlideApp;
 import graduuaplicacao.graduuaplicacao.Model.Evento;
 import graduuaplicacao.graduuaplicacao.Model.Usuario;
 import graduuaplicacao.graduuaplicacao.R;
+import graduuaplicacao.graduuaplicacao.Util.Horario;
 
 public class EventoAbertoActivity extends AppCompatActivity {
 
@@ -64,9 +71,11 @@ public class EventoAbertoActivity extends AppCompatActivity {
     ImageView imagem;
     FirebaseAnalytics analytics;
     Button btnGerarQrCode, btnLerQrCode;
-    DatabaseReference qrCodeAlunosRef, usuarioRef;
+    DatabaseReference qrCodeAlunosRef, usuarioRef, horasComplementaresRef;
     Usuario usuario = new Usuario();
     Date date = new Date();
+    String horaFimKey = null;
+    String nomeKey = null;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -85,7 +94,7 @@ public class EventoAbertoActivity extends AppCompatActivity {
         descricao = (TextView) findViewById(R.id.descricaoEventoAberto);
 //        frequencia = (TextView) findViewById(R.id.frequenciaEventoAberto);
 //        horaInicio = (TextView) findViewById(R.id.horaInicioEventoAberto);
-//        horaFim = (TextView) findViewById(R.id.horaFimEventoAberto);
+       // horaFim = (TextView) findViewById(R.id.horaFimEventoAberto);
         local = (TextView) findViewById(R.id.localEventoAberto);
 //        txtResult = (TextView) findViewById(R.id.txtResult);
         imagem = (ImageView) findViewById(R.id.imagemEventoAberto);
@@ -100,14 +109,14 @@ public class EventoAbertoActivity extends AppCompatActivity {
 
         if (bundle != null) {
 
-            String nomeKey = bundle.getString("NOME");
+            nomeKey = bundle.getString("NOME");
             String apresentadorKey = bundle.getString("APRESENTADOR");
             String categoriaKey = bundle.getString("CATEGORIA");
             String dataKey = bundle.getString("DATA");
             String descricaoKey = bundle.getString("DESCRICAO");
 //            String frequenciaKey = bundle.getString("FREQUENCIA");
             String horaInicioKey = bundle.getString("HORAINICIO");
-//            String horaFimKey = bundle.getString("HORAFIM");
+            horaFimKey = bundle.getString("HORAFIM");
             String localKey = bundle.getString("LOCAL");
             String idUsuarioLogado = bundle.getString("IDUSUARIOLOGADO");
 
@@ -134,7 +143,7 @@ public class EventoAbertoActivity extends AppCompatActivity {
             nome.setText(nomeKey);
             apresentador.setText("por " + apresentadorKey);
             categoria.setText(categoriaKey);
-            data.setText(dataKey + "  ÀS  " + horaInicioKey);
+            data.setText(dataKey + ", de  " + horaInicioKey + "  até  "  +horaFimKey);
             descricao.setText(descricaoKey);
             local.setText(localKey);
 //            horaInicio.setText(horaInicioKey);
@@ -229,7 +238,6 @@ public class EventoAbertoActivity extends AppCompatActivity {
                 txtResult.append("\nonFailure");
             }
         });
-
     }
 
     private void gerarQrCode(ImageView imagem, String userID) {
@@ -271,7 +279,11 @@ public class EventoAbertoActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), result.getContents(), Toast.LENGTH_SHORT).show();
                 String id = result.getContents().substring(0,28);
                 qrCodeAlunosRef = ConfiguracaoFirebase.getFirebase().child("eventosCriados").child(result.getContents().substring(29));
-                qrCodeAlunosRef.child("AlunosPresentes").child(id).setValue(usuario);
+                qrCodeAlunosRef.child("AlunosPresentes").child(id).setValue(true);
+
+                horasComplementaresRef = ConfiguracaoFirebase.getFirebase().child("horasComplementares");
+                horasComplementaresRef.child(id).setValue(getHorasComplementares());
+
             }
         }else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -285,8 +297,22 @@ public class EventoAbertoActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void showData(DataSnapshot datasnapshot) {
+    public String getHorasComplementares(){
+        Date horaAtual = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
+        Date horaFimFormatada = new Date();
+        DateFormat df= new SimpleDateFormat("HH:mm");
+        try {
+            horaFimFormatada = df.parse(horaFimKey);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Long diff = horaFimFormatada.getTime() -  horaAtual.getTime();
+        String qtdHorasComplementares = sdf.format(diff);
+
+
+        return qtdHorasComplementares;
     }
-
 }

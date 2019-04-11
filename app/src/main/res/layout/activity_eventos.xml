@@ -188,13 +188,13 @@
                         android:fontFamily="@font/roboto_bold"
                         android:textColor="@color/white"
                         android:textSize="16sp"
-                        app:layout_constraintBottom_toTopOf="@+id/btnVerPerfil"
+                        app:layout_constraintBottom_toTopOf="@+id/horasComplementares"
                         app:layout_constraintStart_toEndOf="@+id/imagemPerfil"
                         app:layout_constraintTop_toTopOf="@+id/imagemPerfil"
                         app:layout_constraintVertical_bias="0.0" />
 
                     <TextView
-                        android:id="@+id/btnVerPerfil"
+                        android:id="@+id/horasComplementares"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="4dp"
@@ -205,6 +205,19 @@
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="@+id/imagemPerfil"
                         app:layout_constraintStart_toStartOf="@+id/nomeUsuarioLogado" />
+
+                    <TextView
+                        android:id="@+id/horasComplementaresNumeros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginLeft="4dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textAppearance="@style/TextAppearance.AppCompat"
+                        android:textColor="@color/corHoraData"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toEndOf="@+id/horasComplementares"
+                        app:layout_constraintTop_toTopOf="@+id/horasComplementares" />
 
                     <ImageButton
                         android:padding="100dip"

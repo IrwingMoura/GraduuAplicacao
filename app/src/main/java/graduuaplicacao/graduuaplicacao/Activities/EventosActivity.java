@@ -82,7 +82,7 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
     private DatabaseReference myRef;
     private ValueEventListener valueEventListenerEventos;
     private ImageButton btnCriarEventoPaginaInicial;
-    private TextView btnVerPerfil;
+    private TextView txtHorasComplementares, horasComplementaresNumeros;
     private TextView nomeUsuarioLogado;
     private View btnFiltrar;
     private ImageButton btnConfiguracoes;
@@ -195,7 +195,19 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
         });
 
 
-        btnVerPerfil = (TextView) findViewById(R.id.btnVerPerfil);
+        horasComplementaresNumeros = (TextView) findViewById(R.id.horasComplementaresNumeros);
+        DatabaseReference dRHorasComp = ConfiguracaoFirebase.getFirebase().child("horasComplementares").child(userID);
+        dRHorasComp.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                horasComplementaresNumeros.setText(dataSnapshot.getValue().toString() +"h");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         btnConfiguracoes = (ImageButton) findViewById(R.id.btnConfiguracoes);
         btnConfiguracoes.setOnClickListener(new View.OnClickListener() {
@@ -210,6 +222,9 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
                         switch (item.getItemId()) {
                             case R.id.logout:
                                 confirmacaoDeLogout();
+                                break;
+                            case R.id.sobre:
+                                startActivity(new Intent(EventosActivity.this, SobreNosActivity.class));
                         }
                         return true;
                     }

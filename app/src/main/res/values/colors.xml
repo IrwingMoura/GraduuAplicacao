@@ -14,6 +14,6 @@
     <color name="cardHorizontal">#ffffff</color>
     <color name="tituloCardHorizontal">#cc000000</color>
     <color name="fontCardHorizontal">#50000000</color>
-
+    <color name="corTextoForgotPass">#fd4b5250</color>
 
 </resources>

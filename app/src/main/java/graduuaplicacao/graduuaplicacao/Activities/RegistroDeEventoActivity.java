@@ -101,7 +101,7 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
 
         titulo = (TextInputEditText) findViewById(R.id.edtTitulo);
         horaInicio = (TextInputEditText) findViewById(R.id.edtHoraInicio);
-//        horaFim = (TextInputEditText) findViewById(R.id.edtHoraFim);
+        horaFim = (TextInputEditText) findViewById(R.id.edtHoraFim);
         dataiptText = (TextInputEditText) findViewById(R.id.edtData);
         descricao = (TextInputEditText) findViewById(R.id.edtDescricao);
         apresentador = (TextInputEditText) findViewById(R.id.edtApresentador);
@@ -171,7 +171,7 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
 
         onClickHoraInicio();
         onClickData();
-//        onClickHoraFim();
+        onClickHoraFim();
 
 
         criarEvento = (Button) findViewById(R.id.btnCriarEvento);
@@ -189,7 +189,7 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
 //                eventos.setIdDoCriador(usuario.getId());
                 eventos.setNome(titulo.getText().toString());
                 eventos.setHoraInicio(horaInicio.getText().toString());
-//                eventos.setHoraFim(horaFim.getText().toString());
+                eventos.setHoraFim(horaFim.getText().toString());
                 eventos.setData(dataiptText.getText().toString());
                 eventos.setDescricao(descricao.getText().toString());
                 eventos.setApresentador(apresentador.getText().toString());
@@ -285,7 +285,7 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
                 } else {
                     amPm = "AM";
                 }
-                horaInicio.setText(hora + ":" + minuto + "h");
+                horaInicio.setText(hora + ":" + minuto);
             }
         };
     }
@@ -327,7 +327,7 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
                 } else {
                     amPm2 = "AM";
                 }
-                horaFim.setText(hora + ":" + minuto + "h");
+                horaFim.setText(hora + ":" + minuto);
             }
         };
     }
@@ -391,17 +391,6 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
         Intent intent = new Intent(RegistroDeEventoActivity.this, EventosActivity.class);
         startActivity(intent);
         finish();
-    }
-
-
-    public static void formatarData(String str, Date data) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        try {
-            data = dateFormat.parse(str);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        System.out.println(data);
     }
 
 }

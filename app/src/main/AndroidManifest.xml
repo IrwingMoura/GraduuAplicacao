@@ -3,10 +3,10 @@
     package="graduuaplicacao.graduuaplicacao">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.STORAGE"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".Activities.Home"
@@ -22,50 +22,53 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-            <intent-filter android:autoVerify="true"
+            <intent-filter
+                android:autoVerify="true"
                 android:launchMode="singleTask">
-                <data android:host="graduu.com"/>
+                <data android:host="graduu.com" />
                 <data android:scheme="https" />
-                <data android:pathPattern=".*"/>
+                <data android:pathPattern=".*" />
+
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".Activities.LoginActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
-
+        <activity
+            android:name=".Activities.LoginActivity"
+            android:screenOrientation="portrait"></activity>
         <activity android:name=".Activities.RegistroDeEventoActivity" />
         <activity android:name=".Activities.EventosActivity" />
-
-        <activity android:name=".Activities.PerfilActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Activities.PerfilActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.ConfiguracoesActivity"
             android:label="@string/title_activity_configuracoes" />
-        <activity android:name=".Activities.CadastroActivity"/>
-        <activity android:name=".Activities.RecyclerTeste"/>
+        <activity android:name=".Activities.CadastroActivity" />
+        <activity android:name=".Activities.RecyclerTeste" />
+        <activity android:name=".Activities.EsqueciSenhaActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
         <activity android:name=".Activities.EventoAbertoActivity">
-            <intent-filter android:autoVerify="true"
+            <intent-filter
+                android:autoVerify="true"
                 android:launchMode="singleTask">
-                <data android:host="graduu.com"/>
+                <data android:host="graduu.com" />
                 <data android:scheme="https" />
-                <data android:pathPattern=".*"/>
+                <data android:pathPattern=".*" />
+
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".Activities.SobreNosActivity"></activity>
     </application>
 
 </manifest>

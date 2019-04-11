@@ -26,7 +26,7 @@ public class Home extends Application {
 
                 }
             }
-        }, 5000);
+        }, 4000);
 
 
     }

@@ -3,9 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/sobre"
+        android:title="Sobre nós"
+        android:icon="@drawable/info2"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/logout"
         android:title="Sair"
         android:icon="@drawable/ic_exit"
         app:showAsAction="never" />
+
 
 </menu>
