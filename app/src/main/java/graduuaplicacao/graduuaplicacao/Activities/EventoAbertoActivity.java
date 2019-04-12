@@ -1,6 +1,5 @@
 package graduuaplicacao.graduuaplicacao.Activities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -12,14 +11,12 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -40,30 +37,18 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
-import org.intellij.lang.annotations.Language;
-
-import java.io.File;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import graduuaplicacao.graduuaplicacao.DAO.ConfiguracaoFirebase;
 import graduuaplicacao.graduuaplicacao.GlideModule.GlideApp;
-import graduuaplicacao.graduuaplicacao.Model.Evento;
 import graduuaplicacao.graduuaplicacao.Model.Usuario;
 import graduuaplicacao.graduuaplicacao.R;
-import graduuaplicacao.graduuaplicacao.Util.Horario;
 
 public class EventoAbertoActivity extends AppCompatActivity {
 
@@ -271,6 +256,7 @@ public class EventoAbertoActivity extends AppCompatActivity {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
@@ -290,29 +276,60 @@ public class EventoAbertoActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent = new Intent(this, EventosActivity.class);
-        startActivity(intent);
-    }
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        Intent intent = new Intent(this, EventosActivity.class);
+//        startActivity(intent);
+//    }
 
-    public String getHorasComplementares(){
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public Long getHorasComplementares(){
         Date horaAtual = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        String horaAtualStr = sdf.format(horaAtual);
 
-        Date horaFimFormatada = new Date();
-        DateFormat df= new SimpleDateFormat("HH:mm");
-        try {
-            horaFimFormatada = df.parse(horaFimKey);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        LocalTime hFinal = LocalTime.parse(horaFimKey);
+        LocalTime hAtual = LocalTime.parse(horaAtualStr);
+
+        return hAtual.until(hFinal, ChronoUnit.MINUTES);
+    }
+
+    private String retornarHoraMinutos(){
+
+        Date horaAtual = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH");
+        Long hora = Long.valueOf(sdf.format(horaAtual));
+        Long horaFim = Long.valueOf(horaFimKey.substring(0,2));
+
+
+        Date minAtual = new Date();
+        SimpleDateFormat sdf2 = new SimpleDateFormat("mm");
+        Long min = Long.valueOf(sdf2.format(minAtual));
+        Long minFim = Long.valueOf(horaFimKey.substring(2,4));
+
+
+        Long x = 0L;
+        Long resultHora = horaFim - hora;
+        if(resultHora < 0){
+            x = 1L;
+            resultHora = resultHora - x;
         }
 
-        Long diff = horaFimFormatada.getTime() -  horaAtual.getTime();
-        String qtdHorasComplementares = sdf.format(diff);
+        String horaString = resultHora.toString();
+
+        Long y = 0L;
+        Long resultMin = minFim - min;
+        if(resultMin < 0){
+            y = 60L;
+            resultMin = resultMin - y;
+        }
+
+        String minString = resultMin.toString();
 
 
-        return qtdHorasComplementares;
+        return horaString + ":" + minString;
+
     }
+
 }

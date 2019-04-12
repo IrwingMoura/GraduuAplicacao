@@ -21,6 +21,7 @@ public class Home extends Application {
             public void run() {
                 if(firebaseUser != null) {
                     Intent intentAbrirTelaEventos = new Intent(Home.this, EventosActivity.class);
+                    intentAbrirTelaEventos.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intentAbrirTelaEventos);
                 }else {
 
