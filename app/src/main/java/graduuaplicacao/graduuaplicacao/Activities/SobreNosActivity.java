@@ -19,7 +19,6 @@ public class SobreNosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Element element = new Element();
-        element.setTitle("Central de Ajuda");
 
         View aboutPage = new AboutPage(this)
                 .isRTL(false)
@@ -29,7 +28,7 @@ public class SobreNosActivity extends AppCompatActivity {
                         " Registrando as horas complementares dos alunos que confirmam presença, através do uso do QR Code, no local.")
                 .addItem(new Element().setTitle("Versão 1.0"))
                 .addItem(element)
-                .addGroup("Contate-nos")
+                .addGroup("Contatos")
                 .addEmail("irwing.moraes@unigranrio.br")
                 .addGitHub("IrwingMoura")
                 .addItem(createCopyrigth())

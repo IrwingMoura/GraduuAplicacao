@@ -124,7 +124,7 @@
 //            String userID = user.getUid();
 //
 //
-//            StorageReference teste = storageReference.child("Users/").child(userID).child("imagem");
+//            StorageReference activity_evento_aberto5 = storageReference.child("Users/").child(userID).child("imagem");
 //
 //            String url = "https://image.freepik.com/icones-gratis/silhueta-usuario-masculino_318-35708.jpg";
 //            Glide.with(view).load(url).into(imagemPerfilCard);

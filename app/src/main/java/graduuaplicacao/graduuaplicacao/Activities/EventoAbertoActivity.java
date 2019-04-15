@@ -3,11 +3,10 @@ package graduuaplicacao.graduuaplicacao.Activities;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
+
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -37,12 +36,8 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
-import java.util.Calendar;
 import java.util.Date;
 
 import graduuaplicacao.graduuaplicacao.DAO.ConfiguracaoFirebase;
@@ -62,11 +57,11 @@ public class EventoAbertoActivity extends AppCompatActivity {
     String horaFimKey = null;
     String nomeKey = null;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_evento_aberto);
+        setContentView(R.layout.activity_evento_aberto5);
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
@@ -88,6 +83,19 @@ public class EventoAbertoActivity extends AppCompatActivity {
         /*qrCode = (ImageView) findViewById(R.id.imagemQrCode);*/
 
         btnLerQrCode.setVisibility(View.GONE);
+
+        horasComplementaresRef = ConfiguracaoFirebase.getFirebase().child("horasComplementares");
+        horasComplementaresRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                dataSnapshot.child(userID).getValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
         Bundle bundle = getIntent().getExtras();
@@ -256,7 +264,7 @@ public class EventoAbertoActivity extends AppCompatActivity {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
@@ -267,7 +275,6 @@ public class EventoAbertoActivity extends AppCompatActivity {
                 qrCodeAlunosRef = ConfiguracaoFirebase.getFirebase().child("eventosCriados").child(result.getContents().substring(29));
                 qrCodeAlunosRef.child("AlunosPresentes").child(id).setValue(true);
 
-                horasComplementaresRef = ConfiguracaoFirebase.getFirebase().child("horasComplementares");
                 horasComplementaresRef.child(id).setValue(getHorasComplementares());
 
             }
@@ -276,26 +283,15 @@ public class EventoAbertoActivity extends AppCompatActivity {
         }
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//        Intent intent = new Intent(this, EventosActivity.class);
-//        startActivity(intent);
-//    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public Long getHorasComplementares(){
-        Date horaAtual = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        String horaAtualStr = sdf.format(horaAtual);
-
-        LocalTime hFinal = LocalTime.parse(horaFimKey);
-        LocalTime hAtual = LocalTime.parse(horaAtualStr);
-
-        return hAtual.until(hFinal, ChronoUnit.MINUTES);
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, EventosActivity.class);
+        startActivity(intent);
     }
 
-    private String retornarHoraMinutos(){
+
+    private String getHorasComplementares(){
 
         Date horaAtual = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("HH");
@@ -306,7 +302,7 @@ public class EventoAbertoActivity extends AppCompatActivity {
         Date minAtual = new Date();
         SimpleDateFormat sdf2 = new SimpleDateFormat("mm");
         Long min = Long.valueOf(sdf2.format(minAtual));
-        Long minFim = Long.valueOf(horaFimKey.substring(2,4));
+        Long minFim = Long.valueOf(horaFimKey.substring(3,5));
 
 
         Long x = 0L;
@@ -316,20 +312,20 @@ public class EventoAbertoActivity extends AppCompatActivity {
             resultHora = resultHora - x;
         }
 
-        String horaString = resultHora.toString();
 
         Long y = 0L;
         Long resultMin = minFim - min;
         if(resultMin < 0){
             y = 60L;
-            resultMin = resultMin - y;
+            resultMin = resultMin + y;
+            resultHora = resultHora - 1;
         }
 
+        String horaString = resultHora.toString();
         String minString = resultMin.toString();
 
-
-        return horaString + ":" + minString;
+        String resultado = horaString + "h:" + minString + "m";
+        return  resultado;
 
     }
-
 }

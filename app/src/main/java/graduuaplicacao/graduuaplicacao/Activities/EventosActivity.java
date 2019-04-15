@@ -196,11 +196,13 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
 
 
         horasComplementaresNumeros = (TextView) findViewById(R.id.horasComplementaresNumeros);
-        DatabaseReference dRHorasComp = ConfiguracaoFirebase.getFirebase().child("horasComplementares").child(userID);
+        DatabaseReference dRHorasComp = ConfiguracaoFirebase.getFirebase().child("horasComplementares");
         dRHorasComp.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                horasComplementaresNumeros.setText(dataSnapshot.getValue().toString() +"h");
+                if(dataSnapshot.hasChild(userID)) {
+                    horasComplementaresNumeros.setText(dataSnapshot.child(userID).getValue().toString());
+                }
             }
 
             @Override

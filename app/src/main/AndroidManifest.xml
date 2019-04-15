@@ -37,7 +37,7 @@
         </activity>
         <activity
             android:name=".Activities.LoginActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity android:name=".Activities.RegistroDeEventoActivity" />
         <activity android:name=".Activities.EventosActivity" />
         <activity
@@ -68,7 +68,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.SobreNosActivity"></activity>
+        <activity android:name=".Activities.SobreNosActivity" />
     </application>
 
 </manifest>

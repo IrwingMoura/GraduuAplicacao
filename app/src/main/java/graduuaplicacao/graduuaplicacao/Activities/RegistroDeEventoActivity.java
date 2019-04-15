@@ -285,7 +285,7 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
                 } else {
                     amPm = "AM";
                 }
-                horaInicio.setText(hora + ":" + minuto);
+                horaInicio.setText(String.format("%02d:%02d", hora, minuto));
             }
         };
     }
@@ -301,6 +301,7 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void onClickHoraFim() {
         horaFim.setOnClickListener(new View.OnClickListener() {
@@ -327,7 +328,7 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
                 } else {
                     amPm2 = "AM";
                 }
-                horaFim.setText(hora + ":" + minuto);
+                horaFim.setText(String.format("%02d:%02d", hora, minuto));
             }
         };
     }

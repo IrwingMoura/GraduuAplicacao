@@ -39,6 +39,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import graduuaplicacao.graduuaplicacao.DAO.ConfiguracaoFirebase;
 import graduuaplicacao.graduuaplicacao.GlideModule.GlideApp;
 import graduuaplicacao.graduuaplicacao.Model.Usuario;
 import graduuaplicacao.graduuaplicacao.R;
@@ -55,6 +56,7 @@ public class PerfilActivity extends AppCompatActivity {
     private TextView mEmail;
     private ImageView mImagePerfil;
     private TextView mCurso;
+    private TextView mHorasComp;
 
     private final int PICK_IMAGE_REQUEST = 71;
     private Uri filePath;
@@ -76,12 +78,12 @@ public class PerfilActivity extends AppCompatActivity {
         mNome = findViewById(R.id.txtNomePerfil);
         mCurso = findViewById(R.id.curso);
 //        mSobrenome = findViewById(R.id.txtSobrenomePerfil);
-        mMatricula = findViewById(R.id.txtMatriculaPerfil);
-        mDataDeNascimento = findViewById(R.id.txtDataDeNascimentoPerfil);
-        mCampus = findViewById(R.id.txtCampusPerfil);
-        mEmail = findViewById(R.id.txtEmailPerfil);
+        mMatricula = findViewById(R.id.resultMatricula);
+        mDataDeNascimento = findViewById(R.id.resultData);
+        mCampus = findViewById(R.id.resultCampus);
+        mEmail = findViewById(R.id.resultEmail);
         mImagePerfil = findViewById(R.id.imagemPerfilTelaPerfil);
-
+        mHorasComp = findViewById(R.id.resulHora);
 
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -113,12 +115,16 @@ public class PerfilActivity extends AppCompatActivity {
             }
         });
 
-        StorageReference imagemRef = storageReference.child("Users").child(userID).child("imagem");
+        final StorageReference imagemRef = storageReference.child("Users").child(userID).child("imagem");
         imagemRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 System.out.println(uri);
-                GlideApp.with(PerfilActivity.this).load(uri).centerCrop().into(mImagePerfil);
+                if(uri != null || !uri.equals("")) {
+                    GlideApp.with(PerfilActivity.this).load(uri).centerCrop().into(mImagePerfil);
+                }else{
+                    GlideApp.with(PerfilActivity.this).load("https://image.freepik.com/icones-gratis/silhueta-usuario-masculino_318-35708.jpg").centerCrop().into(mImagePerfil);
+                }
             }
         });
 
@@ -126,6 +132,21 @@ public class PerfilActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 showData(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        DatabaseReference dRHorasComp = ConfiguracaoFirebase.getFirebase().child("horasComplementares");
+        dRHorasComp.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.hasChild(userID)) {
+                    mHorasComp.setText(dataSnapshot.child(userID).getValue().toString());
+                }
             }
 
             @Override

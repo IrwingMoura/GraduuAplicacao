@@ -226,8 +226,9 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
         }
 
         if (senha.length() < 6) {
-            editTextsenha.setError("Sua senha deve possuir pelo menos 6 caracteres");
-            editTextsenha.requestFocus();
+            Toast.makeText(CadastroActivity.this, "Sua senha deve possuir pelo menos 6 caracteres", Toast.LENGTH_SHORT).show();
+//            editTextsenha.setError("Sua senha deve possuir pelo menos 6 caracteres");
+//            editTextsenha.requestFocus();
             return true;
         }
 
