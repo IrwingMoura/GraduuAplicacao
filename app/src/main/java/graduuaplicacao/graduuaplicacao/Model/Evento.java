@@ -16,17 +16,14 @@ public class Evento {
     private Boolean curtiu;
     private String urlFotoUsuarioCard;
     private Integer codCategoria;
-
-
     private String idUsuarioLogado;
-
     private boolean isChecked;
-
     private String deepLink;
     private long numShares;
+    private String id;
 
 
-    public Evento(String nome, String horaInicio, String horaFim, String data, String descricao, String apresentador, String frequencia, String local, String categoria, String idUsuarioLogado, boolean isChecked, String deepLink, long numShares, Boolean curti, String urlFotoUsuarioCard, Integer codCategoria) {
+    public Evento(String nome, String horaInicio, String horaFim, String data, String descricao, String apresentador, String frequencia, String local, String categoria, String idUsuarioLogado, boolean isChecked, String deepLink, long numShares, Boolean curti, String urlFotoUsuarioCard, Integer codCategoria, String id) {
         this.nome = nome;
         this.horaInicio = horaInicio;
         this.horaFim = horaFim;
@@ -43,6 +40,7 @@ public class Evento {
         this.curtiu = curtiu;
         this.urlFotoUsuarioCard = urlFotoUsuarioCard;
         this.codCategoria = codCategoria;
+        this.id = id;
 
     }
 
@@ -177,4 +175,11 @@ public class Evento {
         this.codCategoria = codCategoria;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

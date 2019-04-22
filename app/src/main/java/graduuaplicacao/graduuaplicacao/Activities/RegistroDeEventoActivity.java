@@ -38,6 +38,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
+import java.util.UUID;
 
 import graduuaplicacao.graduuaplicacao.DAO.ConfiguracaoFirebase;
 import graduuaplicacao.graduuaplicacao.Model.Evento;
@@ -201,6 +203,7 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
                 eventos.setDeepLink(ConfiguracaoFirebase.generateDeepLink(titulo.getText().toString()));
                 eventos.setNumShares(0);
                 eventos.setCodCategoria(codCategoria);
+                eventos.setId(UUID.randomUUID().toString().trim());
 
 //                Validador validador = new Validador();
 //                boolean opt = validador.validarData(eventos.getData());

@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -21,6 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 
+import graduuaplicacao.graduuaplicacao.Adapters.VerticalCardsAdapter;
 import graduuaplicacao.graduuaplicacao.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mBtnFazerLogin;
     private FirebaseAnalytics analytics;
     private FirebaseAuth firebaseAuth;
+    private String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +52,12 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 if(user == null) {
                     Intent intentAbrirTelaLogin = new Intent(MainActivity.this, LoginActivity.class);
+                    intentAbrirTelaLogin.putExtra("IDEVENTO", id);
                     startActivity(intentAbrirTelaLogin);
                     finish();
                 }else {
                     Intent intentAbrirTelaLogin = new Intent(MainActivity.this, EventosActivity.class);
+                    intentAbrirTelaLogin.putExtra("IDEVENTO", id);
                     startActivity(intentAbrirTelaLogin);
                     finish();
                 }
@@ -71,12 +76,20 @@ public class MainActivity extends AppCompatActivity {
                     Uri deepLink = pendingDynamicLinkData.getLink();
                     System.out.println(deepLink);
 
-                    FirebaseAppInvite invite = FirebaseAppInvite.getInvitation(pendingDynamicLinkData);
-                    if (invite != null) {
-                        String invitationId = invite.getInvitationId();
-                        if (!TextUtils.isEmpty(invitationId))
-                            System.out.println(invitationId);
-                    }
+//                    Bundle bundle = new Bundle();
+                    id = deepLink.toString().substring(25);
+//                    bundle.putString("IDEVENTO", id);
+                    Intent intent = new Intent(MainActivity.this, EventosActivity.class);
+                    intent.putExtra("IDEVENTO", id);
+
+//                    intent.putExtras(bundle);
+
+//                    FirebaseAppInvite invite = FirebaseAppInvite.getInvitation(pendingDynamicLinkData);
+//                    if (invite != null) {
+//                        String invitationId = invite.getInvitationId();
+//                        if (!TextUtils.isEmpty(invitationId))
+//                            System.out.println(invitationId);
+//                    }
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -85,6 +98,26 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("Failure");
             }
         });
+
+
+//        FirebaseDynamicLinks.getInstance()
+//                .getDynamicLink(getIntent())
+//                .addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
+//                    @Override
+//                    public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
+//                        Uri deepLink = null;
+//                        if (pendingDynamicLinkData != null) {
+//                            deepLink = pendingDynamicLinkData.getLink();
+//                        }
+//                    }
+//                })
+//                .addOnFailureListener(this, new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Log.w("", "getDynamicLink:onFailure", e);
+//                    }
+//                });
+
 
 
     }

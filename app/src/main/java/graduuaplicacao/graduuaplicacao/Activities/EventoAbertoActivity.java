@@ -283,12 +283,12 @@ public class EventoAbertoActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent = new Intent(this, EventosActivity.class);
-        startActivity(intent);
-    }
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        Intent intent = new Intent(this, EventosActivity.class);
+//        startActivity(intent);
+//    }
 
 
     private String getHorasComplementares(){

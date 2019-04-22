@@ -195,21 +195,19 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
         });
 
 
-        horasComplementaresNumeros = (TextView) findViewById(R.id.horasComplementaresNumeros);
-        DatabaseReference dRHorasComp = ConfiguracaoFirebase.getFirebase().child("horasComplementares");
-        dRHorasComp.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.hasChild(userID)) {
-                    horasComplementaresNumeros.setText(dataSnapshot.child(userID).getValue().toString());
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+//        horasComplementaresNumeros = (TextView) findViewById(R.id.horasComplementaresNumeros);
+//        DatabaseReference dRHorasComp = ConfiguracaoFirebase.getFirebase().child("horasComplementares").child(userID);
+//        dRHorasComp.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                horasComplementaresNumeros.setText(dataSnapshot.getValue().toString() +"h");
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
 
         btnConfiguracoes = (ImageButton) findViewById(R.id.btnConfiguracoes);
         btnConfiguracoes.setOnClickListener(new View.OnClickListener() {
@@ -365,6 +363,11 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
                 popupMenu.show();
             }
         });
+
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null) {
+            String id = bundle.getString("IDEVENTO");
+        }
 
 
     }
@@ -608,6 +611,37 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
 
     @Override
     public void itemClicked(View view, int position) {
+        String nome = eventos.get(position).getNome();
+        String apresentador = eventos.get(position).getApresentador();
+        String categoria = eventos.get(position).getCategoria();
+        String data = eventos.get(position).getData();
+        String descricao = eventos.get(position).getDescricao();
+        String frequencia = eventos.get(position).getFrequencia();
+        String horaInicio = eventos.get(position).getHoraInicio();
+        String horaFim= eventos.get(position).getHoraFim();
+        String local = eventos.get(position).getLocal();
+        String deepLink = eventos.get(position).getDeepLink();
+        String idUsuarioLogado = eventos.get(position).getIdUsuarioLogado();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("NOME", nome);
+        bundle.putString("APRESENTADOR", apresentador);
+        bundle.putString("CATEGORIA", categoria);
+        bundle.putString("DATA", data);
+        bundle.putString("DESCRICAO", descricao);
+        bundle.putString("FREQUENCIA", frequencia);
+        bundle.putString("HORAINICIO", horaInicio);
+        bundle.putString("HORAFIM", horaFim);
+        bundle.putString("LOCAL", local);
+        bundle.putString("DEEPLINK", deepLink);
+        bundle.putString("IDUSUARIOLOGADO", idUsuarioLogado);
+
+        Intent intent = new Intent(EventosActivity.this, EventoAbertoActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    public void itemCompartilhado(int position) {
         String nome = eventos.get(position).getNome();
         String apresentador = eventos.get(position).getApresentador();
         String categoria = eventos.get(position).getCategoria();

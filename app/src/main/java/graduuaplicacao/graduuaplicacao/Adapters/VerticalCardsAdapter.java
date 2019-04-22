@@ -4,6 +4,7 @@ package graduuaplicacao.graduuaplicacao.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -37,6 +38,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import graduuaplicacao.graduuaplicacao.Activities.EventoAbertoActivity;
+import graduuaplicacao.graduuaplicacao.Activities.EventosActivity;
 import graduuaplicacao.graduuaplicacao.DAO.ConfiguracaoFirebase;
 import graduuaplicacao.graduuaplicacao.GlideModule.GlideApp;
 import graduuaplicacao.graduuaplicacao.Model.Evento;
@@ -93,7 +95,7 @@ public class VerticalCardsAdapter extends RecyclerView.Adapter{
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    context.startActivity(new Intent(context, EventoAbertoActivity.class));
+                   // context.startActivity(new Intent(context, EventoAbertoActivity.class));
 
                     if(clickListener!=null) {
                         clickListener.itemClicked(v,getAdapterPosition());
@@ -111,6 +113,18 @@ public class VerticalCardsAdapter extends RecyclerView.Adapter{
 
         View view = LayoutInflater.from(context)
                 .inflate(R.layout.style_card_view_new, parent, false);
+
+        Bundle bundle = ((EventosActivity) context).getIntent().getExtras();
+        String idStr = bundle.getString("IDEVENTO");
+        Integer id = null;
+        if( idStr != null) {
+            id = Integer.valueOf(bundle.getString("IDEVENTO"));
+        }
+        if(id != null) {
+            EventosActivity e = new EventosActivity();
+            e.itemCompartilhado(id);
+
+        }
 
         NossoViewHolder holder = new NossoViewHolder(view);
 
@@ -193,7 +207,7 @@ public class VerticalCardsAdapter extends RecyclerView.Adapter{
                 String sharedSubject = ("Venha para o evento " + evento.getNome());
                 intent.putExtra(Intent.EXTRA_SUBJECT, sharedSubject);
                 intent.putExtra(Intent.EXTRA_TEXT, "Venha participar do evento " + evento.getNome().toUpperCase() + " no dia " + evento.getData() + ". "
-                        + "Clique no link a seguir para ser redirecionado:" + buildDynamicLink(evento.getNome(), evento.getDescricao()));
+                        + "Clique no link a seguir para ser redirecionado:" + buildDynamicLink(evento.getNome(), evento.getDescricao(), position));
                 context.startActivity(Intent.createChooser(intent, "share_using"));
                 }
         });
@@ -233,29 +247,32 @@ public class VerticalCardsAdapter extends RecyclerView.Adapter{
         }
 
 
+        Bundle bundle = new Bundle();
+
+        String idEventoCompartilhado = bundle.getString("IDEVENTO");
+        System.out.println(idEventoCompartilhado);
+
     }
 
+//    private void onInviteClicked(int position) {
+//        Intent intent = new AppInviteInvitation.IntentBuilder("aaaa")
+//                .setDeepLink(Uri.parse(eventos.get(position).getDeepLink()))
+//                .build();
+//
+//        context.startActivity(Intent.createChooser(intent, "share_using"));
+//    }
 
-
-    private void onInviteClicked(int position) {
-        Intent intent = new AppInviteInvitation.IntentBuilder("aaaa")
-                .setDeepLink(Uri.parse(eventos.get(position).getDeepLink()))
-                .build();
-
-        context.startActivity(Intent.createChooser(intent, "share_using"));
-    }
-
-    private String buildDynamicLink(String evento, String descricao) {
+    private String buildDynamicLink(String nome, String descricao, Integer id) {
         String path = FirebaseDynamicLinks.getInstance().createDynamicLink()
                 .setDynamicLinkDomain("graduu.page.link")
-                .setLink(Uri.parse("https://graduu.page.link/eventoAberto"))
+                .setLink(Uri.parse("https://graduu.page.link/" + id))
                 .setAndroidParameters(new DynamicLink.AndroidParameters.Builder().build())
-                .setSocialMetaTagParameters(new DynamicLink.SocialMetaTagParameters.Builder().setTitle(evento).setDescription(descricao).build())
+                .setSocialMetaTagParameters(new DynamicLink.SocialMetaTagParameters.Builder().setTitle(nome).setDescription(descricao).build())
                 .setGoogleAnalyticsParameters(new DynamicLink.GoogleAnalyticsParameters.Builder().setSource("Android App").build())
                 .buildDynamicLink().getUri().toString();
 
 
-        return  path;
+        return path;
     }
 
 
