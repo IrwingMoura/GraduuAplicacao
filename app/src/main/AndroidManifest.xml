@@ -24,7 +24,8 @@
             </intent-filter>
             <intent-filter
                 android:autoVerify="true"
-                android:launchMode="singleTask">
+                android:launchMode="singleTask"
+                android:allowTaskReparenting="true">
                 <data android:host="graduu.page.link" />
                 <data android:scheme="https" />
                 <data android:pathPattern=".*" />

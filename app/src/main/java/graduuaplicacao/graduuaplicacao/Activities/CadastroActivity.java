@@ -34,7 +34,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -66,6 +70,8 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
     Button botaoCadastrar;
 
     String campusSpinner;
+
+    String nomeReg, campusReg, cursoReg, dataNascReg;
 
     private final  int PICK_IMAGE_REQUEST = 71;
     private final static int mLength = 512;
@@ -172,12 +178,12 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
                                 Usuario usuario = new Usuario(
                                         email,
                                         senha,
-                                        "Teste",
+                                        nomeReg,
                                         matricula,
-                                        "Duque de Caxias",
-                                        "dd/MM/yyyy",
+                                        campusReg,
+                                        dataNascReg,
                                         "",
-                                        "Curso"
+                                        cursoReg
                                 );
 
                                 FirebaseDatabase.getInstance().getReference("Usuarios")
@@ -257,6 +263,21 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.botaoCadastrar:
+                DatabaseReference usuariosRegistradosRef = FirebaseDatabase.getInstance().getReference("Users").child(editTextMatricula.getText().toString());
+                usuariosRegistradosRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        nomeReg = dataSnapshot.child("nome").getValue().toString();
+                        campusReg = dataSnapshot.child("campus").getValue().toString();
+                        dataNascReg = dataSnapshot.child("dataDeNascimento").getValue().toString();
+                        cursoReg = dataSnapshot.child("curso").getValue().toString();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
                 registerUser();
                 break;
         }

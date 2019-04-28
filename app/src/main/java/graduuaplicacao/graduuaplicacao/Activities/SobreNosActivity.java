@@ -42,7 +42,7 @@ public class SobreNosActivity extends AppCompatActivity {
 
         final String copyrightstring = String.format("Copyright %d by Irwing M.", Calendar.getInstance().get(Calendar.YEAR));
         copyright.setTitle(copyrightstring);
-        copyright.setIconDrawable(R.mipmap.ic_launcher);
+        copyright.setIconDrawable(R.mipmap.ic_logo2);
         copyright.setGravity(Gravity.CENTER);
         copyright.setOnClickListener(new View.OnClickListener() {
             @Override

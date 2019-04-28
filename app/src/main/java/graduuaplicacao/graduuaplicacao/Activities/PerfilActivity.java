@@ -57,6 +57,7 @@ public class PerfilActivity extends AppCompatActivity {
     private ImageView mImagePerfil;
     private TextView mCurso;
     private TextView mHorasComp;
+    private ImageView mIconeCamera;
 
     private final int PICK_IMAGE_REQUEST = 71;
     private Uri filePath;
@@ -84,6 +85,7 @@ public class PerfilActivity extends AppCompatActivity {
         mEmail = findViewById(R.id.resultEmail);
         mImagePerfil = findViewById(R.id.imagemPerfilTelaPerfil);
         mHorasComp = findViewById(R.id.resulHora);
+        mIconeCamera = findViewById(R.id.iconeCamera);
 
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -108,7 +110,7 @@ public class PerfilActivity extends AppCompatActivity {
 
 
         mImagePerfil = (CircleImageView) findViewById(R.id.imagemPerfilTelaPerfil);
-        mImagePerfil.setOnClickListener(new View.OnClickListener() {
+        mIconeCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 escolherImagem();
@@ -125,6 +127,11 @@ public class PerfilActivity extends AppCompatActivity {
                 }else{
                     GlideApp.with(PerfilActivity.this).load("https://image.freepik.com/icones-gratis/silhueta-usuario-masculino_318-35708.jpg").centerCrop().into(mImagePerfil);
                 }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                GlideApp.with(PerfilActivity.this).load("https://image.freepik.com/icones-gratis/silhueta-usuario-masculino_318-35708.jpg").centerCrop().into(mImagePerfil);
             }
         });
 
@@ -154,7 +161,6 @@ public class PerfilActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
     private void showData(DataSnapshot dataSnapshot) {
@@ -170,22 +176,22 @@ public class PerfilActivity extends AppCompatActivity {
             usuario.setCurso(dataSnapshot.child("curso").getValue().toString());
 
 
-        SimpleDateFormat df1 = new SimpleDateFormat("dd-MM-yyyy");
+//        SimpleDateFormat df1 = new SimpleDateFormat("dd-MM-yyyy");
+//
+//        Date dataa = new Date();
+//        try {
+//            dataa = df1.parse(usuario.getDataDeNascimento());
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
 
-        Date dataa = new Date();
-        try {
-            dataa = df1.parse(usuario.getDataDeNascimento());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        String dataNascimentoStr = df.format(dataa);
+//        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+//        String dataNascimentoStr = df.format(dataa);
 
             mNome.setText(usuario.getNome());
             mMatricula.setText(usuario.getMatricula());
             mEmail.setText(usuario.getEmail());
-            mDataDeNascimento.setText(dataNascimentoStr);
+            mDataDeNascimento.setText(usuario.getDataDeNascimento());
             mCampus.setText(usuario.getCampus());
             mCurso.setText(usuario.getCurso());
 

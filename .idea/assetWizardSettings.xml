@@ -78,8 +78,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_bg" />
-                            <entry key="sourceFile" value="C:\Users\Yan\Desktop\bg.svg" />
+                            <entry key="outputName" value="ic_camera" />
+                            <entry key="sourceFile" value="C:\Users\Yan\Desktop\photo-camera.svg" />
                           </map>
                         </option>
                       </PersistentState>
