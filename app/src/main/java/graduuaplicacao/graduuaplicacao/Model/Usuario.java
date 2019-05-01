@@ -10,11 +10,12 @@ public class Usuario {
     private String dataDeNascimento;
     private String imagemPerfil;
     private String curso;
+    private Boolean professor;
 
     public Usuario() {
     }
 
-    public Usuario(String email, String senha, String nome, String matricula, String campus, String dataDeNascimento, String imagemPerfil, String curso) {
+    public Usuario(String email, String senha, String nome, String matricula, String campus, String dataDeNascimento, String imagemPerfil, String curso, Boolean professor) {
         this.email = email;
         this.senha = senha;
         this.nome = nome;
@@ -22,6 +23,7 @@ public class Usuario {
         this.campus = campus;
         this.dataDeNascimento = dataDeNascimento;
         this.curso = curso;
+        this.professor = professor;
     }
 
 
@@ -87,5 +89,13 @@ public class Usuario {
 
     public void setCurso(String curso) {
         this.curso = curso;
+    }
+
+    public Boolean getProfessor() {
+        return professor;
+    }
+
+    public void setProfessor(Boolean professor) {
+        this.professor = professor;
     }
 }

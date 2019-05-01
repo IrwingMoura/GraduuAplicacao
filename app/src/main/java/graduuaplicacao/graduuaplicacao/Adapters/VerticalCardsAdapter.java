@@ -114,17 +114,21 @@ public class VerticalCardsAdapter extends RecyclerView.Adapter{
         View view = LayoutInflater.from(context)
                 .inflate(R.layout.style_card_view_new, parent, false);
 
-        Bundle bundle = ((EventosActivity) context).getIntent().getExtras();
-        String idStr = bundle.getString("IDEVENTO");
-        Integer id = null;
-        if( idStr != null) {
-            id = Integer.valueOf(bundle.getString("IDEVENTO"));
-        }
-        if(id != null) {
-            EventosActivity e = new EventosActivity();
-            e.itemCompartilhado(id);
-
-        }
+//        Bundle bundle = ((EventosActivity) context).getIntent().getExtras();
+//        String idStr = null;
+//        if(bundle != null) {
+//            idStr = bundle.getString("IDEVENTO");
+//        }
+//        Integer id = null;
+//        if( idStr != null) {
+//            id = Integer.valueOf(bundle.getString("IDEVENTO"));
+//        }
+//        if(id != null) {
+////            EventosActivity e = new EventosActivity();
+////            e.itemCompartilhado(id);
+//            clickListener.itemClicked(null, id);
+//
+//        }
 
         NossoViewHolder holder = new NossoViewHolder(view);
 
@@ -207,7 +211,7 @@ public class VerticalCardsAdapter extends RecyclerView.Adapter{
                 String sharedSubject = ("Venha para o evento " + evento.getNome());
                 intent.putExtra(Intent.EXTRA_SUBJECT, sharedSubject);
                 intent.putExtra(Intent.EXTRA_TEXT, "Venha participar do evento " + evento.getNome().toUpperCase() + " no dia " + evento.getData() + ". "
-                        + "Clique no link a seguir para ser redirecionado:" + buildDynamicLink(evento.getNome(), evento.getDescricao(), position));
+                        + "Clique no link a seguir para ser redirecionado:" + buildDynamicLink(evento.getNome(), evento.getDescricao()));
                 context.startActivity(Intent.createChooser(intent, "share_using"));
                 }
         });
@@ -254,23 +258,14 @@ public class VerticalCardsAdapter extends RecyclerView.Adapter{
 
     }
 
-//    private void onInviteClicked(int position) {
-//        Intent intent = new AppInviteInvitation.IntentBuilder("aaaa")
-//                .setDeepLink(Uri.parse(eventos.get(position).getDeepLink()))
-//                .build();
-//
-//        context.startActivity(Intent.createChooser(intent, "share_using"));
-//    }
-
-    private String buildDynamicLink(String nome, String descricao, Integer id) {
+    private String buildDynamicLink(String nome, String descricao) {
         String path = FirebaseDynamicLinks.getInstance().createDynamicLink()
-                .setDynamicLinkDomain("graduu.page.link")
-                .setLink(Uri.parse("https://graduu.page.link/" + id))
+                .setDynamicLinkDomain("graduuaplicacao.page.link")
+                .setLink(Uri.parse("https://graduuaplicacao.page.link/" + nome))
                 .setAndroidParameters(new DynamicLink.AndroidParameters.Builder().build())
                 .setSocialMetaTagParameters(new DynamicLink.SocialMetaTagParameters.Builder().setTitle(nome).setDescription(descricao).build())
                 .setGoogleAnalyticsParameters(new DynamicLink.GoogleAnalyticsParameters.Builder().setSource("Android App").build())
                 .buildDynamicLink().getUri().toString();
-
 
         return path;
     }

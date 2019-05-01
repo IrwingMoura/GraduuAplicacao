@@ -22,19 +22,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter
-                android:autoVerify="true"
-                android:launchMode="singleTask"
-                android:allowTaskReparenting="true">
-                <data android:host="graduu.page.link" />
-                <data android:scheme="https" />
-                <data android:pathPattern=".*" />
-
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".Activities.LoginActivity"
@@ -56,17 +43,12 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity android:name=".Activities.EventoAbertoActivity">
-            <intent-filter
-                android:autoVerify="true"
-                android:launchMode="singleTask">
-                <data android:host="graduu.com" />
-                <data android:scheme="https" />
-                <data android:pathPattern=".*" />
-
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:host="graduuaplicacao.page.link/evento" android:scheme="http"/>
+                <data android:host="graduuaplicacao.page.link/evento" android:scheme="https"/>
             </intent-filter>
         </activity>
         <activity android:name=".Activities.SobreNosActivity" />

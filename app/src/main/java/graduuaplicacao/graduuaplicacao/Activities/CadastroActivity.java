@@ -72,6 +72,7 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
     String campusSpinner;
 
     String nomeReg, campusReg, cursoReg, dataNascReg;
+    Boolean professorReg;
 
     private final  int PICK_IMAGE_REQUEST = 71;
     private final static int mLength = 512;
@@ -183,7 +184,8 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
                                         campusReg,
                                         dataNascReg,
                                         "",
-                                        cursoReg
+                                        cursoReg,
+                                        professorReg
                                 );
 
                                 FirebaseDatabase.getInstance().getReference("Usuarios")
@@ -271,6 +273,7 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
                         campusReg = dataSnapshot.child("campus").getValue().toString();
                         dataNascReg = dataSnapshot.child("dataDeNascimento").getValue().toString();
                         cursoReg = dataSnapshot.child("curso").getValue().toString();
+                        professorReg = (Boolean) dataSnapshot.child("professor").getValue();
                     }
 
                     @Override

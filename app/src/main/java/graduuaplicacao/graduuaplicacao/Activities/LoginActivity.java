@@ -89,29 +89,29 @@ public class LoginActivity extends AppCompatActivity {
 
 //        FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent());
 
-        FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent()).addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
-            @Override
-            public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
-                if (pendingDynamicLinkData != null) {
-                    analytics = FirebaseAnalytics.getInstance(LoginActivity.this);
-
-                    Uri deepLink = pendingDynamicLinkData.getLink();
-                    System.out.println(deepLink);
-
-                    FirebaseAppInvite invite = FirebaseAppInvite.getInvitation(pendingDynamicLinkData);
-                    if (invite != null) {
-                        String invitationId = invite.getInvitationId();
-                        if (!TextUtils.isEmpty(invitationId))
-                            System.out.println(invitationId);
-                    }
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                System.out.println("Failure");
-            }
-        });
+//        FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent()).addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
+//            @Override
+//            public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
+//                if (pendingDynamicLinkData != null) {
+//                    analytics = FirebaseAnalytics.getInstance(LoginActivity.this);
+//
+//                    Uri deepLink = pendingDynamicLinkData.getLink();
+//                    System.out.println(deepLink);
+//
+//                    FirebaseAppInvite invite = FirebaseAppInvite.getInvitation(pendingDynamicLinkData);
+//                    if (invite != null) {
+//                        String invitationId = invite.getInvitationId();
+//                        if (!TextUtils.isEmpty(invitationId))
+//                            System.out.println(invitationId);
+//                    }
+//                }
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                System.out.println("Failure");
+//            }
+//        });
 
 
     }

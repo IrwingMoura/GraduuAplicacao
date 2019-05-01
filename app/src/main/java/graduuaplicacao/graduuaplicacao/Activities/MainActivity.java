@@ -19,6 +19,10 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.appinvite.FirebaseAppInvite;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 
@@ -28,8 +32,6 @@ import graduuaplicacao.graduuaplicacao.R;
 public class MainActivity extends AppCompatActivity {
 
     private ImageView mLogoFaculdade;
-    private Button mBtnFazerLogin;
-    private FirebaseAnalytics analytics;
     private FirebaseAuth firebaseAuth;
     private String id;
 
@@ -39,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mLogoFaculdade = (ImageView) findViewById(R.id.logoFaculdade);
-//        mBtnFazerLogin = (Button) findViewById(R.id.btnFazerLogin);
 
         firebaseAuth = FirebaseAuth.getInstance();
         final FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -63,62 +64,5 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }, 4000);
-
-
-//        FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent());
-
-        FirebaseDynamicLinks.getInstance().getDynamicLink(getIntent()).addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
-            @Override
-            public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
-                if (pendingDynamicLinkData != null) {
-                    analytics = FirebaseAnalytics.getInstance(MainActivity.this);
-
-                    Uri deepLink = pendingDynamicLinkData.getLink();
-                    System.out.println(deepLink);
-
-//                    Bundle bundle = new Bundle();
-                    id = deepLink.toString().substring(25);
-//                    bundle.putString("IDEVENTO", id);
-                    Intent intent = new Intent(MainActivity.this, EventosActivity.class);
-                    intent.putExtra("IDEVENTO", id);
-
-//                    intent.putExtras(bundle);
-
-//                    FirebaseAppInvite invite = FirebaseAppInvite.getInvitation(pendingDynamicLinkData);
-//                    if (invite != null) {
-//                        String invitationId = invite.getInvitationId();
-//                        if (!TextUtils.isEmpty(invitationId))
-//                            System.out.println(invitationId);
-//                    }
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                System.out.println("Failure");
-            }
-        });
-
-
-//        FirebaseDynamicLinks.getInstance()
-//                .getDynamicLink(getIntent())
-//                .addOnSuccessListener(this, new OnSuccessListener<PendingDynamicLinkData>() {
-//                    @Override
-//                    public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
-//                        Uri deepLink = null;
-//                        if (pendingDynamicLinkData != null) {
-//                            deepLink = pendingDynamicLinkData.getLink();
-//                        }
-//                    }
-//                })
-//                .addOnFailureListener(this, new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Log.w("", "getDynamicLink:onFailure", e);
-//                    }
-//                });
-
-
-
     }
 }

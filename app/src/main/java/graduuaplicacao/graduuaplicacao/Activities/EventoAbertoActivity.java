@@ -47,7 +47,7 @@ import graduuaplicacao.graduuaplicacao.R;
 
 public class EventoAbertoActivity extends AppCompatActivity {
 
-    TextView nome, apresentador, categoria, data, descricao, frequencia, horaInicio, horaFim, local, txtResult;
+    TextView nome, apresentador, categoria, data, descricao, frequencia, horaInicio, horaFim, local, txtResult, txtEventoFinalizado;
     ImageView imagem;
     FirebaseAnalytics analytics;
     Button btnGerarQrCode, btnLerQrCode;
@@ -81,6 +81,7 @@ public class EventoAbertoActivity extends AppCompatActivity {
         btnGerarQrCode = (Button) findViewById(R.id.btnGerarQrCode);
         btnLerQrCode = (Button) findViewById(R.id.btnLerQrCode);
         /*qrCode = (ImageView) findViewById(R.id.imagemQrCode);*/
+        txtEventoFinalizado = (TextView) findViewById(R.id.eventoFinalizado);
 
         btnLerQrCode.setVisibility(View.GONE);
 
@@ -141,9 +142,7 @@ public class EventoAbertoActivity extends AppCompatActivity {
             local.setText(localKey);
 //            horaInicio.setText(horaInicioKey);
 
-            if(userID.equals(idUsuarioLogado)){
-                btnLerQrCode.setVisibility(View.VISIBLE);
-            }
+
 
             SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
             String dataAtual = df.format(date);
@@ -159,9 +158,24 @@ public class EventoAbertoActivity extends AppCompatActivity {
 
             String dataEventoFormatada = df.format(dataEvento);
 
+//            btnLerQrCode.setVisibility(View.GONE);
+            btnGerarQrCode.setVisibility(View.GONE);
+            txtEventoFinalizado.setVisibility(View.GONE);
             // TODO: ACERTAR HORA
-            if(!dataAtual.equals(dataEventoFormatada)) {
-                btnLerQrCode.setVisibility(View.GONE);
+
+            if(userID.equals(idUsuarioLogado) && dataAtual.equals(dataEventoFormatada)){
+                btnLerQrCode.setVisibility(View.VISIBLE);
+                btnGerarQrCode.setVisibility(View.VISIBLE);
+            }
+            else if(dataAtual.equals(dataEventoFormatada)) {
+                btnGerarQrCode.setVisibility(View.VISIBLE);
+            }
+            else if(dataEvento.after(date)){
+                txtEventoFinalizado.setText("");
+                txtEventoFinalizado.setVisibility(View.VISIBLE);
+            }
+            else{
+                txtEventoFinalizado.setVisibility(View.VISIBLE);
             }
 
 //            Glide.with(EventoAbertoActivity.this).load(R.drawable.bot).into(imagem);
@@ -282,14 +296,6 @@ public class EventoAbertoActivity extends AppCompatActivity {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
-
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//        Intent intent = new Intent(this, EventosActivity.class);
-//        startActivity(intent);
-//    }
-
 
     private String getHorasComplementares(){
 

@@ -78,7 +78,7 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
     private ArrayAdapter<Evento> adapter;
     private HorizontalCardsAdapter adapterHorizontal;
     private ArrayList<Evento> eventos;
-    private DatabaseReference firebase, refEventosCategoria;
+    private DatabaseReference firebase, refEventosCategoria, eventoRef;
     private DatabaseReference myRef;
     private ValueEventListener valueEventListenerEventos;
     private ImageButton btnCriarEventoPaginaInicial;
@@ -118,6 +118,9 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
         setContentView(R.layout.activity_eventos);
 //        android.support.v7.widget.Toolbar mToolbar = findViewById(R.id.appbar);
 //        setSupportActionBar(mToolbar);
+
+        txtHorasComplementares = (TextView) findViewById(R.id.horasComplementares);
+        horasComplementaresNumeros = (TextView) findViewById(R.id.horasComplementaresNumeros);
 
         imagemPerfil = (CircleImageView) findViewById(R.id.imagemPerfil);
         imagemPerfil.setOnClickListener(new View.OnClickListener() {
@@ -380,13 +383,13 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
                     analytics = FirebaseAnalytics.getInstance(EventosActivity.this);
 
                     Uri deepLink = pendingDynamicLinkData.getLink();
-                    System.out.println(deepLink);
+                    String param = deepLink.toString().substring(34);
+                    teste(param);
 
-                    FirebaseAppInvite invite = FirebaseAppInvite.getInvitation(pendingDynamicLinkData);
-                    if (invite != null) {
-                        String invitationId = invite.getInvitationId();
-                        if (!TextUtils.isEmpty(invitationId))
-                            System.out.println(invitationId);
+                    Bundle bundle = getIntent().getExtras();
+                    String nomeEvento = "";
+                    if(bundle.getString("PARAM") != null){
+                        nomeEvento = bundle.getString("PARAM");
                     }
                 }
             }
@@ -548,6 +551,8 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
         super.onStart();
         firebase.addValueEventListener(valueEventListenerEventos);
 
+        btnCriarEventoPaginaInicial.setVisibility(View.GONE);
+
         final DatabaseReference teste = myRef.child("Usuarios");
         teste.addValueEventListener(new ValueEventListener() {
             @Override
@@ -556,10 +561,15 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
                     if (data.getKey().equals(userID)) {
                         Usuario usuario = data.getValue(Usuario.class);
                         nomeUsuarioLogado.setText(usuario.getNome());
-                        String matricula = usuario.getMatricula().toString();
-                        if (matricula.equals("5404451")) {            //DESABILITANDO O BOTAO  --- CONSIDERANDO A MATRICULA COMO NAO PERMITIDA
+                        Boolean isProfessor = false;
+                        if(usuario.getProfessor() != null) {
+                            isProfessor = usuario.getProfessor();
+                        }
+                        if (isProfessor) {            //DESABILITANDO O BOTAO  --- CONSIDERANDO A MATRICULA COMO NAO PERMITIDA
 //                                btnCriarEventoPaginaInicial.setEnabled(false);
-                            btnCriarEventoPaginaInicial.setVisibility(View.GONE); // TODO: 15/12/2018 TORNAR O BOTAO VISIVEL SOMENTE PARA QUEM TEM PERMISSÃO
+                            btnCriarEventoPaginaInicial.setVisibility(View.VISIBLE); // TODO: 15/12/2018 TORNAR O BOTAO VISIVEL SOMENTE PARA QUEM TEM PERMISSÃO
+                            txtHorasComplementares.setText("Professor(a)");
+                            horasComplementaresNumeros.setVisibility(View.GONE);
                         }
 
 //                        data.getKey().equals("matricula");
@@ -670,5 +680,46 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
         Intent intent = new Intent(EventosActivity.this, EventoAbertoActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);
+    }
+
+    public void teste(final String param) {
+        eventoRef = ConfiguracaoFirebase.getFirebase().child("eventosCriados").child(param);
+        eventoRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                String nome = dataSnapshot.child("nome").getValue().toString();
+                String apresentador = dataSnapshot.child("apresentador").getValue().toString();
+                String categoria = dataSnapshot.child("categoria").getValue().toString();
+                String data = dataSnapshot.child("data").getValue().toString();
+                String descricao = dataSnapshot.child("descricao").getValue().toString();
+                String horaInicio = dataSnapshot.child("horaInicio").getValue().toString();
+                String horaFim = dataSnapshot.child("horaFim").getValue().toString();
+                String local = dataSnapshot.child("local").getValue().toString();
+                String deepLink = dataSnapshot.child("deepLink").getValue().toString();
+                String idUsuarioLogado = dataSnapshot.child("idUsuarioLogado").getValue().toString();
+
+                Bundle bundle = new Bundle();
+                bundle.putString("NOME", nome);
+                bundle.putString("APRESENTADOR", apresentador);
+                bundle.putString("CATEGORIA", categoria);
+                bundle.putString("DATA", data);
+                bundle.putString("DESCRICAO", descricao);
+                bundle.putString("HORAINICIO", horaInicio);
+                bundle.putString("HORAFIM", horaFim);
+                bundle.putString("LOCAL", local);
+                bundle.putString("DEEPLINK", deepLink);
+                bundle.putString("IDUSUARIOLOGADO", idUsuarioLogado);
+
+                Intent intent = new Intent(EventosActivity.this, EventoAbertoActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }
