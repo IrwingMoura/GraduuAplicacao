@@ -1,15 +1,12 @@
 package graduuaplicacao.graduuaplicacao.Activities;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -17,25 +14,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.appinvite.FirebaseAppInvite;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -46,19 +38,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
-import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import graduuaplicacao.graduuaplicacao.Adapters.HorizontalCardsAdapter;
@@ -70,7 +57,7 @@ import graduuaplicacao.graduuaplicacao.Model.Usuario;
 import graduuaplicacao.graduuaplicacao.R;
 import graduuaplicacao.graduuaplicacao.Util.SpeedyLinearLayoutManager;
 
-public class EventosActivity extends AppCompatActivity implements VerticalCardsAdapter.ClickListener {
+public class EventosActivity extends AppCompatActivity implements VerticalCardsAdapter.ClickListener, HorizontalCardsAdapter.ClickListener {
 
     String TAG = "EventosActivity";
 
@@ -121,6 +108,23 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
 
         txtHorasComplementares = (TextView) findViewById(R.id.horasComplementares);
         horasComplementaresNumeros = (TextView) findViewById(R.id.horasComplementaresNumeros);
+
+        DatabaseReference dRHorasComp = ConfiguracaoFirebase.getFirebase().child("horasComplementares");
+        dRHorasComp.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.hasChild(userID)) {
+                    horasComplementaresNumeros.setText(dataSnapshot.child(userID).getValue().toString());
+                }else{
+                    horasComplementaresNumeros.setText("00:00h");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         imagemPerfil = (CircleImageView) findViewById(R.id.imagemPerfil);
         imagemPerfil.setOnClickListener(new View.OnClickListener() {
@@ -384,7 +388,7 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
 
                     Uri deepLink = pendingDynamicLinkData.getLink();
                     String param = deepLink.toString().substring(34);
-                    teste(param);
+                    startDetalhesEventoFromDynamicLink(param);
 
                     Bundle bundle = getIntent().getExtras();
                     String nomeEvento = "";
@@ -471,6 +475,7 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
         rcView.setLayoutManager(layoutManager);
         adapterHorizontal = new HorizontalCardsAdapter(this, nomeHz, dataHz, horaHz);
         rcView.setAdapter(adapterHorizontal);
+        adapterHorizontal.setClickListener(this);
     }
 
     private void showData(DataSnapshot dataSnapshot) {
@@ -620,6 +625,51 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
 
 
     @Override
+    public void itemClickedHorizontal(String titulo) {
+
+        eventoRef = ConfiguracaoFirebase.getFirebase().child("eventosCriados").child(titulo);
+        eventoRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                String nome = dataSnapshot.child("nome").getValue().toString();
+                String apresentador = dataSnapshot.child("apresentador").getValue().toString();
+                String categoria = dataSnapshot.child("categoria").getValue().toString();
+                String data = dataSnapshot.child("data").getValue().toString();
+                String descricao = dataSnapshot.child("descricao").getValue().toString();
+                String horaInicio = dataSnapshot.child("horaInicio").getValue().toString();
+                String horaFim = dataSnapshot.child("horaFim").getValue().toString();
+                String local = dataSnapshot.child("local").getValue().toString();
+                String deepLink = dataSnapshot.child("deepLink").getValue().toString();
+                String idUsuarioLogado = dataSnapshot.child("idUsuarioLogado").getValue().toString();
+
+                Bundle bundle = new Bundle();
+                bundle.putString("NOME", nome);
+                bundle.putString("APRESENTADOR", apresentador);
+                bundle.putString("CATEGORIA", categoria);
+                bundle.putString("DATA", data);
+                bundle.putString("DESCRICAO", descricao);
+                bundle.putString("HORAINICIO", horaInicio);
+                bundle.putString("HORAFIM", horaFim);
+                bundle.putString("LOCAL", local);
+                bundle.putString("DEEPLINK", deepLink);
+                bundle.putString("IDUSUARIOLOGADO", idUsuarioLogado);
+
+                Intent intent = new Intent(EventosActivity.this, EventoAbertoActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
+
+    @Override
     public void itemClicked(View view, int position) {
         String nome = eventos.get(position).getNome();
         String apresentador = eventos.get(position).getApresentador();
@@ -651,38 +701,7 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
         startActivity(intent);
     }
 
-    public void itemCompartilhado(int position) {
-        String nome = eventos.get(position).getNome();
-        String apresentador = eventos.get(position).getApresentador();
-        String categoria = eventos.get(position).getCategoria();
-        String data = eventos.get(position).getData();
-        String descricao = eventos.get(position).getDescricao();
-        String frequencia = eventos.get(position).getFrequencia();
-        String horaInicio = eventos.get(position).getHoraInicio();
-        String horaFim= eventos.get(position).getHoraFim();
-        String local = eventos.get(position).getLocal();
-        String deepLink = eventos.get(position).getDeepLink();
-        String idUsuarioLogado = eventos.get(position).getIdUsuarioLogado();
-
-        Bundle bundle = new Bundle();
-        bundle.putString("NOME", nome);
-        bundle.putString("APRESENTADOR", apresentador);
-        bundle.putString("CATEGORIA", categoria);
-        bundle.putString("DATA", data);
-        bundle.putString("DESCRICAO", descricao);
-        bundle.putString("FREQUENCIA", frequencia);
-        bundle.putString("HORAINICIO", horaInicio);
-        bundle.putString("HORAFIM", horaFim);
-        bundle.putString("LOCAL", local);
-        bundle.putString("DEEPLINK", deepLink);
-        bundle.putString("IDUSUARIOLOGADO", idUsuarioLogado);
-
-        Intent intent = new Intent(EventosActivity.this, EventoAbertoActivity.class);
-        intent.putExtras(bundle);
-        startActivity(intent);
-    }
-
-    public void teste(final String param) {
+    public void startDetalhesEventoFromDynamicLink(final String param) {
         eventoRef = ConfiguracaoFirebase.getFirebase().child("eventosCriados").child(param);
         eventoRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

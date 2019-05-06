@@ -3,12 +3,13 @@ package graduuaplicacao.graduuaplicacao.Adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
 
@@ -24,6 +25,7 @@ public class HorizontalCardsAdapter extends RecyclerView.Adapter<HorizontalCards
     private ArrayList<String> data = new ArrayList<>();
     private ArrayList<String> hora = new ArrayList<>();
     private Context mContext;
+    private ClickListener clickListener;
 
     public HorizontalCardsAdapter(Context mContext, ArrayList<String> nome, ArrayList<String> data, ArrayList<String> hora) {
         this.nome= nome;
@@ -38,6 +40,7 @@ public class HorizontalCardsAdapter extends RecyclerView.Adapter<HorizontalCards
         CircleImageView imagemPerfil;
         ImageView like;
         TextView titulo, data, hora;
+        DatabaseReference eventoRef;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -47,6 +50,16 @@ public class HorizontalCardsAdapter extends RecyclerView.Adapter<HorizontalCards
             titulo = itemView.findViewById(R.id.txtTituloCardLike);
             data = itemView.findViewById(R.id.txtDataCardLike);
             hora = itemView.findViewById(R.id.txtHoraCardLike);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if(clickListener!=null) {
+                        clickListener.itemClickedHorizontal(titulo.getText().toString());
+                    }
+                }
+            });
         }
     }
 
@@ -74,4 +87,11 @@ public class HorizontalCardsAdapter extends RecyclerView.Adapter<HorizontalCards
         return nome.size();
     }
 
+    public interface ClickListener {
+        public void itemClickedHorizontal(String titulo);
+    }
+
+    public void setClickListener(ClickListener clickListener){
+        this.clickListener = clickListener;
+    }
 }
