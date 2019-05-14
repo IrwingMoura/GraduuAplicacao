@@ -148,31 +148,31 @@ public class LoginActivity extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(firstStart){
-            final TourGuide mGetStarted = TourGuide.init(this).with(TourGuide.Technique.Click)
-                    .setPointer(new Pointer())
-                    .setToolTip(new ToolTip().setTitle("Bem-Vindo!")
-                            .setDescription("Clique aqui para se Cadastrar"))
-                    .setOverlay(new Overlay())
-                    .playOn(txtCriarCadastro);
-
-            txtCriarCadastro.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(LoginActivity.this, CadastroActivity.class);
-                    startActivity(intent);
-
-                    mGetStarted.cleanUp();
-                }
-            });
-
-            SharedPreferences pref =  getSharedPreferences("prefs", MODE_PRIVATE);
-            SharedPreferences.Editor editor = pref.edit();
-            editor.putBoolean("firstStart", false).commit();
-//            pref.edit().putBoolean("firstStart", false).c
-        }
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        if(firstStart){
+//            final TourGuide mGetStarted = TourGuide.init(this).with(TourGuide.Technique.Click)
+//                    .setPointer(new Pointer())
+//                    .setToolTip(new ToolTip().setTitle("Bem-Vindo!")
+//                            .setDescription("Clique aqui para se Cadastrar"))
+//                    .setOverlay(new Overlay())
+//                    .playOn(txtCriarCadastro);
+//
+//            txtCriarCadastro.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent intent = new Intent(LoginActivity.this, CadastroActivity.class);
+//                    startActivity(intent);
+//
+//                    mGetStarted.cleanUp();
+//                }
+//            });
+//
+//            SharedPreferences pref =  getSharedPreferences("prefs", MODE_PRIVATE);
+//            SharedPreferences.Editor editor = pref.edit();
+//            editor.putBoolean("firstStart", false).commit();
+////            pref.edit().putBoolean("firstStart", false).c
+//        }
+//    }
 }

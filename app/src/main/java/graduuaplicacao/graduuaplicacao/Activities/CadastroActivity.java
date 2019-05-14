@@ -242,24 +242,33 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.botaoCadastrar:
-                DatabaseReference usuariosRegistradosRef = FirebaseDatabase.getInstance().getReference("Users").child(editTextMatricula.getText().toString());
-                usuariosRegistradosRef.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        nomeReg = dataSnapshot.child("nome").getValue().toString();
-                        campusReg = dataSnapshot.child("campus").getValue().toString();
-                        dataNascReg = dataSnapshot.child("dataDeNascimento").getValue().toString();
-                        cursoReg = dataSnapshot.child("curso").getValue().toString();
-                        professorReg = (Boolean) dataSnapshot.child("professor").getValue();
-                    }
+                if(!"".equals(editTextMatricula.getText().toString())) {
+                    DatabaseReference usuariosRegistradosRef = FirebaseDatabase.getInstance().getReference("Users");
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        usuariosRegistradosRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.hasChild(editTextMatricula.getText().toString())) {
+                                    nomeReg = dataSnapshot.child(editTextMatricula.getText().toString()).child("nome").getValue().toString();
+                                    campusReg = dataSnapshot.child(editTextMatricula.getText().toString()).child("campus").getValue().toString();
+                                    dataNascReg = dataSnapshot.child(editTextMatricula.getText().toString()).child("dataDeNascimento").getValue().toString();
+                                    cursoReg = dataSnapshot.child(editTextMatricula.getText().toString()).child("curso").getValue().toString();
+                                    professorReg = (Boolean) dataSnapshot.child(editTextMatricula.getText().toString()).child("professor").getValue();
+                                    registerUser();
+                                }else {
+                                    Toast.makeText(CadastroActivity.this, "Insira uma matricula valida", Toast.LENGTH_SHORT).show();
+                                }
+                            }
 
-                    }
-                });
-                registerUser();
-                break;
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        break;
+
+                }
         }
     }
 

@@ -34,7 +34,7 @@
         android:layout_width="122dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:hint="Hora"
+        android:hint="Início"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout4"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout4">
 
@@ -118,7 +118,7 @@
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:hint="Apresentador"
+        android:hint="Palestrante(s)"
         app:layout_constraintEnd_toEndOf="@+id/spinnerSetores"
         app:layout_constraintStart_toStartOf="@+id/spinnerSetores"
         app:layout_constraintTop_toBottomOf="@+id/spinnerSetores">
@@ -139,9 +139,11 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="280dp"
         android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/borda_spinner"
         app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout"/>
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
     <!--<Spinner-->
     <!--android:id="@+id/spinnerLocais"-->
@@ -156,6 +158,7 @@
 
     <Spinner
         android:id="@+id/spinnerSetores"
+        android:background="@drawable/borda_spinner"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="280dp"
         android:layout_height="60dp"
@@ -163,6 +166,8 @@
         app:layout_constraintEnd_toEndOf="@+id/textInputLayout8"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout3"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
+
+
 
     <Button
         android:id="@+id/btnCriarEvento"
