@@ -152,7 +152,7 @@ public class PerfilActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.hasChild(userID)) {
-                    mHorasComp.setText(dataSnapshot.child(userID).getValue().toString());
+                    mHorasComp.setText(dataSnapshot.child(userID).getValue().toString() + " de 200");
                 }
             }
 

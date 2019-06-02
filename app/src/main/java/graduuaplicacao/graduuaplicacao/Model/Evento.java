@@ -21,9 +21,10 @@ public class Evento {
     private String deepLink;
     private long numShares;
     private String id;
+    private String horasComplementares;
 
 
-    public Evento(String nome, String horaInicio, String horaFim, String data, String descricao, String apresentador, String frequencia, String local, String categoria, String idUsuarioLogado, boolean isChecked, String deepLink, long numShares, Boolean curti, String urlFotoUsuarioCard, Integer codCategoria, String id) {
+    public Evento(String nome, String horaInicio, String horaFim, String data, String descricao, String apresentador, String frequencia, String local, String categoria, String idUsuarioLogado, boolean isChecked, String deepLink, long numShares, Boolean curti, String urlFotoUsuarioCard, Integer codCategoria, String id, String horasComplementares) {
         this.nome = nome;
         this.horaInicio = horaInicio;
         this.horaFim = horaFim;
@@ -41,6 +42,7 @@ public class Evento {
         this.urlFotoUsuarioCard = urlFotoUsuarioCard;
         this.codCategoria = codCategoria;
         this.id = id;
+        this.horasComplementares = horasComplementares;
 
     }
 
@@ -181,5 +183,13 @@ public class Evento {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getHorasComplementares() {
+        return horasComplementares;
+    }
+
+    public void setHorasComplementares(String horasComplementares) {
+        this.horasComplementares = horasComplementares;
     }
 }

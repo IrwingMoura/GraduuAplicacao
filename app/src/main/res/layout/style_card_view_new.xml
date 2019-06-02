@@ -1,19 +1,17 @@
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/CardView.Light"
     android:layout_width="match_parent"
-    android:layout_height="216dp"
-    android:layout_marginTop="8dp"
+    android:layout_height="240dp"
     android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
     android:layout_marginEnd="8dp"
+    android:layout_marginBottom="10dp"
     app:cardBackgroundColor="@color/cards"
-    app:cardCornerRadius="10dp"
-    android:layout_marginBottom="10dp">
+    app:cardCornerRadius="10dp">
 
-    <android.support.constraint.ConstraintLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -21,45 +19,45 @@
             android:id="@+id/btnShare"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
             android:background="@drawable/ic_share"
             android:focusable="false"
-            app:layout_constraintEnd_toStartOf="@+id/likeIcon"
-            app:layout_constraintTop_toTopOf="@+id/likeIcon" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/fundoImagemCardView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            tools:layout_editor_absoluteX="56dp"
+            tools:layout_editor_absoluteY="40dp" />
 
         <CheckBox
             android:id="@+id/likeIcon"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginRight="24dp"
+            android:layout_marginStart="16dp"
             android:background="@drawable/like_icon"
             android:button="@null"
             android:clickable="true"
             android:focusable="false"
             android:stateListAnimator="@animator/scale"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/btnShare"
+            app:layout_constraintTop_toTopOf="@+id/btnShare" />
 
         <!--<com.like.LikeButton-->
-            <!--android:id="@+id/like_button"-->
-            <!--android:layout_width="24dp"-->
-            <!--android:layout_height="24dp"-->
-            <!--android:layout_marginTop="24dp"-->
-            <!--android:layout_marginEnd="16dp"-->
-            <!--android:layout_marginRight="16dp"-->
-            <!--app:icon_size="24dp"-->
-            <!--app:icon_type="heart"-->
-            <!--app:layout_constraintEnd_toEndOf="parent"-->
-            <!--app:layout_constraintTop_toTopOf="parent"/>-->
+        <!--android:id="@+id/like_button"-->
+        <!--android:layout_width="24dp"-->
+        <!--android:layout_height="24dp"-->
+        <!--android:layout_marginTop="24dp"-->
+        <!--android:layout_marginEnd="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
+        <!--app:icon_size="24dp"-->
+        <!--app:icon_type="heart"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent"/>-->
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imagemPerfilCard"

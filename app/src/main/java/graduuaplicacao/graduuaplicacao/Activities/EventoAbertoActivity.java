@@ -1,16 +1,22 @@
 package graduuaplicacao.graduuaplicacao.Activities;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,15 +53,17 @@ import graduuaplicacao.graduuaplicacao.R;
 
 public class EventoAbertoActivity extends AppCompatActivity {
 
-    TextView nome, apresentador, categoria, data, descricao, frequencia, horaInicio, horaFim, local, txtResult, txtEventoFinalizado;
-    ImageView imagem;
+    TextView nome, criadorDoEvento, categoria, data, descricao, frequencia, horaInicio, horaFim, local, txtResult, txtEventoFinalizado, palestrantes, horaTxt;
+    ImageView imagem, imgData, imgPalestrante, imgSobre, imgLocal, imgSetor, eventoFinalizadoImg, imgHora;
     FirebaseAnalytics analytics;
     Button btnGerarQrCode, btnLerQrCode;
-    DatabaseReference qrCodeAlunosRef, usuarioRef, horasComplementaresRef;
+    DatabaseReference qrCodeAlunosRef, usuarioRef, horasComplementaresRef, getNomeCriadorEvento;
     Usuario usuario = new Usuario();
     Date date = new Date();
     String horaFimKey = null;
     String nomeKey = null;
+    String horasComplementaresKey = null;
+    Integer valorAtual;
 
 
     @Override
@@ -68,7 +76,7 @@ public class EventoAbertoActivity extends AppCompatActivity {
         final String userID = user.getUid();
 
         nome = (TextView) findViewById(R.id.nomeEventoAberto);
-        apresentador = (TextView) findViewById(R.id.apresentadorEventoAberto);
+//        criadorDoEvento = (TextView) findViewById(R.id.criadorDoEvento);
         categoria = (TextView) findViewById(R.id.categoriaEventoAberto);
         data = (TextView) findViewById(R.id.dataEventoAberto);
         descricao = (TextView) findViewById(R.id.descricaoEventoAberto);
@@ -82,6 +90,54 @@ public class EventoAbertoActivity extends AppCompatActivity {
         btnLerQrCode = (Button) findViewById(R.id.btnLerQrCode);
         /*qrCode = (ImageView) findViewById(R.id.imagemQrCode);*/
         txtEventoFinalizado = (TextView) findViewById(R.id.eventoFinalizado);
+        palestrantes = (TextView) findViewById(R.id.palestrantes);
+
+        imgData = (ImageView) findViewById(R.id.imagemData);
+        imgLocal = (ImageView) findViewById(R.id.imagemLocal);
+        imgPalestrante = (ImageView) findViewById(R.id.imagemPalestrantes);
+        imgSetor = (ImageView) findViewById(R.id.imagemSetores);
+        imgSobre = (ImageView) findViewById(R.id.imagemSobre);
+        imgHora = (ImageView) findViewById(R.id.imagemHora);
+        eventoFinalizadoImg = (ImageView) findViewById(R.id.eventoFinalizadoImg);
+        horaTxt = (TextView) findViewById(R.id.horaEventoAberto);
+
+
+        imgData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(EventoAbertoActivity.this, "Data do evento", Toast.LENGTH_SHORT).show();
+            }
+        });
+        imgLocal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(EventoAbertoActivity.this, "Local do evento", Toast.LENGTH_SHORT).show();
+            }
+        });
+        imgPalestrante.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(EventoAbertoActivity.this, "Palestrantes do evento", Toast.LENGTH_SHORT).show();
+            }
+        });
+        imgSetor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(EventoAbertoActivity.this, "Área do evento", Toast.LENGTH_SHORT).show();
+            }
+        });
+        imgSobre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(EventoAbertoActivity.this, "Sobre o evento", Toast.LENGTH_SHORT).show();
+            }
+        });
+        imgHora.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(EventoAbertoActivity.this, "Hora do evento", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         btnLerQrCode.setVisibility(View.GONE);
 
@@ -90,6 +146,11 @@ public class EventoAbertoActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 dataSnapshot.child(userID).getValue();
+                if(dataSnapshot.hasChild(userID)) {
+                    valorAtual = Integer.valueOf(dataSnapshot.child(userID).getValue().toString());
+                }else{
+                    valorAtual = 0;
+                }
             }
 
             @Override
@@ -97,6 +158,11 @@ public class EventoAbertoActivity extends AppCompatActivity {
 
             }
         });
+
+
+        Window window = this.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
 
         Bundle bundle = getIntent().getExtras();
@@ -113,6 +179,7 @@ public class EventoAbertoActivity extends AppCompatActivity {
             horaFimKey = bundle.getString("HORAFIM");
             String localKey = bundle.getString("LOCAL");
             String idUsuarioLogado = bundle.getString("IDUSUARIOLOGADO");
+            horasComplementaresKey = bundle.getString("HORASCOMPLEMENTARES");
 
             usuarioRef = ConfiguracaoFirebase.getFirebase().child("Usuarios").child(userID);
             usuarioRef.addValueEventListener(new ValueEventListener() {
@@ -134,10 +201,25 @@ public class EventoAbertoActivity extends AppCompatActivity {
                 }
             });
 
+//            getNomeCriadorEvento = ConfiguracaoFirebase.getFirebase().child("Usuarios").child(idUsuarioLogado);
+//            getNomeCriadorEvento.addListenerForSingleValueEvent(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                    criadorDoEvento.setText(dataSnapshot.child("nome").getValue().toString());
+//                }
+//
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                }
+//            });
+
+
             nome.setText(nomeKey);
-            apresentador.setText("por " + apresentadorKey);
+            palestrantes.setText(apresentadorKey);
             categoria.setText(categoriaKey);
-            data.setText(dataKey + ", de  " + horaInicioKey + "  até  "  +horaFimKey);
+            data.setText(dataKey);
+            horaTxt.setText(horaInicioKey + " - " + horaFimKey);
             descricao.setText(descricaoKey);
             local.setText(localKey);
 //            horaInicio.setText(horaInicioKey);
@@ -161,6 +243,7 @@ public class EventoAbertoActivity extends AppCompatActivity {
 //            btnLerQrCode.setVisibility(View.GONE);
             btnGerarQrCode.setVisibility(View.GONE);
             txtEventoFinalizado.setVisibility(View.GONE);
+            eventoFinalizadoImg.setVisibility(View.GONE);
             // TODO: ACERTAR HORA
 
             if(userID.equals(idUsuarioLogado) && dataAtual.equals(dataEventoFormatada)){
@@ -171,11 +254,13 @@ public class EventoAbertoActivity extends AppCompatActivity {
                 btnGerarQrCode.setVisibility(View.VISIBLE);
             }
             else if(dataEvento.after(date)){
-                txtEventoFinalizado.setText("");
-                txtEventoFinalizado.setVisibility(View.VISIBLE);
+//                txtEventoFinalizado.setText("");
+//                txtEventoFinalizado.setVisibility(View.VISIBLE);
+                eventoFinalizadoImg.setVisibility(View.GONE);
             }
             else{
                 txtEventoFinalizado.setVisibility(View.VISIBLE);
+                eventoFinalizadoImg.setVisibility(View.VISIBLE);
             }
 
 //            Glide.with(EventoAbertoActivity.this).load(R.drawable.bot).into(imagem);
@@ -191,7 +276,7 @@ public class EventoAbertoActivity extends AppCompatActivity {
 //                Log.i("MyApp", "Deep link clicked " + uri);
 //            }
 
-            setImagensFundoCard(categoriaKey);
+            setImagensFundoCard(categoriaKey, window);
         }
 
 
@@ -261,20 +346,26 @@ public class EventoAbertoActivity extends AppCompatActivity {
         }
     }
 
-    private void setImagensFundoCard(String categoriaKey) {
+    private void setImagensFundoCard(String categoriaKey, Window window) {
         if(categoriaKey.equals("Escola de Ciências da Sáude")) {
 
-            GlideApp.with(this).load("https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80").centerCrop().into(imagem);
+            GlideApp.with(this).load(R.drawable.roxo).centerCrop().into(imagem);
+            window.setStatusBarColor(ContextCompat.getColor(this,R.color.roxoStatus));
 
         } else if (categoriaKey.equals("Escola de Educação, Ciência, Letras, Artes e Humanidades")) {
 
-            GlideApp.with(this).load("https://images.unsplash.com/photo-1472173148041-00294f0814a2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80").centerCrop().into(imagem);
+            GlideApp.with(this).load(R.drawable.verde).centerCrop().into(imagem);
+            window.setStatusBarColor(ContextCompat.getColor(this,R.color.verdeStatus));
+
         } else if (categoriaKey.equals("Escola de Ciência e Tecnologia")) {
 
-            GlideApp.with(this).load("https://images.unsplash.com/photo-1504164996022-09080787b6b3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80").centerCrop().into(imagem);
+            GlideApp.with(this).load(R.drawable.laranja).centerCrop().into(imagem);
+            window.setStatusBarColor(ContextCompat.getColor(this,R.color.laranjaStatus));
+
         } else if (categoriaKey.equals("Escola de Ciências Sociais e Aplicadas")) {
 
-            GlideApp.with(this).load("https://images.unsplash.com/photo-1496389361897-383a9afa9afd?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1397&q=80").centerCrop().into(imagem);
+            GlideApp.with(this).load(R.drawable.azul).centerCrop().into(imagem);
+            window.setStatusBarColor(ContextCompat.getColor(this,R.color.azulStatus));
         }
     }
 
@@ -284,13 +375,10 @@ public class EventoAbertoActivity extends AppCompatActivity {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if(result != null) {
             if(result.getContents() != null) {
-                Toast.makeText(getApplicationContext(), result.getContents(), Toast.LENGTH_SHORT).show();
-                String id = result.getContents().substring(0,28);
+                final String id = result.getContents().substring(0,28);
                 qrCodeAlunosRef = ConfiguracaoFirebase.getFirebase().child("eventosCriados").child(result.getContents().substring(29));
                 qrCodeAlunosRef.child("AlunosPresentes").child(id).setValue(true);
-
-                horasComplementaresRef.child(id).setValue(getHorasComplementares());
-
+                horasComplementaresRef.child(id).setValue(Integer.valueOf(horasComplementaresKey) + valorAtual);
             }
         }else {
             super.onActivityResult(requestCode, resultCode, data);

@@ -13,6 +13,33 @@
                       <PersistentState>
                         <option name="children">
                           <map>
+                            <entry key="actionbar">
+                              <value>
+                                <PersistentState>
+                                  <option name="children">
+                                    <map>
+                                      <entry key="clipArt">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="color" value="000000" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                    </map>
+                                  </option>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="theme" value="HOLO_DARK" />
+                                      <entry key="themeColor" value="ffffff" />
+                                    </map>
+                                  </option>
+                                </PersistentState>
+                              </value>
+                            </entry>
                             <entry key="launcher">
                               <value>
                                 <PersistentState>
@@ -34,9 +61,51 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundLayerName" value="ic_livros_background" />
-                                      <entry key="foregroundImage" value="C:\Users\mateus.viana\Pictures\FundoPerfil.svg" />
-                                      <entry key="foregroundLayerName" value="ic_fundo_perfil" />
-                                      <entry key="outputName" value="ic_livro" />
+                                      <entry key="foregroundImage" value="C:\Users\Yan\Desktop\iconeGraduu2.png" />
+                                      <entry key="foregroundLayerName" value="ic_graduu2" />
+                                      <entry key="outputName" value="icone_graduu2" />
+                                    </map>
+                                  </option>
+                                </PersistentState>
+                              </value>
+                            </entry>
+                            <entry key="launcherLegacy">
+                              <value>
+                                <PersistentState>
+                                  <option name="children">
+                                    <map>
+                                      <entry key="clipArt">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="color" value="000000" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                    </map>
+                                  </option>
+                                </PersistentState>
+                              </value>
+                            </entry>
+                            <entry key="notification">
+                              <value>
+                                <PersistentState>
+                                  <option name="children">
+                                    <map>
+                                      <entry key="clipArt">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="color" value="000000" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -78,8 +147,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_camera" />
-                            <entry key="sourceFile" value="C:\Users\Yan\Desktop\photo-camera.svg" />
+                            <entry key="outputName" value="ic_hora" />
+                            <entry key="sourceFile" value="C:\Users\Yan\Desktop\clock.svg" />
                           </map>
                         </option>
                       </PersistentState>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/about_About.wrapper">
 
     <LinearLayout style="@style/about_About.wrapper">
@@ -12,14 +13,16 @@
 
             <ImageView
                 android:id="@+id/imagemEventoAberto"
-                app:layout_collapseMode="parallax"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
                 android:contentDescription="@string/app_name"
                 android:scaleType="centerCrop"
-                android:layout_width="match_parent"
-                android:layout_height="200dp" />
+                app:layout_collapseMode="parallax" />
 
             <TextView
-                android:paddingLeft="8dp"
+                android:paddingLeft="16dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
                 android:id="@+id/nomeEventoAberto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -33,17 +36,44 @@
         android:orientation="horizontal"
         android:padding="8dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"/>
 
-        <TextView
-            android:id="@+id/apresentadorEventoAberto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_medium"
-            android:padding="8dp"
-            android:text="Apresentador"
-            android:textSize="18sp" />
-    </LinearLayout>
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/eventoFinalizado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/roboto"
+                android:gravity="right"
+                android:padding="12dp"
+                android:text="Evento Finalizado"
+                android:textColor="@color/corBotaoCadastro"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/eventoFinalizadoImg"
+                app:layout_constraintStart_toEndOf="@+id/eventoFinalizadoImg"
+                app:layout_constraintTop_toTopOf="@+id/eventoFinalizadoImg" />
+
+            <ImageView
+                android:id="@+id/eventoFinalizadoImg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_weight="1"
+                android:contentDescription="@string/app_name"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.312"
+                app:srcCompat="@drawable/ic_finalizado" />
+
+        </android.support.constraint.ConstraintLayout>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -52,6 +82,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
+                android:id="@+id/imagemData"
                 android:paddingTop="10dp"
                 android:contentDescription="@string/app_name"
                 app:srcCompat="@drawable/data1"
@@ -91,6 +122,47 @@
             android:layout_height="wrap_content">
 
             <ImageView
+                android:id="@+id/imagemHora"
+                android:paddingTop="10dp"
+                android:contentDescription="@string/app_name"
+                app:srcCompat="@drawable/ic_hora"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/horaEventoAberto"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="9"
+                android:fontFamily="@font/roboto"
+                android:padding="12dp"
+                android:text="Hora"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <!--<TextView-->
+            <!--android:id="@+id/horaInicioEventoAberto"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:layout_weight="9"-->
+            <!--android:fontFamily="@font/roboto"-->
+            <!--android:padding="12dp"-->
+            <!--android:text="Hora"-->
+            <!--android:textSize="14sp"-->
+            <!--android:textStyle="bold" />-->
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imagemLocal"
                 android:paddingTop="10dp"
                 android:contentDescription="@string/app_name"
                 app:srcCompat="@drawable/local1"
@@ -111,6 +183,34 @@
                 android:textStyle="bold" />
 
         </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imagemPalestrantes"
+                android:paddingTop="10dp"
+                android:contentDescription="@string/app_name"
+                app:srcCompat="@drawable/ic_palestrantes"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/palestrantes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="9"
+                android:fontFamily="@font/roboto"
+                android:padding="12dp"
+                android:text="Palestrante(s)"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -119,6 +219,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
+                android:id="@+id/imagemSetores"
                 android:paddingTop="10dp"
                 android:contentDescription="@string/app_name"
                 app:srcCompat="@drawable/bookmark2"
@@ -146,6 +247,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
+                android:id="@+id/imagemSobre"
                 android:paddingTop="10dp"
                 android:contentDescription="@string/app_name"
                 app:srcCompat="@drawable/info2"
@@ -168,35 +270,25 @@
         </LinearLayout>
 
         <Button
+            android:layout_marginTop="20dp"
             android:id="@+id/btnGerarQrCode"
             android:background="@drawable/botao"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_centerHorizontal="true"
-            android:layout_width="300dp"
+            android:layout_width="370dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:text="estou no local"/>
 
         <Button
             android:id="@+id/btnLerQrCode"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="30dp"
             android:background="@drawable/botao"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_centerHorizontal="true"
-            android:layout_width="300dp"
+            android:layout_width="370dp"
             android:layout_height="wrap_content"
             android:text="LER QR CODE"/>
-
-        <TextView
-            android:id="@+id/eventoFinalizado"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto"
-            android:padding="12dp"
-            android:textColor="@color/corBotaoCadastro"
-            android:text="Evento Finalizado"
-            android:textSize="20sp"
-            android:textStyle="bold" />
 
         <LinearLayout
             android:id="@+id/about_providers"

@@ -6,7 +6,7 @@
 
     <color name="white">#ffffff</color>
     <color name="cards">#1a8175</color>
-    <color name="stringEventos">#333334</color>
+    <color name="stringEventos">#FFFFFF</color>
     <color name="corBotaoCadastro">#10d2ab</color>
 
     <color name="corHoraData">#C8FFFFFF</color>
@@ -15,5 +15,10 @@
     <color name="tituloCardHorizontal">#cc000000</color>
     <color name="fontCardHorizontal">#50000000</color>
     <color name="corTextoForgotPass">#fd4b5250</color>
+
+    <color name="roxoStatus">#596EC5</color>
+    <color name="azulStatus">#3267CC</color>
+    <color name="verdeStatus">#7CA759</color>
+    <color name="laranjaStatus">#E49527</color>
 
 </resources>

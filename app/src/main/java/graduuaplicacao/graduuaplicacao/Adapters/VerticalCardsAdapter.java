@@ -224,25 +224,17 @@ public class VerticalCardsAdapter extends RecyclerView.Adapter{
         }
 
 
-
-            String imagemECT, imagemECS, imagemECELAH, imagemECSA;
-
-        imagemECELAH = "https://images.unsplash.com/photo-1472173148041-00294f0814a2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80";
-        imagemECT = "https://images.unsplash.com/photo-1504164996022-09080787b6b3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80";
-        imagemECSA = "https://images.unsplash.com/photo-1496389361897-383a9afa9afd?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1397&q=80";
-        imagemECS = "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80";
-
-
-        GlideApp.with(context).load("https://images.unsplash.com/photo-1548674466-546e78763edf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80").into(holder.fundoImagemCardView);
+//        GlideApp.with(context).load("https://images.unsplash.com/photo-1548674466-546e78763edf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80").into(holder.fundoImagemCardView);
+//        GlideApp.with(context).load(R.drawable.card1).into(holder.fundoImagemCardView);
 
         if(evento.getCategoria().equals("Escola de Ciências da Sáude")) {
-            GlideApp.with(context).load(imagemECS).into(holder.fundoImagemCardView);
+            GlideApp.with(context).load(R.drawable.roxo).into(holder.fundoImagemCardView);
         }else if(evento.getCategoria().equals("Escola de Educação, Ciência, Letras, Artes e Humanidades")) {
-            GlideApp.with(context).load(imagemECELAH).into(holder.fundoImagemCardView);
+            GlideApp.with(context).load(R.drawable.verde).into(holder.fundoImagemCardView);
         }else if(evento.getCategoria().equals("Escola de Ciência e Tecnologia")) {
-            GlideApp.with(context).load(imagemECT).into(holder.fundoImagemCardView);
+            GlideApp.with(context).load(R.drawable.laranja).into(holder.fundoImagemCardView);
         }else if(evento.getCategoria().equals("Escola de Ciências Sociais e Aplicadas")) {
-            GlideApp.with(context).load(imagemECSA).into(holder.fundoImagemCardView);
+            GlideApp.with(context).load(R.drawable.azul).into(holder.fundoImagemCardView);
         }
 
 

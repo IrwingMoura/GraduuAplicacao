@@ -19,6 +19,7 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.PopupMenu;
@@ -71,7 +72,7 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
     private ImageButton btnCriarEventoPaginaInicial;
     private TextView txtHorasComplementares, horasComplementaresNumeros;
     private TextView nomeUsuarioLogado;
-    private View btnFiltrar;
+    private Button btnFiltrar;
     private ImageButton btnConfiguracoes;
     private CircleImageView imagemPerfil;
     private AlertDialog alertDialog;
@@ -114,7 +115,7 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.hasChild(userID)) {
-                    horasComplementaresNumeros.setText(dataSnapshot.child(userID).getValue().toString());
+                    horasComplementaresNumeros.setText(dataSnapshot.child(userID).getValue().toString() + "/200");
                 }else{
                     horasComplementaresNumeros.setText("00:00h");
                 }
@@ -251,7 +252,7 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
 
 
 
-        btnFiltrar = (View) findViewById(R.id.btnFiltrar);
+        btnFiltrar = (Button) findViewById(R.id.btnFiltrar);
         btnFiltrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -353,7 +354,7 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
                                     @Override
                                     public int compare(Evento o1, Evento o2) {
                                         try {
-                                            return f.parse(o1.getData()).compareTo(f.parse(o2.getData()));
+                                            return f.parse(o2.getData()).compareTo(f.parse(o1.getData()));
                                         } catch (ParseException e) {
                                             throw new IllegalArgumentException(e);
                                         }
@@ -642,6 +643,7 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
                 String local = dataSnapshot.child("local").getValue().toString();
                 String deepLink = dataSnapshot.child("deepLink").getValue().toString();
                 String idUsuarioLogado = dataSnapshot.child("idUsuarioLogado").getValue().toString();
+                String horasComplementares = dataSnapshot.child("horasComplementares").getValue().toString();
 
                 Bundle bundle = new Bundle();
                 bundle.putString("NOME", nome);
@@ -654,6 +656,7 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
                 bundle.putString("LOCAL", local);
                 bundle.putString("DEEPLINK", deepLink);
                 bundle.putString("IDUSUARIOLOGADO", idUsuarioLogado);
+                bundle.putString("HORASCOMPLEMENTARES",horasComplementares);
 
                 Intent intent = new Intent(EventosActivity.this, EventoAbertoActivity.class);
                 intent.putExtras(bundle);
@@ -682,6 +685,7 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
         String local = eventos.get(position).getLocal();
         String deepLink = eventos.get(position).getDeepLink();
         String idUsuarioLogado = eventos.get(position).getIdUsuarioLogado();
+        String horasComplementares = eventos.get(position).getHorasComplementares();
 
         Bundle bundle = new Bundle();
         bundle.putString("NOME", nome);
@@ -695,6 +699,7 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
         bundle.putString("LOCAL", local);
         bundle.putString("DEEPLINK", deepLink);
         bundle.putString("IDUSUARIOLOGADO", idUsuarioLogado);
+        bundle.putString("HORASCOMPLEMENTARES", horasComplementares);
 
         Intent intent = new Intent(EventosActivity.this, EventoAbertoActivity.class);
         intent.putExtras(bundle);
@@ -717,6 +722,7 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
                 String local = dataSnapshot.child("local").getValue().toString();
                 String deepLink = dataSnapshot.child("deepLink").getValue().toString();
                 String idUsuarioLogado = dataSnapshot.child("idUsuarioLogado").getValue().toString();
+                String horasComplementares = dataSnapshot.child("horasComplementares").getValue().toString();
 
                 Bundle bundle = new Bundle();
                 bundle.putString("NOME", nome);
@@ -729,6 +735,7 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
                 bundle.putString("LOCAL", local);
                 bundle.putString("DEEPLINK", deepLink);
                 bundle.putString("IDUSUARIOLOGADO", idUsuarioLogado);
+                bundle.putString("HORASCOMPLEMENTARES", horasComplementares);
 
                 Intent intent = new Intent(EventosActivity.this, EventoAbertoActivity.class);
                 intent.putExtras(bundle);

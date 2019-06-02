@@ -2,16 +2,13 @@ package graduuaplicacao.graduuaplicacao.Activities;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.NonNull;
+import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -25,8 +22,6 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,11 +29,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Random;
 import java.util.UUID;
 
 import graduuaplicacao.graduuaplicacao.DAO.ConfiguracaoFirebase;
@@ -58,6 +49,7 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
     private TextInputEditText frequencia;
     private TextInputEditText local;
     private TextInputEditText setor;
+    private TextInputEditText horasComplementares;
     private ImageView fotoCard;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private TimePickerDialog.OnTimeSetListener mTimeSetListener;
@@ -113,6 +105,7 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
         fotoCard = (ImageView) findViewById(R.id.imgCardView);
         spinnerLocais = (Spinner) findViewById(R.id.spinnerLocais);
         spinnerSetores = (Spinner) findViewById(R.id.spinnerSetores);
+        horasComplementares = (TextInputEditText) findViewById(R.id.edtHorasComplementares);
 
         titulo.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 
@@ -195,6 +188,7 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
                 eventos.setData(dataiptText.getText().toString());
                 eventos.setDescricao(descricao.getText().toString());
                 eventos.setApresentador(apresentador.getText().toString());
+                eventos.setHorasComplementares(horasComplementares.getText().toString());
 //                eventos.setFrequencia(frequencia.getText().toString());
                 eventos.setLocal(localSpinner);
                 eventos.setCategoria(setoresSpinner);
@@ -230,6 +224,8 @@ public class RegistroDeEventoActivity extends AppCompatActivity {
                     apresentador.setError("Insira o nome do apresentador do evento");
                 }else if(TextUtils.isEmpty(descricao.getText())) {
                     descricao.setError("Insira uma descrição do evento");
+                }else if(Long.valueOf(eventos.getHoraFim().substring(0,2)) < Long.valueOf(eventos.getHoraInicio().substring(0,2))){
+                    Toast.makeText(RegistroDeEventoActivity.this, "Insira horários válidos", Toast.LENGTH_SHORT).show();
                 }
 
                 else {
