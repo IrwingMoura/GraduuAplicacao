@@ -1,11 +1,7 @@
 package graduuaplicacao.graduuaplicacao.Activities;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -44,10 +40,13 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import graduuaplicacao.graduuaplicacao.DAO.ConfiguracaoFirebase;
 import graduuaplicacao.graduuaplicacao.GlideModule.GlideApp;
+import graduuaplicacao.graduuaplicacao.Model.ListaHorasPorID;
 import graduuaplicacao.graduuaplicacao.Model.Usuario;
 import graduuaplicacao.graduuaplicacao.R;
 
@@ -65,6 +64,7 @@ public class EventoAbertoActivity extends AppCompatActivity {
     String horasComplementaresKey = null;
     Integer valorAtual;
 
+    final List<ListaHorasPorID> listaHora = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,11 +145,11 @@ public class EventoAbertoActivity extends AppCompatActivity {
         horasComplementaresRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                dataSnapshot.child(userID).getValue();
-                if(dataSnapshot.hasChild(userID)) {
-                    valorAtual = Integer.valueOf(dataSnapshot.child(userID).getValue().toString());
-                }else{
-                    valorAtual = 0;
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    ListaHorasPorID snap = new ListaHorasPorID();
+                    snap.setKey(ds.getKey());
+                    snap.setValue(String.valueOf(ds.getValue()));
+                    listaHora.add(snap);
                 }
             }
 
@@ -159,6 +159,7 @@ public class EventoAbertoActivity extends AppCompatActivity {
             }
         });
 
+        horasComplementaresRef.keepSynced(true);
 
         Window window = this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -378,6 +379,16 @@ public class EventoAbertoActivity extends AppCompatActivity {
                 final String id = result.getContents().substring(0,28);
                 qrCodeAlunosRef = ConfiguracaoFirebase.getFirebase().child("eventosCriados").child(result.getContents().substring(29));
                 qrCodeAlunosRef.child("AlunosPresentes").child(id).setValue(true);
+
+                for (ListaHorasPorID var :listaHora) {
+                    if(var.getKey().equals(id))
+                        valorAtual = Integer.valueOf(var.getValue());
+                }
+
+                if(valorAtual == null){
+                    valorAtual = 0;
+                }
+
                 horasComplementaresRef.child(id).setValue(Integer.valueOf(horasComplementaresKey) + valorAtual);
             }
         }else {

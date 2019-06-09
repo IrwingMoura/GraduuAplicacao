@@ -58,6 +58,8 @@ public class PerfilActivity extends AppCompatActivity {
     private TextView mCurso;
     private TextView mHorasComp;
     private ImageView mIconeCamera;
+    private TextView txtHorasComp;
+    private TextView txtCampus;
 
     private final int PICK_IMAGE_REQUEST = 71;
     private Uri filePath;
@@ -86,6 +88,8 @@ public class PerfilActivity extends AppCompatActivity {
         mImagePerfil = findViewById(R.id.imagemPerfilTelaPerfil);
         mHorasComp = findViewById(R.id.resulHora);
         mIconeCamera = findViewById(R.id.iconeCamera);
+        txtCampus = findViewById(R.id.txtCampusPerfil);
+        txtHorasComp = findViewById(R.id.txtHorasComp);
 
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -174,6 +178,12 @@ public class PerfilActivity extends AppCompatActivity {
             usuario.setCampus(dataSnapshot.child("campus").getValue().toString());
 //            usuario.setImagemPerfil(dataSnapshot.child("imagemPerfil").getValue().toString());
             usuario.setCurso(dataSnapshot.child("curso").getValue().toString());
+            if(dataSnapshot.hasChild("professor")){
+                txtHorasComp.setText("Formação");
+                mHorasComp.setText("Teste");
+                mCampus.setVisibility(View.GONE);
+                txtCampus.setVisibility(View.GONE);
+            }
 
 
 //        SimpleDateFormat df1 = new SimpleDateFormat("dd-MM-yyyy");
