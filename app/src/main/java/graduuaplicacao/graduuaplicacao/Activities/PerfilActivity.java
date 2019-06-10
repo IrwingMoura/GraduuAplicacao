@@ -179,8 +179,10 @@ public class PerfilActivity extends AppCompatActivity {
 //            usuario.setImagemPerfil(dataSnapshot.child("imagemPerfil").getValue().toString());
             usuario.setCurso(dataSnapshot.child("curso").getValue().toString());
             if(dataSnapshot.hasChild("professor")){
-                txtHorasComp.setText("Formação");
-                mHorasComp.setText("Teste");
+//                txtHorasComp.setText("Formação");
+//                mHorasComp.setText(usuario.getCurso());
+                txtHorasComp.setVisibility(View.GONE);
+                mHorasComp.setVisibility(View.GONE);
                 mCampus.setVisibility(View.GONE);
                 txtCampus.setVisibility(View.GONE);
             }

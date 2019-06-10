@@ -134,48 +134,52 @@
                 android:id="@+id/txtMatriculaPerfil"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Matrícula"
                 android:textColor="@color/about_item_text_color"
                 android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="@+id/txtHorasComp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/resulHora" />
 
             <TextView
                 android:id="@+id/txtEmailPerfil"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/roboto_medium"
                 android:text="E-mail"
                 android:textColor="@color/about_item_text_color"
                 android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="@+id/txtMatriculaPerfil"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/resultMatricula" />
 
             <TextView
                 android:id="@+id/txtDataDeNascimentoPerfil"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Data de Nascimento"
                 android:textColor="@color/about_item_text_color"
                 android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="@+id/txtEmailPerfil"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/resultEmail" />
 
             <TextView
                 android:id="@+id/txtCampusPerfil"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Campus"
                 android:textColor="@color/about_item_text_color"
                 android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="@+id/txtDataDeNascimentoPerfil"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/resultData" />
 
         </android.support.constraint.ConstraintLayout>
