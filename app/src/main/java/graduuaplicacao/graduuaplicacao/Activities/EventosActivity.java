@@ -391,11 +391,13 @@ public class EventosActivity extends AppCompatActivity implements VerticalCardsA
                     String param = deepLink.toString().substring(34);
                     startDetalhesEventoFromDynamicLink(param);
 
-                    Bundle bundle = getIntent().getExtras();
-                    String nomeEvento = "";
-                    if(bundle.getString("PARAM") != null){
-                        nomeEvento = bundle.getString("PARAM");
-                    }
+//                    Bundle bundle = getIntent().getExtras();
+//                    String nomeEvento = "";
+//                    Log.d("TESTEPARAM", "NOMEEVENTO: ");
+//                    Log.d(bundle.getString("PARAM"), "NOMEEVENTO: ");
+//                    if(bundle.getString("PARAM") != null){
+//                        nomeEvento = bundle.getString("PARAM");
+//                    }
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
